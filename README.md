@@ -1,1 +1,1 @@
-we'll commit suicide if can't be Industrial Skilled Personnel
+we'll commit suicide if can't be Industrial Skilled Person
