@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Test from './components/test';
+import Root from './client/Root';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Test />
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );
