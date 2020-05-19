@@ -9,15 +9,15 @@ const Container = styled.div`
   border: 1px solid black;
 `;
 
-const Home = () => {
+const WritePost = () => {
   return (
     <Container>
       <Helmet>
         <title>Agents Blog!</title>
       </Helmet>
-      Home
+      WritePost
     </Container>
   );
 };
 
-export default Home;
+export default WritePost;

@@ -6,14 +6,14 @@ import Input from "../components/Input";
 const Container = styled.div``;
 const SearchInput = styled(Input)``;
 
-const Search = () => {
+const Tags = () => {
   const search = useInput("");
   return (
     <Container>
       <SearchInput {...search} />
-      Search
+      Tags
     </Container>
   );
 };
 
-export default Search;
+export default Tags;
