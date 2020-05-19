@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
-  @media (min-width: 768px) {
-    width: 768px;
-  }
   width: 1024px;
   margin: 0 auto;
   background-color: #FFFFFF;
@@ -14,7 +12,9 @@ const Container = styled.div`
 const Home = () => {
   return (
     <Container>
-      Hello?
+      <Helmet>
+        <title>Agents Blog!</title>
+      </Helmet>
     </Container>
   )
 }
