@@ -1,9 +1,8 @@
 import React from "react";
-import { Switch } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
 import Header from "../components/Header";
 import styled, { ThemeProvider } from "styled-components";
-import Theme from "../styles/Theme";
+import Theme from "../styles/theme";
 import Routes from "./Routes";
 
 const Wrapper = styled.div`
