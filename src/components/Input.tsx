@@ -11,7 +11,7 @@ const Container = styled.input`
   padding: 0px 15px;
 `
 
-type InputProps = {
+interface InputProps {
   placeholder?: string;
   required?: boolean;
   value: string;
