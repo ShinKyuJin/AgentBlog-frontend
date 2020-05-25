@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
+import Device from '../styles/devices';
+import PostList from '../containers/PostList';
+
 
 const Container = styled.div`
-  width: 1024px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  border: 1px solid black;
+  ${Device.map((devices) => (
+    `@media (min-width: ${devices.size}) {
+      max-width: ${devices.size}
+    }`
+  ))}
 `;
 
 const Home = () => {
@@ -15,7 +19,7 @@ const Home = () => {
       <Helmet>
         <title>Agents Blog!</title>
       </Helmet>
-      Home
+      <PostList />
     </Container>
   );
 };
