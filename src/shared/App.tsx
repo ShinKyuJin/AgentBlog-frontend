@@ -18,7 +18,6 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <React.Fragment>
-        <GlobalStyles />
         <Header />
         <Wrapper>
           <Routes isLoggedIn={isLoggedIn} />
