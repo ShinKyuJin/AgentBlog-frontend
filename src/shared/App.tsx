@@ -1,5 +1,4 @@
 import React from "react";
-import GlobalStyles from "../styles/GlobalStyles";
 import Header from "../components/Header";
 import styled, { ThemeProvider } from "styled-components";
 import Theme from "../styles/theme";
