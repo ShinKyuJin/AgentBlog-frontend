@@ -3,6 +3,8 @@ import Header from "../components/Header/HeaderContainer";
 import styled, { ThemeProvider } from "styled-components";
 import Theme from "../styles/Theme";
 import Routes from "./Routes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 
@@ -29,6 +31,7 @@ const App = () => {
           <Routes isLoggedIn={isLoggedIn} />
         </Wrapper>
       </React.Fragment>
+      <ToastContainer position={"bottom-left"} />
     </ThemeProvider>
   );
 };

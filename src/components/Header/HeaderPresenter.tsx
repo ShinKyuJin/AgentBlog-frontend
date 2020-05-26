@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/search_icon.png";
 import LogoImg from "../../assets/logo.png";
 import Modal from "../../modal/Modal";
+import AuthContainer from "../../modal/Auth";
+import { toast } from "react-toastify";
 
 interface HeaderPresenterProps {
-  isSearching: boolean;
-  setIsSearching: any;
   modalVisible: boolean;
-  setModalVisible: any;
-  openModal: any;
-  closeModal: any;
+  openModal: () => void;
+  closeModal: () => void;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
-  isSearching,
-  setIsSearching,
   modalVisible,
-  setModalVisible,
   openModal,
   closeModal,
 }) => {
@@ -32,7 +28,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           <img src={SearchIcon} alt="search" width="30px" />
         </SearchContainer>
         <button onClick={openModal}>Login</button>
-        <AuthContainer to="/auth">auth</AuthContainer>
+        <LoginContainer to="/auth">auth</LoginContainer>
       </SemiContainer>
       {modalVisible && (
         <Modal
@@ -41,7 +37,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           maskClosable={false}
           onClose={closeModal}
         >
-          Hello
+          <AuthContainer closeModal={closeModal} />
         </Modal>
       )}
     </Container>
@@ -70,7 +66,7 @@ const SearchContainer = styled(Link)`
   padding: 0 15px;
 `;
 
-const AuthContainer = styled(Link)`
+const LoginContainer = styled(Link)`
   align-self: center;
   color: white;
   background-color: black;
