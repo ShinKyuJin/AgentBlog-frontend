@@ -22,8 +22,6 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   openModal,
   closeModal,
 }) => {
-  const [modalShow, setModalShow] = useState<boolean>(false);
-
   return (
     <Container>
       <LogoContainer to="/">
@@ -34,18 +32,18 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           <img src={SearchIcon} alt="search" width="30px" />
         </SearchContainer>
         <button onClick={openModal}>Login</button>
-        {modalVisible && (
-          <Modal
-            visible={modalVisible}
-            closable={true}
-            maskClosable={false}
-            onClose={closeModal}
-          >
-            Hello
-          </Modal>
-        )}
         <AuthContainer to="/auth">auth</AuthContainer>
       </SemiContainer>
+      {modalVisible && (
+        <Modal
+          visible={modalVisible}
+          closable={true}
+          maskClosable={false}
+          onClose={closeModal}
+        >
+          Hello
+        </Modal>
+      )}
     </Container>
   );
 };

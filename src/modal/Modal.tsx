@@ -49,13 +49,23 @@ const Modal: React.FC<ModalProps> = ({
         visible={visible}
       >
         <ModalInner className="modal-inner">
-          {closable && <CloseButton className="modal-close" onClick={close} />}
+          <CloseButtonWrapper>
+            {closable && (
+              <CloseButton className="modal-close" onClick={close} />
+            )}
+          </CloseButtonWrapper>
           {children}
         </ModalInner>
       </ModalWrapper>
     </ModalPortal>
   );
 };
+
+const CloseButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
 
 interface ModalWrapperProps {
   onClick: any;
@@ -92,7 +102,7 @@ const ModalOverlay = styled.div<ModalOverlayProps>`
 const ModalInner = styled.div`
   box-sizing: border-box;
   position: relative;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
   background-color: #fff;
   border-radius: 2px;
   width: 600px;
@@ -100,7 +110,7 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 30px 20px;
 `;
 
 export default Modal;
