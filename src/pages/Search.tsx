@@ -1,11 +1,39 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useInput from "../hooks/useInput";
 import Input from "../components/Input";
 import Theme from "../styles/Theme";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
-import { toast } from "react-toastify";
+import Post from "../components/Post";
+
+interface searchPost {
+  id: string;
+  user: {
+    id: string;
+    username: string;
+    avatar: string;
+  };
+  files: {
+    id: string;
+    url: string;
+  }[];
+  title: string;
+  content: string;
+  hashtags: {
+    id: string;
+    name: string;
+  }[];
+  createdAt: string;
+  commentCount: number;
+}
+
+interface searchPostData {
+  searchPost: searchPost[];
+}
+
+interface searchPostVars {
+  term: string;
+}
 
 const QUERY_SEARCH_POST = gql`
   query searchPost($term: String!) {
@@ -34,9 +62,12 @@ const QUERY_SEARCH_POST = gql`
 
 const Search = () => {
   const [term, setTerm] = useState<string>("");
-  const { loading, data } = useQuery(QUERY_SEARCH_POST, {
-    variables: { term },
-  });
+  const { loading, data } = useQuery<searchPostData, searchPostVars>(
+    QUERY_SEARCH_POST,
+    {
+      variables: { term },
+    }
+  );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTerm(e.target.value);
@@ -60,6 +91,21 @@ const Search = () => {
             <EText>
               총 <b>{data.searchPost.length}개</b>의 포스트를 찾았습니다.
             </EText>
+          ))}
+
+        {data &&
+          data.searchPost.map((post) => (
+            <Post
+              key={post.id}
+              username={post.user.username}
+              avatar={post.user.avatar}
+              file_url={post.files[0].url}
+              title={post.title}
+              content={post.content}
+              hashtags={post.hashtags.map((hashtag) => hashtag.name)}
+              createdAt={post.createdAt}
+              commentCount={post.commentCount}
+            />
           ))}
       </SearchContainer>
     </Wrapper>
