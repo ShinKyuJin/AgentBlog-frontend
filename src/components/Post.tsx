@@ -34,7 +34,7 @@ const Post: React.FC<PostProps> = ({
           <Avatar size="md" url={avatar} />
         </Link>
         <UserColumn>
-          <ELink to={`/${username}`}>
+          <ELink to={`/@${username}`}>
             <FatText text={username} />
           </ELink>
         </UserColumn>
