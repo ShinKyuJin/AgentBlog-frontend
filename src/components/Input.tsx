@@ -1,23 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { InputHTMLAttributes } from "react";
+import styled from "styled-components";
 
-const Container = styled.input`
-  border: none;
-  border: ${props => props.theme.boxBorder};
-  border-radius: ${props => props.theme.borderRadius};
-  background-color: ${props => props.theme.bgColor};
-  height: 35px;
-  font-size: 12px;
-  padding: 0px 15px;
-`
-
-interface InputProps {
-  placeholder?: string;
-  required?: boolean;
-  value: string;
-  onChange: any;
-  type?: string;
-  className?: string;
+interface InputProps extends InputHTMLAttributes<HTMLButtonElement> {
+  onChange?: any;
 }
 
 const Input = ({
@@ -26,7 +11,7 @@ const Input = ({
   value,
   onChange,
   type,
-  className
+  className,
 }: InputProps) => (
   <Container
     placeholder={placeholder}
@@ -36,6 +21,16 @@ const Input = ({
     type={type}
     className={className}
   />
-)
+);
 
+const Container = styled.input`
+  width: 380px;
+  border: none;
+  border: ${(props) => props.theme.boxBorder};
+  border-radius: ${(props) => props.theme.borderRadius};
+  background-color: ${(props) => props.theme.bgColor};
+  height: 30px;
+  font-size: 15px;
+  padding: 5px 15px;
+`;
 export default Input;

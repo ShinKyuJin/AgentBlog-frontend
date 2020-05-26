@@ -17,6 +17,7 @@ export const resolvers = {
           isLoggedIn: true,
         },
       });
+      window.location.assign("/");
       return null;
     },
     logUserOut: () => {
