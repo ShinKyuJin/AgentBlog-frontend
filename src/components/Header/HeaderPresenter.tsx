@@ -11,12 +11,14 @@ interface HeaderPresenterProps {
   modalVisible: boolean;
   openModal: () => void;
   closeModal: () => void;
+  isLoggedIn: boolean;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   modalVisible,
   openModal,
   closeModal,
+  isLoggedIn,
 }) => {
   return (
     <Container>
@@ -27,7 +29,11 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
         <SearchContainer to="/search">
           <img src={SearchIcon} alt="search" width="30px" />
         </SearchContainer>
-        <EButton text={"로그인"} onClick={openModal} />
+        {isLoggedIn ? (
+          <EWriteLink to="/write">새 글 작성</EWriteLink>
+        ) : (
+          <EButton text={"로그인"} onClick={openModal} />
+        )}
       </SemiContainer>
       {modalVisible && (
         <Modal
@@ -61,6 +67,7 @@ const LogoContainer = styled(Link)`
   height: 90px;
   margin-left: 30px;
 `;
+
 const SearchContainer = styled(Link)`
   align-self: center;
   padding: 0 15px;
@@ -74,6 +81,22 @@ const EButton = styled(Button)`
   border-radius: 30px;
   background-color: black;
   text-decoration: none;
+`;
+
+const EWriteLink = styled(Link)`
+  align-self: center;
+  color: white;
+  width: 70px;
+  margin-right: 30px;
+  border-radius: 30px;
+  background-color: black;
+  text-decoration: none;
+
+  border: 0px;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  padding: 10px 15px;
 `;
 
 export default HeaderPresenter;

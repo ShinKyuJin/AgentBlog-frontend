@@ -26,7 +26,7 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <React.Fragment>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
         <Wrapper>
           <Routes isLoggedIn={isLoggedIn} />
         </Wrapper>

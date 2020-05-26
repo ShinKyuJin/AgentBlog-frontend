@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 import HeaderPresenter from "./HeaderPresenter";
 
-const HeaderContainer = () => {
+interface HeaderContainerProps {
+  isLoggedIn: boolean;
+}
+
+const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const openModal = () => {
     setModalVisible(true);
@@ -16,6 +20,7 @@ const HeaderContainer = () => {
       modalVisible={modalVisible}
       openModal={openModal}
       closeModal={closeModal}
+      isLoggedIn={isLoggedIn}
     />
   );
 };
