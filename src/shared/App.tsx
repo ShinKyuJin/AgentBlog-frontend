@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/Header/HeaderContainer";
 import styled, { ThemeProvider } from "styled-components";
 import Theme from "../styles/Theme";
 import Routes from "./Routes";
