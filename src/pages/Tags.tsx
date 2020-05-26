@@ -28,7 +28,7 @@ interface searchPost {
 }
 
 interface searchHashtagData {
-  searchPost: searchPost[];
+  searchHashtag: searchPost[];
 }
 
 interface searchHashtagVars {
@@ -72,24 +72,26 @@ const Tags = () => {
     }
   );
 
+  console.log(data);
+
   return (
     <Wrapper>
       <SearchContainer>
         <ETagnameText text={`# ${tagname}`} />
         {!loading &&
           data &&
-          data.searchPost &&
-          (data.searchPost.length === 0 ? (
+          data.searchHashtag &&
+          (data.searchHashtag.length === 0 ? (
             <EText>검색 결과가 없습니다.</EText>
           ) : (
             <EText>
-              총 <b>{data.searchPost.length}개</b>의 포스트를 찾았습니다.
+              총 <b>{data.searchHashtag.length}개</b>의 포스트를 찾았습니다.
             </EText>
           ))}
 
         {data &&
-          data.searchPost &&
-          data.searchPost.map((post) => (
+          data.searchHashtag &&
+          data.searchHashtag.map((post) => (
             <Post
               key={post.id}
               username={post.user.username}
