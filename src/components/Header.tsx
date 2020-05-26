@@ -1,46 +1,36 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import SearchIcon from '../assets/search_icon.png';
+import LogoImg from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  padding: 30px;
-  height: 30px;
+  height: 90px;
+  padding: 15px;
+  padding-bottom: 0;
 `
 
-const Logo = styled(Link)`
-  height: 30px;
-  font-size: 24px;
+const SemiContainer = styled.div`
+  display: flex;
+  align-items: center;
 `
 
-const LoginHover = keyframes`
-  from {
-    background-color: rgb(52, 58, 64);
-    color: white;
-  }
-  to {
-    background-color: rgb(255, 255, 255);
-    color: black;
-  }
+const LogoContainer = styled(Link)`
+  height: 90px;
+`
+const SearchContainer = styled(Link)`
+  align-self: center;
+  padding: 0 15px;
 `
 
-const Login = styled(Link)`
-  height: 30px;
-  margin-left: 30px;
-  background-color: rgb(52, 58, 64);
+const AuthContainer = styled(Link)`
+  align-self: center;
   color: white;
-  padding: 5px;
-  border-radius: 12px;
-  &:hover {
-    animation: ${LoginHover} 0.5s;
-  }
-`
-
-const Search = styled.img`
-  width: 20px;
-  height: 20px;
+  background-color: black;
+  text-decoration: none;
 `
 
 
@@ -49,13 +39,17 @@ const Search = styled.img`
 const Header = () => {
   return (
     <Container>
-      <Logo to=''>AgentsBlog</Logo>
-      <div>
-        <Link to='/search'>
-          <Search src={SearchIcon} alt='검색' />
-        </Link>
-        <Login to='/auth'>로그인</Login>
-      </div>
+      <LogoContainer to='/'>
+        <img src={LogoImg} alt="logo" width="90px" />
+      </LogoContainer>
+      <SemiContainer>
+        <SearchContainer to='/search'>
+          <img src={SearchIcon} alt="search" width="30px" />
+        </SearchContainer>
+        <AuthContainer to='/auth'>
+          auth
+        </AuthContainer>
+      </SemiContainer>
     </Container>
   );
 }

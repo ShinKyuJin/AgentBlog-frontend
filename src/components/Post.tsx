@@ -8,9 +8,6 @@ interface PostProps {
 const Container = styled.div`
 `
 
-const ImgContainer = styled.div`
-`
-
 const TextContainer = styled.div`
   width: 150px;
   height: 75px;
