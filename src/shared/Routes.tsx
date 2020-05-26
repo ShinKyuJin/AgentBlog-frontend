@@ -7,12 +7,13 @@ import UserHome from "../pages/UserHome";
 import Search from "../pages/Search";
 import WritePost from "../pages/WritePost";
 import Tags from "../pages/Tags";
+import Setting from "../pages/Setting";
 
 interface RoutesProps {
   isLoggedIn: boolean;
 }
 
-const RoutesList = [
+const RoutesListWithoutLogin = [
   {
     path: "/",
     component: Home,
@@ -29,10 +30,7 @@ const RoutesList = [
     path: "/@:username/:posturl",
     component: PostDetail,
   },
-  {
-    path: "/write", // Create and edit post
-    component: WritePost,
-  },
+
   {
     path: "/search",
     component: Search,
@@ -43,12 +41,28 @@ const RoutesList = [
   },
 ];
 
-const Routes: React.FunctionComponent<RoutesProps> = (props) => {
+const RoutesListWithLogin = [
+  {
+    path: "/write", // Create and edit post
+    component: WritePost,
+  },
+  {
+    path: "/setting", // Create and edit post
+    component: Setting,
+  },
+];
+
+const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
+  console.log(isLoggedIn);
   return (
     <Switch>
-      {RoutesList.map((route) => {
+      {RoutesListWithoutLogin.map((route) => {
         return <Route exact {...route} />;
       })}
+      {isLoggedIn &&
+        RoutesListWithLogin.map((route) => {
+          return <Route exact {...route} />;
+        })}
       <Redirect from="*" to="/" />
     </Switch>
   );

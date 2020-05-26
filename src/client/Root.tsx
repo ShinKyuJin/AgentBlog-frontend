@@ -1,13 +1,17 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../shared/App';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { ApolloProvider } from "react-apollo-hooks";
+import App from "../shared/App";
+import Client from "../Apollo/Client";
 
 const Root = () => {
   return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  )
-}
+    <ApolloProvider client={Client}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ApolloProvider>
+  );
+};
 
 export default Root;

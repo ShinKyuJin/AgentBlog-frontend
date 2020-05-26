@@ -1,8 +1,16 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/Header/HeaderContainer";
 import styled, { ThemeProvider } from "styled-components";
-import Theme from "../styles/theme";
+import Theme from "../styles/Theme";
 import Routes from "./Routes";
+import { useQuery } from "react-apollo-hooks";
+import { gql } from "apollo-boost";
+
+const LOGIN_QUERY = gql`
+  {
+    isLoggedIn @client
+  }
+`;
 
 const Wrapper = styled.div`
   margin: 100px auto;
@@ -11,7 +19,7 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-  const isLoggedIn = false;
+  const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
 
   return (
     <ThemeProvider theme={Theme}>
