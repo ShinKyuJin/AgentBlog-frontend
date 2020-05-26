@@ -5,7 +5,7 @@ import SearchIcon from "../../assets/search_icon.png";
 import LogoImg from "../../assets/logo.png";
 import Modal from "../../modal/Modal";
 import AuthContainer from "../../modal/Auth";
-import { toast } from "react-toastify";
+import Button from "../Button";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
@@ -27,8 +27,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
         <SearchContainer to="/search">
           <img src={SearchIcon} alt="search" width="30px" />
         </SearchContainer>
-        <button onClick={openModal}>Login</button>
-        <LoginContainer to="/auth">auth</LoginContainer>
+        <EButton text={"로그인"} onClick={openModal} />
       </SemiContainer>
       {modalVisible && (
         <Modal
@@ -45,11 +44,11 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
 };
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 90px;
-  padding: 15px;
   padding-bottom: 0;
 `;
 
@@ -60,15 +59,19 @@ const SemiContainer = styled.div`
 
 const LogoContainer = styled(Link)`
   height: 90px;
+  margin-left: 30px;
 `;
 const SearchContainer = styled(Link)`
   align-self: center;
   padding: 0 15px;
 `;
 
-const LoginContainer = styled(Link)`
+const EButton = styled(Button)`
   align-self: center;
   color: white;
+  width: 70px;
+  margin-right: 30px;
+  border-radius: 30px;
   background-color: black;
   text-decoration: none;
 `;

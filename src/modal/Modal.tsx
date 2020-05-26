@@ -31,15 +31,6 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  useEffect(() => {
-    document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`;
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = `position: ""; top: "";`;
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    };
-  }, []);
-
   return (
     <ModalPortal elementId="modal-root">
       <ModalOverlay visible />
@@ -67,6 +58,22 @@ const CloseButtonWrapper = styled.div`
   align-items: flex-end;
 `;
 
+interface ModalOverlayProps {
+  visible: boolean;
+}
+const ModalOverlay = styled.div<ModalOverlayProps>`
+  background-color: rgba(255, 255, 255, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: ${(props) => (props.visible ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+`;
+
 interface ModalWrapperProps {
   onClick: any;
   visible: boolean;
@@ -84,21 +91,6 @@ const ModalWrapper = styled.div<ModalWrapperProps>`
   outline: 0;
 `;
 
-interface ModalOverlayProps {
-  visible: boolean;
-}
-const ModalOverlay = styled.div<ModalOverlayProps>`
-  box-sizing: border-box;
-  display: ${(props) => (props.visible ? "block" : "none")};
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(255, 255, 255, 0.6);
-  z-index: 999;
-`;
-
 const ModalInner = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -107,6 +99,7 @@ const ModalInner = styled.div`
   border-radius: 2px;
   width: 600px;
   max-width: 600px;
+  height: fit-content;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;

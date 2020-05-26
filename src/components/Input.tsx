@@ -24,11 +24,12 @@ const Input = ({
 );
 
 const Container = styled.input`
+  width: 380px;
   border: none;
   border: ${(props) => props.theme.boxBorder};
   border-radius: ${(props) => props.theme.borderRadius};
   background-color: ${(props) => props.theme.bgColor};
-  height: 35px;
+  height: 30px;
   font-size: 15px;
   padding: 5px 15px;
 `;

@@ -73,23 +73,23 @@ const AuthPresenter: React.FC<AuthPresenterProps> = ({
   </Wrapper>
 );
 
-const BigFatText = styled(FatText)`
-  font-size: 20px;
-  margin-bottom: 10px;
-  display: block;
-`;
-
-const EFatText = styled(FatText)`
-  font-size: 16px;
-  margin-bottom: 10px;
-  display: block;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+`;
+
+const BigFatText = styled(FatText)`
+  font-size: 20px;
+  margin-bottom: 18px;
+  display: block;
+`;
+
+const EFatText = styled(FatText)`
+  font-size: 16px;
+  margin-bottom: 18px;
+  display: block;
 `;
 
 const Box = styled.div`
