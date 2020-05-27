@@ -24,9 +24,9 @@ interface ContatinerProps {
 
 const Contatiner = styled.div<ContatinerProps>`
     ${(props) => getSize(props.size)}
-    background-image:url(${(props) => props.url});
+    background-image: url(${(props) => props.url});
     background-size: cover;
-    border-radius:50%;
+    border-radius: 50%;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
 `;
 

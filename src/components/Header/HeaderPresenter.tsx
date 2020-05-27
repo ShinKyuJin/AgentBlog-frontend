@@ -76,7 +76,7 @@ const SearchContainer = styled(Link)`
 const EButton = styled(Button)`
   align-self: center;
   color: white;
-  width: 70px;
+  width: 80px;
   margin-right: 30px;
   border-radius: 30px;
   background-color: black;
