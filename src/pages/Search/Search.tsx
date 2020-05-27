@@ -1,64 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Input from "../components/Input";
-import Theme from "../styles/Theme";
-import { gql } from "apollo-boost";
+import Input from "../../components/Input";
+import Theme from "../../styles/Theme";
 import { useQuery } from "react-apollo-hooks";
-import Post from "../components/Post";
-
-interface searchPost {
-  id: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-  files: {
-    id: string;
-    url: string;
-  }[];
-  title: string;
-  content: string;
-  hashtags: {
-    id: string;
-    name: string;
-  }[];
-  createdAt: string;
-  commentCount: number;
-}
-
-interface searchPostData {
-  searchPost: searchPost[];
-}
-
-interface searchPostVars {
-  term: string;
-}
-
-const QUERY_SEARCH_POST = gql`
-  query searchPost($term: String!) {
-    searchPost(term: $term) {
-      id
-      user {
-        id
-        username
-        avatar
-      }
-      files {
-        id
-        url
-      }
-      title
-      content
-      hashtags {
-        id
-        name
-      }
-      createdAt
-      commentCount
-    }
-  }
-`;
+import Post, { PostLoadingSkeleton } from "../../components/Post";
+import {
+  QUERY_SEARCH_POST,
+  searchPostData,
+  searchPostVars,
+} from "./SearchQueries";
 
 const Search = () => {
   const [term, setTerm] = useState<string>("");
@@ -93,6 +43,12 @@ const Search = () => {
             </EText>
           ))}
 
+        {loading && (
+          <>
+            <PostLoadingSkeleton />
+            <PostLoadingSkeleton />
+          </>
+        )}
         {data &&
           data.searchPost &&
           data.searchPost.map((post) => (

@@ -1,69 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import FatText from "../components/FatText";
-import { gql } from "apollo-boost";
-import Post from "../components/Post";
+import FatText from "../../components/FatText";
+import Post from "../../components/Post";
 import { useQuery } from "react-apollo-hooks";
+import {
+  searchHashtagData,
+  searchHashtagVars,
+  QUERY_SEARCH_HASHTAG,
+} from "./SearchHashtagQueries";
 
-interface searchPost {
-  id: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-  files: {
-    id: string;
-    url: string;
-  }[];
-  title: string;
-  content: string;
-  hashtags: {
-    id: string;
-    name: string;
-  }[];
-  createdAt: string;
-  commentCount: number;
-}
-
-interface searchHashtagData {
-  searchHashtag: searchPost[];
-}
-
-interface searchHashtagVars {
-  name: string;
-}
-
-const QUERY_SEARCH_HASHTAG = gql`
-  query searchHashtag($name: String!) {
-    searchHashtag(name: $name) {
-      id
-      user {
-        id
-        username
-        avatar
-      }
-      files {
-        id
-        url
-      }
-      title
-      content
-      hashtags {
-        id
-        name
-      }
-      createdAt
-      commentCount
-    }
-  }
-`;
-
-interface TagsParams {
+export interface TagsParams {
   tagname: string;
 }
-const Tags = () => {
+
+const SearchHashtag = () => {
   const { tagname } = useParams() as TagsParams;
   const { loading, data } = useQuery<searchHashtagData, searchHashtagVars>(
     QUERY_SEARCH_HASHTAG,
@@ -88,6 +39,13 @@ const Tags = () => {
               총 <b>{data.searchHashtag.length}개</b>의 포스트를 찾았습니다.
             </EText>
           ))}
+
+        {loading && (
+          <>
+            <PostLoadingSkeleton />
+            <PostLoadingSkeleton />
+          </>
+        )}
 
         {data &&
           data.searchHashtag &&
@@ -135,4 +93,4 @@ const Wrapper = styled.div`
   min-height: 50vh;
 `;
 
-export default Tags;
+export default SearchHashtag;
