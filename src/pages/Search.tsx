@@ -94,6 +94,7 @@ const Search = () => {
           ))}
 
         {data &&
+          data.searchPost &&
           data.searchPost.map((post) => (
             <Post
               key={post.id}
