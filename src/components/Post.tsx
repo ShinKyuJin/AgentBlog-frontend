@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import FatText from "./FatText";
 import Hashtag from "./Hashtag";
+import Skeleton from "react-loading-skeleton";
 
 interface PostProps {
   key: string;
@@ -59,6 +60,21 @@ const Post: React.FC<PostProps> = ({
   );
 };
 
+export const PostLoadingSkeleton = () => (
+  <Wrapper>
+    <div style={{ fontSize: 20, lineHeight: 2 }}>
+      <Header>
+        <Skeleton circle={true} height={50} width={50} />
+        <UserColumn>
+          <Skeleton width={300} height={40} />
+        </UserColumn>
+      </Header>
+      <Skeleton height={370} />
+      <Skeleton height={50} />
+    </div>
+  </Wrapper>
+);
+
 const Wrapper = styled.div`
   width: 100%;
   a {
@@ -67,7 +83,7 @@ const Wrapper = styled.div`
   margin-bottom: 70px;
 `;
 
-const Header = styled.header`
+const Header = styled.div`
   width: 100%;
   padding: 15px;
   display: flex;
@@ -87,7 +103,7 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   max-height: 400px;
-  padding-top: 60%; /* 1:1 ratio */
+  padding-top: 60%;
   overflow: hidden;
   margin-bottom: 12px;
 `;

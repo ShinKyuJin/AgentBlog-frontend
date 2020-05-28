@@ -4,10 +4,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Auth from "../pages/Auth";
 import PostDetail from "../pages/PostDetail";
 import UserHome from "../pages/UserHome";
-import Search from "../pages/Search";
+import Search from "../pages/Search/Search";
 import WritePost from "../pages/WritePost";
-import Tags from "../pages/Tags";
 import Setting from "../pages/Setting";
+import SearchHashtag from "../pages/SearchHashtag";
 
 interface RoutesProps {
   isLoggedIn: boolean;
@@ -37,7 +37,7 @@ const RoutesListWithoutLogin = [
   },
   {
     path: "/tags/:tagname",
-    component: Tags,
+    component: SearchHashtag,
   },
 ];
 
