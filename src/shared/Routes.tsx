@@ -59,7 +59,7 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
       {RoutesListWithoutLogin.map((route) => {
         return <Route exact {...route} />;
       })}
-      {isLoggedIn &&
+      {
         RoutesListWithLogin.map((route) => {
           return <Route exact {...route} />;
         })}
