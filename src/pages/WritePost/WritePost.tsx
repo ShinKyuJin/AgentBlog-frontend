@@ -79,7 +79,7 @@ const WritePost = () => {
             value={hashtag}
             onChange={handleChangeHashtag}
             placeholder={`해쉬 태그를 입력하세요`}
-            onKeyPress={handleChangeHashtags}
+            onKeyDown={() => console.log(123)}
           />
           <DetailInput
             value={detail}

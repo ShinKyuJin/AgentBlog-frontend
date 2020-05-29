@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import Device from '../styles/devices';
-import PostList from '../containers/PostList';
 
 
 const Container = styled.div`
@@ -19,7 +18,6 @@ const Home = () => {
       <Helmet>
         <title>Agents Blog!</title>
       </Helmet>
-      <PostList />
     </Container>
   );
 };
