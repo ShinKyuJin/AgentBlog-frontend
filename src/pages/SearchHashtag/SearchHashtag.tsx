@@ -23,7 +23,6 @@ const SearchHashtag = () => {
     }
   );
 
-
   return (
     <Wrapper>
       <SearchContainer>
@@ -52,6 +51,7 @@ const SearchHashtag = () => {
               key={post.id}
               username={post.user.username}
               avatar={post.user.avatar}
+              url={post.url}
               file_url={post.files[0].url}
               title={post.title}
               content={post.content}
