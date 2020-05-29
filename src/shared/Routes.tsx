@@ -53,7 +53,6 @@ const RoutesListWithLogin = [
 ];
 
 const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
-  console.log(isLoggedIn);
   return (
     <Switch>
       {RoutesListWithoutLogin.map((route) => {

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import FatText from "../../components/FatText";
-import Post from "../../components/Post";
+import Post, { PostLoadingSkeleton } from "../../components/Post";
 import { useQuery } from "react-apollo-hooks";
 import {
   searchHashtagData,
@@ -41,6 +41,7 @@ const SearchHashtag = () => {
 
         {loading && (
           <>
+            <PostLoadingSkeleton />
           </>
         )}
 
