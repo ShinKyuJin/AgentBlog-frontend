@@ -45,14 +45,14 @@ const Post: React.FC<PostProps> = ({
       </Header>
       {file_url && (
         <ImageWrapper>
-          <Link to={`/@${username}/${url}`}>
+          <ELink to={`/@${username}/${url}`}>
             <Image src={file_url} loadingHeight={370} />
-          </Link>
+          </ELink>
         </ImageWrapper>
       )}
-      <Link to={`/@${username}/${url}`}>
+      <ELink to={`/@${username}/${url}`}>
         <ETitleText text={title} />
-      </Link>
+      </ELink>
       <ContentText>{content}</ContentText>
       <HashtagContainer>
         {hashtags.map((name) => (
@@ -97,7 +97,6 @@ const Header = styled.div`
 `;
 
 const ELink = styled(Link)`
-  user-select: none;
   text-decoration: none;
 `;
 
@@ -129,6 +128,7 @@ const ETitleText = styled(FatText)`
   font-weight: 800;
   font-size: 28px;
   margin-bottom: 20px;
+  text-decoration: none;
 `;
 
 const ContentText = styled.div`

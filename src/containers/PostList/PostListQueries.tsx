@@ -12,27 +12,27 @@ export interface seeMain {
   user: {
     avatar: string;
     username: string;
-  }
+  };
 }
 
 export interface seeMainData {
-  posts: seeMain[];
+  seeMain: seeMain[];
 }
 
 export const QUERY_POSTS = gql`
-{
-  seeMain {
-    id
- 		user {
-      avatar
-      username
+  {
+    seeMain {
+      id
+      user {
+        avatar
+        username
+      }
+      files {
+        url
+      }
+      title
+      content
+      createdAt
     }
-    files(orderBy: id_ASC) {
-      url
-    }
-    title
-    content
-    createdAt
   }
-}
-`
+`;
