@@ -49,6 +49,7 @@ const Search = () => {
             <PostLoadingSkeleton />
           </>
         )}
+
         {data &&
           data.searchPost &&
           data.searchPost.map((post) => (

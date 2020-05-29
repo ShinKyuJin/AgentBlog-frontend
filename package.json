@@ -34,7 +34,7 @@
     "react-scripts": "3.4.1",
     "react-toastify": "^6.0.4",
     "redux": "^4.0.5",
-    "styled-components": "^5.1.0",
+    "styled-components": "4.4.1",
     "styled-reset": "^4.1.4",
     "typescript": "^3.7.5",
     "yarn": "^1.22.4"
