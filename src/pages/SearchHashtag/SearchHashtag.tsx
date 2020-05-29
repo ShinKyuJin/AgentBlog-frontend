@@ -23,7 +23,6 @@ const SearchHashtag = () => {
     }
   );
 
-  console.log(data);
 
   return (
     <Wrapper>
@@ -42,8 +41,6 @@ const SearchHashtag = () => {
 
         {loading && (
           <>
-            <PostLoadingSkeleton />
-            <PostLoadingSkeleton />
           </>
         )}
 
