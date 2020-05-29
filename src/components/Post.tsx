@@ -5,6 +5,7 @@ import Avatar from "./Avatar";
 import FatText from "./FatText";
 import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
+import ImageLoader from "./ImageLoader";
 
 interface PostProps {
   key: string;
@@ -42,7 +43,7 @@ const Post: React.FC<PostProps> = ({
       </Header>
       {file_url && (
         <ImageWrapper>
-          <Image src={file_url} />
+          <Image src={file_url} loadingHeight={370} />
         </ImageWrapper>
       )}
 
@@ -101,21 +102,18 @@ const UserColumn = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
+  height: 370px;
   width: 100%;
-  max-height: 400px;
-  padding-top: 60%;
   overflow: hidden;
   margin-bottom: 12px;
 `;
 
-const Image = styled.img`
+const Image = styled(ImageLoader)`
+  max-width: 100%;
+  width: 100%;
+  height: 370px;
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 100%;
-  height: auto;
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;

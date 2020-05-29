@@ -12,12 +12,7 @@ export const resolvers = {
       { cache }: { cache: InMemoryCache }
     ) => {
       localStorage.setItem("token", token);
-      cache.writeData({
-        data: {
-          isLoggedIn: true,
-        },
-      });
-      window.location.assign("/");
+      window.location.reload();
       return null;
     },
     logUserOut: () => {
