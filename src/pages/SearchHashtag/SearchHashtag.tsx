@@ -23,7 +23,6 @@ const SearchHashtag = () => {
     }
   );
 
-  console.log(data);
 
   return (
     <Wrapper>
