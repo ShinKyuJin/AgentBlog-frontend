@@ -11,6 +11,7 @@ export interface searchHashtag {
     id: string;
     url: string;
   }[];
+  url: string;
   title: string;
   content: string;
   hashtags: {
@@ -42,6 +43,7 @@ export const QUERY_SEARCH_HASHTAG = gql`
         id
         url
       }
+      url
       title
       content
       hashtags {

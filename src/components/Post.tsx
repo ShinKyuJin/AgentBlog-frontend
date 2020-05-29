@@ -12,6 +12,7 @@ interface PostProps {
   username: string;
   avatar: string;
   file_url?: string;
+  url: string;
   title: string;
   content: string;
   hashtags: string[];
@@ -23,6 +24,7 @@ const Post: React.FC<PostProps> = ({
   username,
   avatar,
   file_url,
+  url,
   title,
   content,
   hashtags,
@@ -43,11 +45,14 @@ const Post: React.FC<PostProps> = ({
       </Header>
       {file_url && (
         <ImageWrapper>
-          <Image src={file_url} loadingHeight={370} />
+          <Link to={`/@${username}/${url}`}>
+            <Image src={file_url} loadingHeight={370} />
+          </Link>
         </ImageWrapper>
       )}
-
-      <ETitleText text={title} />
+      <Link to={`/@${username}/${url}`}>
+        <ETitleText text={title} />
+      </Link>
       <ContentText>{content}</ContentText>
       <HashtagContainer>
         {hashtags.map((name) => (
