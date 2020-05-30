@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 const WritePost = () => {
   const [subject, setSubject] = useState<string>('');
@@ -15,6 +16,7 @@ const WritePost = () => {
   const [hashtag, setHashtag] = useState<string>('');
   const [files, setFiles] = useState<File>();
   const [series_title, setSeries_title] = useState<string>('');
+  const [url, setUrl] = useState<string>(subject);
   const handleChangeSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubject(e.target.value);
   }
@@ -25,39 +27,44 @@ const WritePost = () => {
     setHashtag(e.target.value);
   }
   const handleChangeHashtags = (e: React.KeyboardEvent) => {
+    console.log(true);
     if (e.key === 'Enter') {
       setHashtags([...hashtags, hashtag]);
       setHashtag('');
     }
   }
 
+  const history = useHistory();
+
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
-      subject: subject,
-      detail: detail,
+      title: subject,
+      content: detail,
       hashtags: hashtags,
-      files: files,
-      series_title: series_title
-    }
-  });
+      url: subject,
+    }});
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (subject === "" || detail === "") {
       toast.error("제목과 내용을 적어주세요.");
-    } 
+    }
     else {
       try {
         const { data: { posting } }: any = await postingMutation();
-
+        
+        console.log(posting);
         if (!posting) {
           toast.error("글 작성에 실패했습니다.");
         }
         else {
           toast.success("글 작성에 성공했습니다.");
+          console.log(`/@${posting.user.username}/${posting.url}`)
+          window.location.href = `/@${posting.user.username}/${posting.url}`
         }
 
-      } catch {
+      } catch (e) {
+        console.log(e);
         toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
       }
     }
@@ -79,7 +86,7 @@ const WritePost = () => {
             value={hashtag}
             onChange={handleChangeHashtag}
             placeholder={`해쉬 태그를 입력하세요`}
-            onKeyDown={() => console.log(123)}
+            onKeyDown={handleChangeHashtags}
           />
           <DetailInput
             value={detail}

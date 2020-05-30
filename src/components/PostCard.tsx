@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Avatar from "./Avatar";
 
 interface PostCardProps {
-  file_url: string;
+  file_url: string | null;
   title: string;
   content: string;
   createdAt: string;
@@ -23,7 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
 }) => (
     <Container>
       <ImageContainer>
-        <Image src={file_url} />
+        <Image src={file_url ? file_url: undefined} />
       </ImageContainer>
       <ContentContainer>
         {title}
