@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 export interface seeMain {
   files: {
     id: string;
-    url: string;
+    url: string | null;
   }[];
   title: string;
   content: string;

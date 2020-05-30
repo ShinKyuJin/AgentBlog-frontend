@@ -8,7 +8,7 @@ const PostList = () => {
   const { data } = useQuery<seeMainData>(QUERY_POSTS);
   const mappingCard = data?.seeMain.map((post) => (
     <PostCard
-      file_url={post.files[0].url}
+      file_url={post.files.length > 0 ? post.files[0].url : null}
       title={post.title}
       content={post.content}
       createdAt={post.createdAt}
