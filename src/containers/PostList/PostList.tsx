@@ -12,7 +12,7 @@ const PostList = () => {
       title={post.title}
       content={post.content}
       createdAt={post.createdAt}
-      commentCount={parseInt(post.commentCount, 10)}
+      commentCount={post.commentCount}
       avatar={post.user.avatar}
       username={post.user.username}
     />

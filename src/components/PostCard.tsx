@@ -45,6 +45,7 @@ const Container = styled.div`
 
 const ImageContainer = styled.div`
   width: 100%;
+  height: 167px;
   position: relative;
 `
 
