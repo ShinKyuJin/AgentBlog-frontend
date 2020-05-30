@@ -11,7 +11,7 @@ interface PostProps {
   key: string;
   username: string;
   avatar: string;
-  file_url?: string;
+  file_url: string | null;
   url: string;
   title: string;
   content: string;

@@ -52,7 +52,7 @@ const SearchHashtag = () => {
               username={post.user.username}
               avatar={post.user.avatar}
               url={post.url}
-              file_url={post.files[0].url}
+              file_url={post.files.length > 0 ? post.files[0].url : null}
               title={post.title}
               content={post.content}
               hashtags={post.hashtags.map((hashtag) => hashtag.name)}
