@@ -8,7 +8,7 @@ export interface seeMain {
   title: string;
   content: string;
   createdAt: string;
-  commentCount: string;
+  commentCount: number;
   user: {
     avatar: string;
     username: string;
@@ -33,6 +33,7 @@ export const QUERY_POSTS = gql`
       title
       content
       createdAt
+      commentCount
     }
   }
 `;
