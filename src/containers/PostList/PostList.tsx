@@ -17,12 +17,30 @@ const PostList = () => {
       username={post.user.username}
     />
   ));
-  return <Container>{mappingCard}</Container>;
+  return (
+    <Container>
+      <GridContainer>{mappingCard}</GridContainer>
+    </Container>
+  );
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const GridContainer = styled.div`
+  margin: auto 15px;
+  width: 100%;
+  display: grid;
+  grid-gap: 25px;
+  @media (max-width: 945px) {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  @media (min-width: 946px) {
+    grid-template-columns: repeat(auto-fit, 320px);
+  }
+  grid-template-rows: 380px;
+  grid-auto-rows: 380px;
 `;
 
 export default PostList;

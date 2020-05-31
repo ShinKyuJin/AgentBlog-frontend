@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import Avatar from "./Avatar";
 
 interface PostCardProps {
@@ -19,35 +19,42 @@ const PostCard: React.FC<PostCardProps> = ({
   createdAt,
   commentCount,
   avatar,
-  username
+  username,
 }) => (
-    <Container>
+  <Container>
+    {file_url && (
       <ImageContainer>
-        <Image src={file_url ? file_url: undefined} />
+        <Image src={file_url} />
       </ImageContainer>
-      <ContentContainer>
-        {title}
-        {content}
-      </ContentContainer>
-      <DateContainer>
-        {createdAt} · {commentCount}
-      </DateContainer>
-      <UserInfoContainer>
-        <Avatar size={`sm`} url={avatar} /> by {username}
-      </UserInfoContainer>
-    </Container>
+    )}
+    <ContentContainer>
+      {title}
+      {content}
+    </ContentContainer>
+    <DateContainer>
+      {createdAt} · {commentCount}
+    </DateContainer>
+    <UserInfoContainer>
+      <Avatar size={`sm`} url={avatar} /> by {username}
+    </UserInfoContainer>
+  </Container>
 );
 
 const Container = styled.div`
-  width: 320px;
-  margin: 1rem;
-`
+  ${(props) => props.theme.whiteBox}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+`;
 
 const ImageContainer = styled.div`
   width: 100%;
   height: 167px;
   position: relative;
-`
+`;
 
 const Image = styled.img`
   position: absolute;
@@ -57,20 +64,19 @@ const Image = styled.img`
   height: 100%;
   display: block;
   object-fit: cover;
-`
+`;
 
 const ContentContainer = styled.div`
   padding: 10px;
   padding-bottom: 0;
-`
+`;
 
 const DateContainer = styled.div`
   padding-bottom: 10px;
-`
+`;
 
 const UserInfoContainer = styled.div`
   padding: 3px 10px;
-`
-
+`;
 
 export default PostCard;

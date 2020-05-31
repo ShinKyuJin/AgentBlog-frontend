@@ -17,7 +17,6 @@ const LOGIN_QUERY = gql`
 const Wrapper = styled.div`
   margin: 100px auto;
   max-width: ${(props) => props.theme.maxWidth};
-  width: 100%;
 `;
 
 const App = () => {
