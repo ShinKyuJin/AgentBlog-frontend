@@ -6,6 +6,7 @@ import PostCard from "../../components/PostCard";
 
 const PostList = () => {
   const { data } = useQuery<seeMainData>(QUERY_POSTS);
+  console.log(data);
   const mappingCard = data?.seeMain.map((post) => (
     <PostCard
       file_url={post.files.length > 0 ? post.files[0].url : null}

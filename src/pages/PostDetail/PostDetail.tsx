@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
 import { getPostDetailVars, QUERY_POST_DETAIL, getPostDetailData } from "./PostDetailQueries";
+import Markdown from "../../components/Markdown";
 
 interface PostDetailParams {
   username: string;
@@ -19,6 +20,8 @@ const PostDetail = () => {
     }
   });
   console.log(data);
+  console.log(username);
+  console.log(posturl);
   
   return (
     <Container>
@@ -26,9 +29,10 @@ const PostDetail = () => {
         {data?.getPostDetail.title}
       </TitleContainer>
       <InfoContainer>
-
+        {username}·{data?.getPostDetail.createdAt}
       </InfoContainer>
       <ContentContainer>
+        <Markdown source={`${data?.getPostDetail.content}`} />
       </ContentContainer>
     </Container>
   );

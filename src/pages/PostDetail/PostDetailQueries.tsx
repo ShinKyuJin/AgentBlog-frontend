@@ -40,6 +40,7 @@ query getPostDetail($username: String!, $url: String!) {
     }
     createdAt
     commentCount
+    content
   }
 }
 `
