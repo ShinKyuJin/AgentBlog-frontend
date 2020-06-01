@@ -34,8 +34,6 @@ const WritePost = () => {
     }
   }
 
-  const history = useHistory();
-
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
       title: subject,
@@ -59,7 +57,6 @@ const WritePost = () => {
         }
         else {
           toast.success("글 작성에 성공했습니다.");
-          console.log(`/@${posting.user.username}/${posting.url}`)
           window.location.href = `/@${posting.user.username}/${posting.url}`
         }
 
