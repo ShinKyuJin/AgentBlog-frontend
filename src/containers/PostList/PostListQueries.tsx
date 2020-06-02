@@ -13,6 +13,9 @@ export interface seeMain {
     avatar: string;
     username: string;
   };
+  url: string;
+  thumbnail: string;
+  likeCount: number;
 }
 
 export interface seeMainData {
@@ -34,6 +37,9 @@ export const QUERY_POSTS = gql`
       content
       createdAt
       commentCount
+      url
+      thumbnail
+      likeCount
     }
   }
 `;

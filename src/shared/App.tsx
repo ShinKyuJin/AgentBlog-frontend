@@ -15,9 +15,10 @@ const LOGIN_QUERY = gql`
 `;
 
 const Wrapper = styled.div`
-  margin: 100px auto;
   max-width: ${(props) => props.theme.maxWidth};
   width: 100%;
+  background-color: ${(props) => props.theme.bgColor};
+  height: 100%;
 `;
 
 const App = () => {
