@@ -9,19 +9,6 @@ import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 import Uploader from "../components/Uploader";
 
-const LOGIN_QUERY = gql`
-  {
-    isLoggedIn @client
-  }
-`;
-
-const Wrapper = styled.div`
-  max-width: ${(props) => props.theme.maxWidth};
-  width: 100%;
-  background-color: ${(props) => props.theme.bgColor};
-  height: 100%;
-`;
-
 const App = () => {
   const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
 
@@ -38,5 +25,18 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
+const LOGIN_QUERY = gql`
+  {
+    isLoggedIn @client
+  }
+`;
+
+const Wrapper = styled.div`
+  max-width: ${(props) => props.theme.maxWidth};
+  width: 100%;
+  background-color: ${(props) => props.theme.bgColor};
+  height: 100%;
+`;
 
 export default App;

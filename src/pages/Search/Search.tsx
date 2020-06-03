@@ -34,11 +34,13 @@ const Search = () => {
   return (
     <Wrapper>
       <SearchContainer>
-        <SearchInput
-          value={term}
-          onChange={onChange}
-          placeholder={"검색어를 입력하세요."}
-        />
+        <SearchInputContainer>
+          <SearchInput
+            value={term}
+            onChange={onChange}
+            placeholder={"검색어를 입력하세요."}
+          />
+        </SearchInputContainer>
         {term &&
           !loading &&
           data &&
@@ -82,12 +84,13 @@ const Search = () => {
 const EText = styled.span`
   display: block;
   font-weight: 400;
+  width: 100%;
 `;
 
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   min-height: 50vh;
 `;
 
@@ -96,9 +99,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 780px;
+  margin: auto;
   min-height: 50vh;
 `;
 
+const SearchInputContainer = styled.div`
+  padding: 10px 40px 10px 10px;
+`;
 const SearchInput = styled(Input)`
   display: block;
   border-radius: 1px;
