@@ -26,7 +26,7 @@ const PostDetail = () => {
   
 
   const mappingHashtag = data?.getPostDetail.hashtags.map(({ name }) => (
-    <Hashtag to={`/${name}`} key={key++}>
+    <Hashtag to={`/tags/${name}`} key={key++}>
       {name}
     </Hashtag>
   ))
@@ -56,6 +56,8 @@ const PostDetail = () => {
           {data?.getPostDetail.user.bio}
         </TailUserInfo>
       </TailContainer>
+      <Contour />
+      <hr />
     </Container>
   );
 };
@@ -83,16 +85,29 @@ const InfoContainer = styled.div`
 const ToUserInfo = styled(Link)`
   text-decoration: none;
   font-weight: bold;
+  color: black;
 
   &:hover {
     text-decoration: underline;
   }
 `
-const HashtagContainer = styled.div``
+const HashtagContainer = styled.div`
+  margin-top: 10px;
+`
 const Hashtag = styled(Link)`
   color: rgb(12, 166, 120);
   background-color: rgb(241, 243, 245);
-  padding: 0 1rem;
+  padding: 3px 1rem;
+  text-decoration: none;
+  border-radius: 16px;
+
+  & + & {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const BodyContainer = styled.div``
@@ -116,5 +131,10 @@ const TailUserInfo = styled.div`
   font-size: 1.5rem;
 `
 
+const Contour = styled.hr`
+  margin-top: 25px;
+  width: 100%;
+  border: 1px solid rgb(241, 242, 243);
+`
 
 export default PostDetail;
