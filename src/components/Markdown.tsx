@@ -34,7 +34,7 @@ const InlineCodeBlock = (props: any) => {
 
 const BlockQuoteBlock = (props: any) => {
   return (
-    <div style={{ border: '1px dashed #aaa', borderRadius: 10, paddingLeft: 10, margin: 5 }}>
+    <div style={{ backgroundColor: 'rgb(248,249,250)', padding: "1rem 1rem 1rem 2rem", margin: 5, borderLeft: "4px solid rgb(32, 201, 151)" }}>
       {props.children}
     </div>
   );
@@ -42,7 +42,7 @@ const BlockQuoteBlock = (props: any) => {
 
 const CodeBlock = (props: any) => {
   return (
-    <pre style={{ background: '#000', color: '#FFF', padding: 10 }}>
+    <pre style={{ background: 'rgb(248,249,250)', color: '#000', padding: 10 }}>
       <code>
         {props.value}
       </code>
