@@ -1,5 +1,6 @@
 import { gql } from "apollo-boost";
 
+
 export const QUERY_WRITE_POST = gql`
   mutation posting(
     $title: String!,

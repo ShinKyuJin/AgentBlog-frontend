@@ -9,9 +9,16 @@ import {
   searchPostData,
   searchPostVars,
 } from "./SearchQueries";
+import { useLocation, useHistory } from "react-router-dom";
+
+interface SearchParams {}
 
 const Search = () => {
-  const [term, setTerm] = useState<string>("");
+  const location = useLocation();
+  let history = useHistory();
+  const searchTerm: string = location.search.split("=")[1];
+
+  const [term, setTerm] = useState<string>(searchTerm);
   const { loading, data } = useQuery<searchPostData, searchPostVars>(
     QUERY_SEARCH_POST,
     {
@@ -20,6 +27,7 @@ const Search = () => {
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    history.replace("/search?q=" + e.target.value);
     setTerm(e.target.value);
   };
 
@@ -49,6 +57,7 @@ const Search = () => {
             <PostLoadingSkeleton />
           </>
         )}
+
         {data &&
           data.searchPost &&
           data.searchPost.map((post) => (
@@ -56,7 +65,8 @@ const Search = () => {
               key={post.id}
               username={post.user.username}
               avatar={post.user.avatar}
-              file_url={post.files[0].url}
+              url={post.url}
+              file_url={post.files.length > 0 ? post.files[0].url : null}
               title={post.title}
               content={post.content}
               hashtags={post.hashtags.map((hashtag) => hashtag.name)}

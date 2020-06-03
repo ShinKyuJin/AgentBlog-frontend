@@ -1,0 +1,45 @@
+import { gql } from "apollo-boost";
+
+export interface seeMain {
+  files: {
+    id: string;
+    url: string | null;
+  }[];
+  title: string;
+  content: string;
+  createdAt: string;
+  commentCount: number;
+  user: {
+    avatar: string;
+    username: string;
+  };
+  url: string;
+  thumbnail: string;
+  likeCount: number;
+}
+
+export interface seeMainData {
+  seeMain: seeMain[];
+}
+
+export const QUERY_POSTS = gql`
+  {
+    seeMain {
+      id
+      user {
+        avatar
+        username
+      }
+      files {
+        url
+      }
+      title
+      content
+      createdAt
+      commentCount
+      url
+      thumbnail
+      likeCount
+    }
+  }
+`;

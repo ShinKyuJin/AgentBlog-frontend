@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import FatText from "../../components/FatText";
-import Post from "../../components/Post";
+import Post, { PostLoadingSkeleton } from "../../components/Post";
 import { useQuery } from "react-apollo-hooks";
 import {
   searchHashtagData,
@@ -23,7 +23,6 @@ const SearchHashtag = () => {
     }
   );
 
-
   return (
     <Wrapper>
       <SearchContainer>
@@ -41,6 +40,7 @@ const SearchHashtag = () => {
 
         {loading && (
           <>
+            <PostLoadingSkeleton />
           </>
         )}
 
@@ -51,7 +51,8 @@ const SearchHashtag = () => {
               key={post.id}
               username={post.user.username}
               avatar={post.user.avatar}
-              file_url={post.files[0].url}
+              url={post.url}
+              file_url={post.files.length > 0 ? post.files[0].url : null}
               title={post.title}
               content={post.content}
               hashtags={post.hashtags.map((hashtag) => hashtag.name)}

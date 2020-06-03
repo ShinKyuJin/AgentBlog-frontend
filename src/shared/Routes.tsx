@@ -8,10 +8,19 @@ import Search from "../pages/Search/Search";
 import WritePost from "../pages/WritePost";
 import Setting from "../pages/Setting";
 import SearchHashtag from "../pages/SearchHashtag";
+import { useQuery, useMutation } from "react-apollo-hooks";
+import { gql } from "apollo-boost";
+import { LOG_OUT } from "../modal/Auth/AuthQueries";
 
 interface RoutesProps {
   isLoggedIn: boolean;
 }
+
+const QUERY_CHECK_TOKEN = gql`
+  {
+    checkToken
+  }
+`;
 
 const RoutesListWithoutLogin = [
   {
@@ -53,16 +62,21 @@ const RoutesListWithLogin = [
 ];
 
 const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
-  console.log(isLoggedIn);
+  const { data } = useQuery(QUERY_CHECK_TOKEN);
+  const [logOutMutation] = useMutation(LOG_OUT);
+
+  if (isLoggedIn && data && data.checkToken === false) {
+    logOutMutation();
+  }
+  let i = 0;
   return (
     <Switch>
       {RoutesListWithoutLogin.map((route) => {
-        return <Route exact {...route} />;
+        return <Route exact {...route} key={i++} />;
       })}
-      {
-        RoutesListWithLogin.map((route) => {
-          return <Route exact {...route} />;
-        })}
+      {RoutesListWithLogin.map((route) => {
+        return <Route exact {...route} key={i++} />;
+      })}
       <Redirect from="*" to="/" />
     </Switch>
   );
