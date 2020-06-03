@@ -1,27 +1,28 @@
 import { gql } from "apollo-boost";
 
-export interface writePost {
-  title: string;
-  hashtags: [string];
-  content: string;
-  series_title: string;
-  files: [string];
-}
-
 export const QUERY_WRITE_POST = gql`
-  mutation posting (
+  mutation posting(
     $title: String!,
-    $hashtags: String!,
+    $hashtags: [String!],
     $content: String!,
-    $series_title: String,
-    $files: [String!]!
+    $series_id: String,
+    $thumbnail: String,
+    $url: String!,
+    $files: [String!]
   ) {
-    posting (
-      title: $title,
-      hashtags: $hashtags,
-      content: $content,
-      series_title: $series_title,
-      files: $files
-    )
+    posting(
+    title: $title,
+    hashtags: $hashtags,
+    content: $content,
+    series_id: $series_id,
+    thumbnail: $thumbnail,
+    url: $url,
+    files: $files
+  ) {
+    url
+    user {
+      username
+    }
   }
+}
 `;

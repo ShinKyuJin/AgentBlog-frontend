@@ -5,21 +5,29 @@ import { toast } from "react-toastify";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
 
-interface FormProps {
-  title: string;
-  content: string;
-  hashtag: string;
-  hashtags: Array<string>;
-}
-
 let count = 0;
 
+interface writePost {
+  title: string;
+  hashtag: string;
+  hashtags: Array<string>;
+  content: string;
+  series_id: string;
+  thumbnail: string;
+  url: string;
+  files: Array<string>;
+}
+
 const WritePost = () => {
-  const [form, setForm] = useState<FormProps>({
+  const [form, setForm] = useState<writePost>({
     title: '',
-    content: '',
     hashtag: '',
     hashtags: [],
+    content: '',
+    series_id: '',
+    thumbnail: '',
+    url: '',
+    files: []
   });
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, title:e.target.value }); }
@@ -43,9 +51,12 @@ const WritePost = () => {
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
       title: form.title,
-      content: form.content,
       hashtags: form.hashtags,
-      url: form.title
+      content: form.content,
+      series_id: form.series_id,
+      thumbnail: form.thumbnail,
+      url: form.title,
+      files: form.files
     }
   });
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +67,7 @@ const WritePost = () => {
     }
     else {
       try {
-        const { data: {posting} }: any = await postingMutation();
+        const { data: { posting } }: any = await postingMutation();
         
         if (!posting) {
           toast.error('글 작성에 실패했습니다.');
