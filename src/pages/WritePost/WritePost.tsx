@@ -1,148 +1,201 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import Input from "../../components/Input";
-import Markdown from "../../components/Markdown";
-import Button from "../../components/Button";
+import { toast } from "react-toastify";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
-import { toast } from "react-toastify";
+
+let count = 0;
+
+interface writePost {
+  title: string;
+  hashtag: string;
+  hashtags: Array<string>;
+  content: string;
+  series_id: string;
+  thumbnail: string;
+  url: string;
+  files: Array<string>;
+}
 
 const WritePost = () => {
-  const [subject, setSubject] = useState<string>('');
-  const [detail, setDetail] = useState<string>('');
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [hashtag, setHashtag] = useState<string>('');
-  const [files, setFiles] = useState<File>();
-  const [series_title, setSeries_title] = useState<string>('');
-  const [url, setUrl] = useState<string>(subject);
-  const handleChangeSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSubject(e.target.value);
-  }
-  const handleChangeDetail = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDetail(e.target.value);
-  }
-  const handleChangeHashtag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHashtag(e.target.value);
-  }
+  const [form, setForm] = useState<writePost>({
+    title: '',
+    hashtag: '',
+    hashtags: [],
+    content: '',
+    series_id: '',
+    thumbnail: '',
+    url: '',
+    files: []
+  });
+
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, title:e.target.value }); }
+  const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => { setForm({ ...form, content: e.target.value }); }
+  const handleChangeHashtag = (e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, hashtag: e.target.value }); }
   const handleChangeHashtags = (e: React.KeyboardEvent) => {
-    console.log(true);
     if (e.key === 'Enter') {
-      setHashtags([...hashtags, hashtag]);
-      setHashtag('');
+      if (form.hashtag !== '') {
+        setForm ({
+          ...form,
+          hashtags: [...form.hashtags.concat(form.hashtag)],
+          hashtag: ''
+        })
+      }
+      else {
+        toast.error('해시태그를 입력해주세요!');
+      }
     }
   }
 
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
-      title: subject,
-      content: detail,
-      hashtags: hashtags,
-      url: subject,
-    }});
+      title: form.title,
+      hashtags: form.hashtags,
+      content: form.content,
+      series_id: form.series_id,
+      thumbnail: form.thumbnail,
+      url: form.title,
+      files: form.files
+    }
+  });
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (subject === "" || detail === "") {
-      toast.error("제목과 내용을 적어주세요.");
+    if (form.title === '' || form.content === '') {
+      toast.error('제목과 내용을 비우지 말아주세요!');
     }
     else {
       try {
         const { data: { posting } }: any = await postingMutation();
         
-        console.log(posting);
         if (!posting) {
-          toast.error("글 작성에 실패했습니다.");
+          toast.error('글 작성에 실패했습니다.');
         }
         else {
-          toast.success("글 작성에 성공했습니다.");
-          window.location.href = `/@${posting.user.username}/${posting.url}`
+          toast.success('글 작성에 성공했습니다.');
+          window.location.href = `/@${posting.user.username}/${posting.url}`;
         }
-
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e);
-        toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
+        toast.error('요청을 완료할 수 없습니다. 다시 시도해주세요.');
       }
     }
   }
 
+  const handleClickHashtag = (e: any) => {
+    setForm ({
+      ...form,
+      hashtags: [...form.hashtags.filter((text) => text !== e.target.textContent)]
+    })
+  }
+  const hashtags = form.hashtags.map((text) => {
+    return (
+      <Hashtag key={count++} onClick={handleClickHashtag}>
+        {text}
+      </Hashtag>
+    );
+  });
+
+
   return (
     <Container>
       <Helmet>
-        <title>(작성중) {subject}</title>
+        {
+          form.title.length > 0 ?
+            <title>(작성중) {form.title}</title>
+            : <title>글 작성</title>
+        }
       </Helmet>
-      <TextWrapper>
-        <WriteContainer>
-          <SubjectInput
-            value={subject}
-            onChange={handleChangeSubject}
-            placeholder={`제목을 입력하세요`}
-          />
-          <HashtagInput
-            value={hashtag}
-            onChange={handleChangeHashtag}
-            placeholder={`해쉬 태그를 입력하세요`}
-            onKeyDown={handleChangeHashtags}
-          />
-          <DetailInput
-            value={detail}
-            onChange={handleChangeDetail}
-          />
-        </WriteContainer>
-        <PreviewContainer>
-          <Markdown
-            source={`# ${subject}\n${detail}`}
-          />
-        </PreviewContainer>
-      </TextWrapper>
-      <WritePostBtn text={"작성"} onClick={handleSubmit} />
+      <Wrapper>
+        <TitleEditor 
+          value={form.title}
+          onChange={handleChangeTitle}
+          placeholder="제목을 입력해주세요"
+        />
+        <HashtagBox>
+          {hashtags}
+        </HashtagBox>
+        <HashtagEditor 
+          value={form.hashtag}
+          onChange={handleChangeHashtag}
+          onKeyPress={handleChangeHashtags}
+          placeholder="해시태그"
+        />
+        <ContentEditor
+          value={form.content}
+          onChange={handleChangeContent}
+          placeholder="내용을 입력해주세요"
+        />
+        <ConfirmWrapper>
+          <ConfirmBtn onClick={handleSubmit}>출간하기</ConfirmBtn>
+        </ConfirmWrapper>
+      </Wrapper>
     </Container>
   );
 };
 
 const Container = styled.div`
-`;
-
-const TextWrapper = styled.div`
   display: flex;
-`;
-
-const WriteContainer = styled.div`
-  border: 1px solid black;
-  white-space: no-wrap;
+  width: 100%;
+  height: calc(100% - 90px);
+  flex-wrap: no-wrap;
+`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 50%;
-`;
-
-const PreviewContainer = styled.div`
-  width: 50%;
-  border: 1px solid black;
-  word-break: break-all;
-  height: 71vh;
-  overflow-y: auto;
-`;
-
-const SubjectInput = styled(Input)`
-  width: 100%;
-  padding: 0px;
-`;
-
-const DetailInput = styled.textarea`
-  width: 100%;
-  white-space: no-wrap;
-  border: none;
-  resize: none;
-  height: 60vh;
-  box-sizing: border-box;
-  scroll-y: auto;
-`;
-
-const HashtagInput = styled(Input)`
-  width: 100%;
-  padding: 0px;
+  height: 100%;
 `
 
-const WritePostBtn = styled(Button)`
+const TitleEditor = styled.input`
   width: 100%;
-`;
+  height: 15%;
+  padding: 0;
+`
+const HashtagEditor = styled.input`
+  width: 100%;
+  padding: 0;
+`
+const Hashtag = styled.span`
+  display: inline;
+  border-radius: 15px;
+  color: rgb(12, 166, 120);
+  background-color: rgb(241, 243, 245);
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & + & {
+    margin: 0 5px;
+  }
+`
+const HashtagBox = styled.div`
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const ContentEditor = styled.textarea`
+  width: 100%;
+  height: 80%;
+  resize: none;
+  padding: 0;
+`
+const ConfirmWrapper = styled.div`
+  height: 5%;
+  display: flex;
+  flex-direction: row-reverse;
+`
+
+const ConfirmBtn = styled.button`
+
+`
+
 
 export default WritePost;
