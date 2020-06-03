@@ -1,14 +1,16 @@
 import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
 
 const GlobalStyles = createGlobalStyle`
-  ${reset};
   * {
     box-sizing: border-box;
   }
 
+  html, body, #root {
+    height: 100%;
+  }  
+
   body {
-    background-color: #FDFDFD;
+    background-color: rgba(33, 37, 41, 0.008);
   }
 
   a {

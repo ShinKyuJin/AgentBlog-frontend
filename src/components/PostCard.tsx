@@ -51,12 +51,11 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
 };
 
 const Container = styled.div`
-  width: 320px;
-  height: 377px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   background-color: white;
-  margin: 1rem;
   flex-direction: column;
   border-radius: 8px;
   position: relative;
@@ -75,7 +74,8 @@ const Container = styled.div`
 
 const ImageContainer = styled(Link)`
   position: relative;
-  height: 177px;
+  /* height: 177px; */
+  padding-bottom: 55%;
   width: 100%;
 `;
 
@@ -99,6 +99,7 @@ const PostInfoContainer = styled.div`
 const ContentContainer = styled(Link)`
   color: black;
   text-decoration: none;
+  min-height: 200px;
 
   &:focus {
     color: black;

@@ -11,11 +11,21 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
   ...props
 }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const onLoad = () => setLoading(false);
+  const onError = () => setError(true);
+
   return (
     <>
-      {loading && <Skeleton height={loadingHeight} />}
-      <Image _loading={loading} onLoad={onLoad} {...props} />
+      {loading && !error && <Skeleton height={loadingHeight} />}
+      {!error && (
+        <Image
+          _loading={loading}
+          onLoad={onLoad}
+          onError={onError}
+          {...props}
+        />
+      )}
     </>
   );
 };

@@ -8,16 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 import Uploader from "../components/Uploader";
+import GlobalStyles from "../styles/GlobalStyles";
 
 const App = () => {
   const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
 
   return (
     <ThemeProvider theme={Theme}>
+      <GlobalStyles />
       <React.Fragment>
-        <Header isLoggedIn={isLoggedIn} />
         <Wrapper>
-          <Uploader />
+          <Header isLoggedIn={isLoggedIn} />
           <Routes isLoggedIn={isLoggedIn} />
         </Wrapper>
       </React.Fragment>
@@ -35,8 +36,8 @@ const LOGIN_QUERY = gql`
 const Wrapper = styled.div`
   max-width: ${(props) => props.theme.maxWidth};
   width: 100%;
-  background-color: ${(props) => props.theme.bgColor};
-  height: 100%;
 `;
+
+//background-color: ${(props) => props.theme.bgColor};
 
 export default App;
