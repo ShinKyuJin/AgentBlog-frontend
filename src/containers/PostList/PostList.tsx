@@ -8,7 +8,7 @@ const PostList = () => {
   const { data, loading } = useQuery<seeMainData>(QUERY_POSTS);
 
   const loadingCard = Array.from({ length: 20 }, (x, i) => i).map(() => (
-    <PostCard loading={true} />
+    <PostCard />
   ));
   const mappingCard = data?.seeMain.map((postInfo) => (
     <PostCard postInfo={postInfo} />

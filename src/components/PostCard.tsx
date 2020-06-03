@@ -8,18 +8,16 @@ import Skeleton from "react-loading-skeleton";
 
 interface PostCardProps {
   postInfo?: seeMain;
-  loading?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postInfo, loading = false }) => {
-  if (loading)
+const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+  if (!postInfo)
     return (
       <Container>
         <Skeleton height={400} />
       </Container>
     );
-
-  if (postInfo)
+  else
     return (
       <Container>
         {postInfo.thumbnail ? (
@@ -50,8 +48,6 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo, loading = false }) => {
         </UserInfoContainer>
       </Container>
     );
-
-  return <></>;
 };
 
 const Container = styled.div`
