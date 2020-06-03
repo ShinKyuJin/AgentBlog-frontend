@@ -7,6 +7,24 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
+import Uploader from "../components/Uploader";
+
+const App = () => {
+  const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
+
+  return (
+    <ThemeProvider theme={Theme}>
+      <React.Fragment>
+        <Header isLoggedIn={isLoggedIn} />
+        <Wrapper>
+          <Uploader />
+          <Routes isLoggedIn={isLoggedIn} />
+        </Wrapper>
+      </React.Fragment>
+      <ToastContainer position={"bottom-left"} />
+    </ThemeProvider>
+  );
+};
 
 const LOGIN_QUERY = gql`
   {
@@ -20,21 +38,5 @@ const Wrapper = styled.div`
   background-color: ${(props) => props.theme.bgColor};
   height: 100%;
 `;
-
-const App = () => {
-  const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
-
-  return (
-    <ThemeProvider theme={Theme}>
-      <React.Fragment>
-        <Header isLoggedIn={isLoggedIn} />
-        <Wrapper>
-          <Routes isLoggedIn={isLoggedIn} />
-        </Wrapper>
-      </React.Fragment>
-      <ToastContainer position={"bottom-left"} />
-    </ThemeProvider>
-  );
-};
 
 export default App;

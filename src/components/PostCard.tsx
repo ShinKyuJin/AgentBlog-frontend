@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import { seeMain } from "../containers/PostList/PostListQueries";
+import ImageLoader from "./ImageLoader";
 
 interface PostCardProps {
   postInfo: seeMain;
@@ -13,7 +14,7 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
     <Container>
       {postInfo.thumbnail ? (
         <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
-          <Image src={postInfo.thumbnail} />
+          <Image src={postInfo.thumbnail} loadingHeight={177} />
         </ImageContainer>
       ) : null}
 
@@ -41,32 +42,23 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   );
 };
 
-const ContainerHover = keyframes`
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-20px);
-  }
-`;
-
 const Container = styled.div`
   width: 320px;
   height: 377px;
   display: flex;
   flex-wrap: wrap;
   background-color: white;
-  margin: 2rem;
+  margin: 1rem;
   flex-direction: column;
   border-radius: 8px;
   position: relative;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform 0.4s;
   &:hover {
-    transform: translateY(-20px);
-    animation: ${ContainerHover} 0.7s;
-    animation-direction: alternate;
+    transform: translateY(-10px);
   }
 `;
 
@@ -76,12 +68,14 @@ const ImageContainer = styled(Link)`
   width: 100%;
 `;
 
-const Image = styled.img`
+const Image = styled(ImageLoader)`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   display: block;
   object-fit: cover;
 `;
