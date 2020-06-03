@@ -4,6 +4,7 @@ export interface getPostDetail {
   title: string;
   user: {
     avatar: string;
+    bio: string;
   }
   files: {
     url: string;
@@ -31,6 +32,7 @@ query getPostDetail($username: String!, $url: String!) {
     title
     user {
       avatar
+      bio
     }
     files {
       url

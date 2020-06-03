@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Input from "../../components/Input";
-import Theme from "../../styles/Theme";
+import Theme from "../../styles/theme";
 import { useQuery } from "react-apollo-hooks";
 import Post, { PostLoadingSkeleton } from "../../components/Post";
 import {

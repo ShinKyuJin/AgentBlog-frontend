@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header/HeaderContainer";
 import styled, { ThemeProvider } from "styled-components";
-import Theme from "../styles/Theme";
+import Theme from "../styles/theme";
 import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
