@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import { seeMain } from "../containers/PostList/PostListQueries";
@@ -8,18 +8,16 @@ import Skeleton from "react-loading-skeleton";
 
 interface PostCardProps {
   postInfo?: seeMain;
-  loading?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postInfo, loading = false }) => {
-  if (loading)
+const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+  if (!postInfo)
     return (
       <Container>
         <Skeleton height={400} />
       </Container>
     );
-
-  if (postInfo)
+  else
     return (
       <Container>
         {postInfo.thumbnail ? (
@@ -50,8 +48,6 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo, loading = false }) => {
         </UserInfoContainer>
       </Container>
     );
-
-  return <></>;
 };
 
 const Container = styled.div`
@@ -67,10 +63,13 @@ const Container = styled.div`
   justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 
-  -webkit-transition: -webkit-transform 0.4s;
-  transition: transform 0.4s;
+  -webkit-transition: box-shadow 0.25s ease-in 0s,
+    -webkit-transform 0.25s ease-in 0s;
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+
   &:hover {
     transform: translateY(-10px);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
   }
 `;
 
