@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
+import Uploader from "../components/Uploader";
 
 const LOGIN_QUERY = gql`
   {
@@ -28,6 +29,7 @@ const App = () => {
       <React.Fragment>
         <Header isLoggedIn={isLoggedIn} />
         <Wrapper>
+          <Uploader />
           <Routes isLoggedIn={isLoggedIn} />
         </Wrapper>
       </React.Fragment>
