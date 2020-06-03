@@ -4,42 +4,54 @@ import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import { seeMain } from "../containers/PostList/PostListQueries";
 import ImageLoader from "./ImageLoader";
+import Skeleton from "react-loading-skeleton";
 
 interface PostCardProps {
-  postInfo: seeMain;
+  postInfo?: seeMain;
+  loading?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
-  return (
-    <Container>
-      {postInfo.thumbnail ? (
-        <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
-          <Image src={postInfo.thumbnail} loadingHeight={177} />
-        </ImageContainer>
-      ) : null}
+const PostCard: React.FC<PostCardProps> = ({ postInfo, loading = false }) => {
+  if (loading)
+    return (
+      <Container>
+        <Skeleton height={400} />
+      </Container>
+    );
 
-      <PostInfoContainer>
-        <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
-          <TitleCon>{postInfo.title}</TitleCon>
-          <ContentCon>
-            {postInfo.content.length > 60
-              ? postInfo.content.slice(0, 60).concat("...")
-              : postInfo.content}
-          </ContentCon>
-        </ContentContainer>
-        <RestInfoContainer>
-          {postInfo.createdAt.slice(0, 10)} · {postInfo.commentCount}개의 댓글
-        </RestInfoContainer>
-      </PostInfoContainer>
-      <UserInfoContainer to={`/@${postInfo.user.username}`}>
-        <Avatar size="sm" url={postInfo.user.avatar} />
-        &nbsp;
-        <AvatarBy>by</AvatarBy>&nbsp;
-        <AvatarUsername>{postInfo.user.username}</AvatarUsername>
-        <LikesCon>♥&nbsp;{postInfo.likeCount}</LikesCon>
-      </UserInfoContainer>
-    </Container>
-  );
+  if (postInfo)
+    return (
+      <Container>
+        {postInfo.thumbnail ? (
+          <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
+            <Image src={postInfo.thumbnail} loadingHeight={177} />
+          </ImageContainer>
+        ) : null}
+
+        <PostInfoContainer>
+          <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
+            <TitleCon>{postInfo.title}</TitleCon>
+            <ContentCon>
+              {postInfo.content.length > 60
+                ? postInfo.content.slice(0, 60).concat("...")
+                : postInfo.content}
+            </ContentCon>
+          </ContentContainer>
+          <RestInfoContainer>
+            {postInfo.createdAt.slice(0, 10)} · {postInfo.commentCount}개의 댓글
+          </RestInfoContainer>
+        </PostInfoContainer>
+        <UserInfoContainer to={`/@${postInfo.user.username}`}>
+          <Avatar size="sm" url={postInfo.user.avatar} />
+          &nbsp;
+          <AvatarBy>by</AvatarBy>&nbsp;
+          <AvatarUsername>{postInfo.user.username}</AvatarUsername>
+          <LikesCon>♥&nbsp;{postInfo.likeCount}</LikesCon>
+        </UserInfoContainer>
+      </Container>
+    );
+
+  return <></>;
 };
 
 const Container = styled.div`
