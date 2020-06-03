@@ -1,9 +1,8 @@
 const BORDER_RADIUS = "4px";
 const BOX_BORDER = "1px solid #e6e6e6";
 const Theme = {
-  maxWidth: "1800px",
-  pageWidth: "935px",
-  bgColor: "#FAFAFA",
+  maxWidth: "100%",
+  bgColor: "rgba(248,249,250)",
   blackColor: "#262626",
   darkGreyColor: "#999",
   lightGreyColor: "#c7c7c7",

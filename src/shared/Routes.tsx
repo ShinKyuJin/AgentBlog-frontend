@@ -68,14 +68,14 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
   if (isLoggedIn && data && data.checkToken === false) {
     logOutMutation();
   }
-
+  let i = 0;
   return (
     <Switch>
       {RoutesListWithoutLogin.map((route) => {
-        return <Route exact {...route} />;
+        return <Route exact {...route} key={i++} />;
       })}
       {RoutesListWithLogin.map((route) => {
-        return <Route exact {...route} />;
+        return <Route exact {...route} key={i++} />;
       })}
       <Redirect from="*" to="/" />
     </Switch>
