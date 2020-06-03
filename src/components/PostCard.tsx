@@ -53,12 +53,12 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   background-color: white;
-  margin: 2rem;
+  margin: 1rem;
   flex-direction: column;
   border-radius: 8px;
   position: relative;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 
   &:hover {
     transform: translateY(-20px);

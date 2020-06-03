@@ -6,9 +6,8 @@ import Sidebar from "../components/Sidebar";
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  margin: 0 100px;
   height: 100%;
+  margin: 0 100px;
 `;
 
 const Home = () => {

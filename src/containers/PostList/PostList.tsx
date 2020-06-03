@@ -9,12 +9,18 @@ const PostList = () => {
   const mappingCard = data?.seeMain.map((postInfo) => (
     <PostCard postInfo={postInfo} />
   ));
-  return <Container>{mappingCard}</Container>;
+  return <Main><Container>{mappingCard}</Container></Main>;
 };
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: -1rem;
 `;
+
+const Main = styled.main`
+  flex: 1 1 0%;
+  margin-top: 50px;
+`
 
 export default PostList;

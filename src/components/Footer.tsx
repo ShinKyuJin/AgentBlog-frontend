@@ -7,7 +7,7 @@ const Container = styled.div`
 const Footer = () => {
   return (
     <Container>
-      developer: 전현성 / 신규진
+      Developed by miminishin/skyoun97
     </Container>
   )
 }
