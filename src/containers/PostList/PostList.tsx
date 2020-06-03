@@ -22,12 +22,13 @@ const PostList = () => {
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   margin: -1rem;
 `;
 
 const Main = styled.main`
-  flex: 1 1 0%;
+  width: 80%;
   margin-top: 50px;
 `;
 
