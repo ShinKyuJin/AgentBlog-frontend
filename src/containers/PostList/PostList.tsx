@@ -21,13 +21,22 @@ const PostList = () => {
 };
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  @media (max-width: 945px) {
+    grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+  }
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, 320px);
+  margin-left: 5px;
+  margin-right: 5px;
   justify-content: center;
   flex-wrap: wrap;
-  margin: -1rem;
 `;
 
 const Main = styled.main`
+  @media (max-width: 945px) {
+    width: 100%;
+  }
   width: 80%;
   margin-top: 50px;
 `;

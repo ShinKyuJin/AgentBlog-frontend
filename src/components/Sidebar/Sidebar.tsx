@@ -39,17 +39,17 @@ const Sidebar = () => {
   );
 };
 const Wrap = styled.div`
+  @media (max-width: 945px) {
+    display: none;
+  }
   width: 20%;
   min-width: 14rem;
 `;
 
 const Container = styled.aside`
-  @media (max-width: 985px) {
-    display: none;
-  }
   display: flex;
   flex-direction: column;
-  margin-left: 6rem;
+  margin-left: 15px;
   margin-right: auto;
   width: 14rem;
   margin-top: 50px;
