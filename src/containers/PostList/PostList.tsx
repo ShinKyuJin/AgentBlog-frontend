@@ -5,7 +5,7 @@ import { seeMainData, QUERY_POSTS } from "./PostListQueries";
 import PostCard from "../../components/PostCard";
 
 const PostList = () => {
-  const { data, loading } = useQuery<seeMainData>(QUERY_POSTS);
+  const { data, loading, error } = useQuery<seeMainData>(QUERY_POSTS);
 
   const loadingCard = Array.from({ length: 20 }, (x, i) => i).map(() => (
     <PostCard />
@@ -15,7 +15,7 @@ const PostList = () => {
   ));
   return (
     <Main>
-      <Container>{loading ? loadingCard : mappingCard}</Container>
+      <Container>{loading || error ? loadingCard : mappingCard}</Container>
     </Main>
   );
 };
