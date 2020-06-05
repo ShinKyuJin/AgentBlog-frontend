@@ -24,10 +24,11 @@ const Home = () => {
 };
 
 const Container = styled.div`
+  ${(prop) => prop.theme.responsiveContainer}
   display: flex;
   justify-content: center;
-  margin: 0 15px;
   height: 100%;
+  margin-top: 2rem;
 `;
 
 export default Home;

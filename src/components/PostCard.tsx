@@ -51,13 +51,24 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  @media (max-width: 944px) {
+    width: calc(50% - 2rem);
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    margin: 0px 0px 1rem 0px;
+  }
+  width: 20rem;
+  overflow: hidden;
+
+  margin: 1rem;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
   background-color: white;
   flex-direction: column;
-  border-radius: 8px;
+  border-radius: 6px;
   position: relative;
   justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
@@ -65,10 +76,14 @@ const Container = styled.div`
   -webkit-transition: box-shadow 0.25s ease-in 0s,
     -webkit-transform 0.25s ease-in 0s;
   transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
-
   &:hover {
-    transform: translateY(-10px);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
+  }
+  @media (min-width: 944px) {
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
+    }
   }
 `;
 
@@ -85,8 +100,8 @@ const Image = styled(ImageLoader)`
   left: 0;
   width: 100%;
   height: 100%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   display: block;
   object-fit: cover;
 `;
@@ -94,12 +109,12 @@ const PostInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 16px 16px 0 16px;
+  padding: 1rem;
+  flex: 1 1 0%;
 `;
 const ContentContainer = styled(Link)`
   color: black;
   text-decoration: none;
-  min-height: 200px;
 
   &:focus {
     color: black;

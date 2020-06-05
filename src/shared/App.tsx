@@ -16,12 +16,10 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyles />
-      <React.Fragment>
-        <Wrapper>
-          <Header isLoggedIn={isLoggedIn} />
-          <Routes isLoggedIn={isLoggedIn} />
-        </Wrapper>
-      </React.Fragment>
+      <Wrapper>
+        <Header isLoggedIn={isLoggedIn} />
+        <Routes isLoggedIn={isLoggedIn} />
+      </Wrapper>
       <ToastContainer position={"bottom-left"} />
     </ThemeProvider>
   );
@@ -34,7 +32,6 @@ const LOGIN_QUERY = gql`
 `;
 
 const Wrapper = styled.div`
-  max-width: ${(props) => props.theme.maxWidth};
   width: 100%;
 `;
 

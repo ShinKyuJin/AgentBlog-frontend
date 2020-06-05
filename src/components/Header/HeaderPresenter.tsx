@@ -23,7 +23,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   return (
     <Container>
       <LogoContainer to="/">
-        <img src={LogoImg} alt="logo" width="90px" />
+        <Logo src={LogoImg} alt="logo" />
       </LogoContainer>
       <SemiContainer>
         <SearchContainer to="/search">
@@ -50,23 +50,22 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
 };
 
 const Container = styled.div`
-  width: 100%;
+  ${(prop) => prop.theme.responsiveContainer}
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  height: 90px;
+  height: 60px;
   padding-bottom: 0;
 `;
 
 const SemiContainer = styled.div`
   display: flex;
-  align-items: center;
 `;
 
-const LogoContainer = styled(Link)`
-  height: 90px;
-  margin-left: 30px;
-`;
+const LogoContainer = styled(Link)``;
+
+const Logo = styled.img``;
 
 const SearchContainer = styled(Link)`
   align-self: center;
