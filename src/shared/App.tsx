@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
-import Uploader from "../components/Uploader";
 import GlobalStyles from "../styles/GlobalStyles";
 
 const App = () => {
@@ -36,6 +35,7 @@ const LOGIN_QUERY = gql`
 const Wrapper = styled.div`
   max-width: ${(props) => props.theme.maxWidth};
   width: 100%;
+  height: 100%;
 `;
 
 //background-color: ${(props) => props.theme.bgColor};

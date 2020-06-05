@@ -14,7 +14,7 @@ interface PostDetailParams {
 let key = 0;
 const PostDetail = () => {
   const { username, posturl } = useParams() as PostDetailParams;
-  const { loading, data } = useQuery<getPostDetailData, getPostDetailVars>(QUERY_POST_DETAIL, {
+  const { data } = useQuery<getPostDetailData, getPostDetailVars>(QUERY_POST_DETAIL, {
     variables: {
       username: username,
       url: posturl

@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
+import Markdown from "../../components/Markdown";
+import Uploader from "../../components/Uploader";
 
 let count = 0;
 
@@ -35,6 +37,9 @@ const WritePost = () => {
   const handleChangeHashtag = (e: React.ChangeEvent<HTMLInputElement>) => { setForm({ ...form, hashtag: e.target.value }); }
   const handleChangeHashtags = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      if (form.hashtags.find((text) => text === form.hashtag)) {
+        return toast.warning('이미 있는 해시태그입니다.');
+      }
       if (form.hashtag !== '') {
         setForm ({
           ...form,
@@ -123,6 +128,9 @@ const WritePost = () => {
           onKeyPress={handleChangeHashtags}
           placeholder="해시태그"
         />
+        <FileContainer>
+          <Uploader />
+        </FileContainer>
         <ContentEditor
           value={form.content}
           onChange={handleChangeContent}
@@ -132,6 +140,10 @@ const WritePost = () => {
           <ConfirmBtn onClick={handleSubmit}>출간하기</ConfirmBtn>
         </ConfirmWrapper>
       </Wrapper>
+      <MarkContainer>
+        <h1>{form.title}</h1>
+        <Markdown source={`${form.content}`} />
+      </MarkContainer>
     </Container>
   );
 };
@@ -147,16 +159,41 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 50%;
   height: 100%;
+  padding: 30px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `
 
 const TitleEditor = styled.input`
   width: 100%;
-  height: 15%;
+  height: 70px;
+  font-size: 40px;
   padding: 0;
+  border: none;
+  font-weight: 650;
+
+  &:focus {
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: 
+  }
 `
 const HashtagEditor = styled.input`
   width: 100%;
   padding: 0;
+  height: 40px;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 0;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 const Hashtag = styled.span`
   display: inline;
@@ -183,9 +220,16 @@ const HashtagBox = styled.div`
 
 const ContentEditor = styled.textarea`
   width: 100%;
-  height: 80%;
+  margin-top: 15px;
+  height: 100%;
+  font-size: 16px;
   resize: none;
   padding: 0;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 const ConfirmWrapper = styled.div`
   height: 5%;
@@ -195,6 +239,18 @@ const ConfirmWrapper = styled.div`
 
 const ConfirmBtn = styled.button`
 
+`
+
+const FileContainer = styled.div`
+  height: 30px;
+`
+
+const MarkContainer = styled.div`
+  height: 100%;
+  width: 50%;
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `
 
 
