@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
@@ -11,6 +11,8 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+  const [thumbnailError, setThumbnailError] = useState(false);
+
   if (!postInfo)
     return (
       <Container>
@@ -20,11 +22,15 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   else
     return (
       <Container>
-        {postInfo.thumbnail ? (
+        {postInfo.thumbnail && !thumbnailError && (
           <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
-            <Image src={postInfo.thumbnail} loadingHeight={177} />
+            <Image
+              src={postInfo.thumbnail}
+              loadingHeight={177}
+              onError={() => setThumbnailError(true)}
+            />
           </ImageContainer>
-        ) : null}
+        )}
 
         <PostInfoContainer>
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
@@ -60,22 +66,22 @@ const Container = styled.div`
     margin: 0px 0px 1rem 0px;
   }
   width: 20rem;
-  overflow: hidden;
-
   margin: 1rem;
-  height: 100%;
+
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  background-color: white;
   flex-direction: column;
-  border-radius: 6px;
-  position: relative;
   justify-content: space-between;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 
   -webkit-transition: box-shadow 0.25s ease-in 0s,
     -webkit-transform 0.25s ease-in 0s;
   transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
   }
@@ -89,7 +95,6 @@ const Container = styled.div`
 
 const ImageContainer = styled(Link)`
   position: relative;
-  /* height: 177px; */
   padding-bottom: 55%;
   width: 100%;
 `;
@@ -105,13 +110,15 @@ const Image = styled(ImageLoader)`
   display: block;
   object-fit: cover;
 `;
+
 const PostInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 1rem;
   flex: 1 1 0%;
 `;
+
 const ContentContainer = styled(Link)`
   color: black;
   text-decoration: none;
@@ -120,10 +127,12 @@ const ContentContainer = styled(Link)`
     color: black;
   }
 `;
+
 const RestInfoContainer = styled.div`
   font-size: 13px;
   color: rgb(134, 142, 150);
 `;
+
 const UserInfoContainer = styled(Link)`
   padding: 0 16px;
   display: flex;
