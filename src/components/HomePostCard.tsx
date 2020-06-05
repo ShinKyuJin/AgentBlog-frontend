@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
-import { seeMain } from "../containers/PostList/PostListQueries";
+import { seeMain } from "../containers/HomePostList/HomePostListQueries";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 
@@ -10,7 +10,7 @@ interface PostCardProps {
   postInfo?: seeMain;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   const [thumbnailError, setThumbnailError] = useState(false);
 
   if (!postInfo)
@@ -168,4 +168,4 @@ const AvatarUsername = styled.p`
   font-weight: 550;
 `;
 
-export default PostCard;
+export default HomePostCard;

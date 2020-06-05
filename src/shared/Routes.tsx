@@ -4,14 +4,14 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Auth from "../pages/Auth";
 import PostDetail from "../pages/PostDetail";
 import UserHome from "../pages/UserHome";
-import Search from "../pages/Search/Search";
 import WritePost from "../pages/WritePost";
 import Setting from "../pages/Setting";
-import SearchHashtag from "../pages/SearchHashtag";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
 import PageNotFound from "../pages/PageNotFound";
+import Search from "../pages/Search";
+import SearchHashtag from "../pages/SearchHashtag";
 
 interface RoutesProps {
   isLoggedIn: boolean;

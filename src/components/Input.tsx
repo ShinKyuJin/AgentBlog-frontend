@@ -1,30 +1,9 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, FC } from "react";
 import styled from "styled-components";
 
-interface InputProps extends InputHTMLAttributes<HTMLButtonElement> {
-  onChange?: any;
-  onKeyPress?: any;
-}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = ({
-  placeholder,
-  required = true,
-  value,
-  onChange,
-  onKeyPress,
-  type,
-  className,
-}: InputProps) => (
-  <Container
-    placeholder={placeholder}
-    required={required}
-    value={value}
-    onChange={onChange}
-    onKeyPress={onKeyPress}
-    type={type}
-    className={className}
-  />
-);
+const Input: FC<InputProps> = ({ ...props }) => <Container {...props} />;
 
 const Container = styled.input`
   width: 380px;

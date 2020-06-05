@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import PostList from "../containers/PostList/PostList";
+import HomePostList from "../containers/HomePostList/HomePostList";
 import Sidebar from "../components/Sidebar";
 import Theme from "../styles/theme";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const location = useLocation();
   const [tabNum, setTabNum] = useState(location.pathname === "/recent" ? 1 : 0);
+
+  useEffect(() => {}, [tabNum]);
 
   useEffect(() => {
     document.body.style.backgroundColor = Theme.homeBgColor;
@@ -44,7 +46,7 @@ const Home = () => {
         <FocusBar tabNum={tabNum} />
       </TabContainer>
       <ContentContainer>
-        <PostList />
+        <HomePostList />
         <Sidebar />
       </ContentContainer>
     </Container>

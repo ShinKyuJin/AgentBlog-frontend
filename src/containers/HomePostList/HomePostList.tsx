@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { useQuery } from "react-apollo-hooks";
-import { seeMainData, QUERY_POSTS } from "./PostListQueries";
-import PostCard from "../../components/PostCard";
+import { seeMainData, QUERY_POSTS } from "./HomePostListQueries";
+import HomePostCard from "../../components/HomePostCard";
 
-const PostList = () => {
+const HomePostList = () => {
   const { data, loading, error } = useQuery<seeMainData>(QUERY_POSTS);
 
   const loadingCard = Array.from({ length: 20 }, (x, i) => i).map(() => (
-    <PostCard />
+    <HomePostCard />
   ));
   const mappingCard = data?.seeMain.map((postInfo) => (
-    <PostCard postInfo={postInfo} />
+    <HomePostCard postInfo={postInfo} />
   ));
   return (
     <Main>
@@ -32,4 +32,4 @@ const Container = styled.div`
 
 const Main = styled.main``;
 
-export default PostList;
+export default HomePostList;
