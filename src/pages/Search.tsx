@@ -53,8 +53,12 @@ const Container = styled.div`
     padding-right: 1rem;
     margin-top: 2rem;
   }
-  margin-top: 3.5rem;
+  @media (max-width: 768px) {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
 
+  margin-top: 3.5rem;
   width: 768px;
   margin-left: auto;
   margin-right: auto;

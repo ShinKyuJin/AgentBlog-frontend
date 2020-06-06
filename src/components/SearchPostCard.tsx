@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
@@ -19,6 +19,7 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   commentCount,
 }) => {
   const thumbnail_url = files.length > 0 ? files[0].url : null;
+  const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
       <Header>
@@ -31,10 +32,14 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
           </ELink>
         </UserColumn>
       </Header>
-      {thumbnail_url && (
+      {thumbnail_url && !errorThumbnailLoading && (
         <ImageWrapper>
           <ELink to={`/@${username}/${url}`}>
-            <Image src={thumbnail_url} loadingHeight={370} />
+            <Image
+              src={thumbnail_url}
+              loadingHeight={370}
+              onError={() => setErrorThumbnailLoading(true)}
+            />
           </ELink>
         </ImageWrapper>
       )}

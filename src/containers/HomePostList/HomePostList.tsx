@@ -51,6 +51,7 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
   useEffect(() => {
     if (error) {
       toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
+      window.location.reload();
     }
   }, [error]);
 

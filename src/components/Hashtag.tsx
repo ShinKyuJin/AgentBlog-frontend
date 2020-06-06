@@ -10,6 +10,15 @@ const Hashtag: React.FC<HashtagPrpps> = ({ name }) => (
 );
 
 const Container = styled(Link)`
+  @media (max-width: 768px) {
+    height: 1.5rem;
+    font-size: 0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.75rem;
+  }
   align-self: center;
   color: white;
   width: 70px;

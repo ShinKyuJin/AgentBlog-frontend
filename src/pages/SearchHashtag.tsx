@@ -46,11 +46,15 @@ const Container = styled.div`
     padding-right: 1rem;
     margin-top: 2rem;
   }
-  margin-top: 3.5rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 
+  margin-top: 3.5rem;
   width: 768px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0px auto;
 `;
 
 export default SearchHashtag;
