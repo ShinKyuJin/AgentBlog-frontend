@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect } from "react";
+import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
 import CloseButton from "./CloseButton";
 import ModalPortal from "../client/ModalPortal";

@@ -48,7 +48,7 @@ const SearchPostList: FC<SearchPostListProps> = ({
             </EText>
           ))}
 
-        {loading && (
+        {loading && (searchType !== "Search" || (term && term.length > 0)) && (
           <>
             <PostLoadingSkeleton />
             <PostLoadingSkeleton />

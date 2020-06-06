@@ -18,7 +18,7 @@ const Sidebar = () => {
   const [fix, setFix] = useState<Boolean>(false);
 
   const { data } = useQuery<SidebarData>(QUERY_POP_TAGS);
-  console.log(data?.getPopularHashtag);
+  //console.log(data?.getPopularHashtag);
   const mappingTags = data?.getPopularHashtag.map(({ name }) => (
     <Tag to={`/tags/${name}`} key={key++}>
       #&nbsp;{name}

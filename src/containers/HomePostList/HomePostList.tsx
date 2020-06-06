@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-apollo-hooks";
 import {
@@ -8,6 +8,9 @@ import {
   QUERY_TRENDY_POST,
 } from "./HomePostListQueries";
 import HomePostCard from "../../components/HomePostCard";
+import { toast } from "react-toastify";
+import { HomePostProps } from "../../interface/post";
+import { ApolloError } from "apollo-boost";
 
 interface HomePostListProps {
   postType: "trend" | "recent";
@@ -29,7 +32,9 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
     skip: postType === "trend",
   });
 
-  let post, loading, error;
+  let post: HomePostProps[] | undefined,
+    loading: boolean | undefined,
+    error: ApolloError | undefined;
   if (postType === "trend") {
     [post, loading, error] = [
       trendData?.seeTrendyPost,
@@ -43,11 +48,21 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
       recentError,
     ];
   }
+  useEffect(() => {
+    if (error) {
+      toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
+    }
+  }, [error]);
 
-  const loadingCard = Array.from({ length: 20 }).map(() => <HomePostCard />);
+  const loadingCard = Array.from({ length: 20 }, (x, i) => i).map((i) => (
+    <HomePostCard key={i} />
+  ));
   const mappingCard = post
-    ? post.map((postInfo) => <HomePostCard postInfo={postInfo} />)
+    ? post.map((postInfo) => (
+        <HomePostCard key={postInfo.id} postInfo={postInfo} />
+      ))
     : null;
+
   return (
     <Main>
       <Container>

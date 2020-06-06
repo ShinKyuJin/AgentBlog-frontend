@@ -7,8 +7,7 @@ import {
   searchPostVars,
   QUERY_SEARCH_POST,
 } from "../containers/SearchPostList/SearchPostListQueries";
-
-interface SearchParams {}
+import { Helmet } from "react-helmet";
 
 const Search = () => {
   const history = useHistory();
@@ -24,23 +23,25 @@ const Search = () => {
   );
 
   const onTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // window.history.replaceState(
-    //   null,
-    //   `"${e.target.value}" 검색 결과 - Agent Blog`,
-    //   "/search?q=" + e.target.value
-    // );
     history.replace("/search?q=" + e.target.value);
     setTerm(e.target.value);
   };
 
   return (
-    <SearchPostList
-      searchType={"Search"}
-      posts={data?.searchPost}
-      term={searchTerm}
-      onTermChange={onTermChange}
-      loading={loading}
-    />
+    <>
+      <Helmet>
+        <title>
+          {term === "" ? "Agent Blog" : `"${term}" 검색 결과 - Agent Blog`}
+        </title>
+      </Helmet>
+      <SearchPostList
+        searchType={"Search"}
+        posts={data?.searchPost}
+        term={searchTerm}
+        onTermChange={onTermChange}
+        loading={loading}
+      />
+    </>
   );
 };
 

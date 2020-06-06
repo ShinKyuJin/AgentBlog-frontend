@@ -10,8 +10,6 @@ const Home = () => {
   const location = useLocation();
   const [tabNum, setTabNum] = useState(location.pathname === "/recent" ? 1 : 0);
 
-  useEffect(() => {}, [tabNum]);
-
   useEffect(() => {
     document.body.style.backgroundColor = Theme.homeBgColor;
     return () => {
@@ -22,7 +20,9 @@ const Home = () => {
   return (
     <Container>
       <Helmet>
-        <title>Agent Blog</title>
+        <title>
+          {tabNum === 0 ? "Agent Blog" : "최신 포스트 - Agent Blog"}
+        </title>
       </Helmet>
       <TabContainer>
         <TabButton
