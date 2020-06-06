@@ -46,7 +46,7 @@ const AuthPresenter: React.FC<AuthPresenterProps> = ({
       )}
       {action === "confirm" && (
         <form>
-          <Input placeholder={"Secret code"} required {...secret} />
+          <Input placeholder={"인증코드를 입력하세요."} required {...secret} />
           <Button text={"확인"} onClick={onSummit} disabled={btnDisable} />
         </form>
       )}
@@ -56,16 +56,16 @@ const AuthPresenter: React.FC<AuthPresenterProps> = ({
         {action === "logIn" ? (
           <>
             아직 회원이 아니신가요?{"  "}
-            <Link onClick={() => setAction("signUp")} to={""}>
+            <ELink onClick={() => setAction("signUp")} to={""}>
               회원가입
-            </Link>
+            </ELink>
           </>
         ) : (
           <>
             계정이 이미 있으신가요?{"  "}
-            <Link onClick={() => setAction("logIn")} to={""}>
+            <ELink onClick={() => setAction("logIn")} to={""}>
               로그인
-            </Link>
+            </ELink>
           </>
         )}
       </StateChanger>
@@ -94,15 +94,23 @@ const EFatText = styled(FatText)`
 
 const Box = styled.div`
   width: 100%;
-  max-width: 350px;
 `;
 
 const StateChanger = styled(Box)`
   text-align: center;
-  padding: 20px 0px;
+  padding: 10px 0px;
+`;
+
+const ELink = styled(Link)`
+  color: ${(props) => props.theme.greenColor};
+  font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Form = styled(Box)`
+  max-width: 450px;
   padding: 40px;
   padding-bottom: 30px;
   margin-bottom: 15px;
@@ -115,6 +123,7 @@ const Form = styled(Box)`
       }
     }
     button {
+      width: 100%;
       margin-top: 10px;
     }
   }

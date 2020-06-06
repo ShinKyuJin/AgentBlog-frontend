@@ -6,12 +6,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 const Input: FC<InputProps> = ({ ...props }) => <Container {...props} />;
 
 const Container = styled.input`
-  width: 380px;
+  width: 300px;
   border: none;
   border: ${(props) => props.theme.boxBorder};
   border-radius: ${(props) => props.theme.borderRadius};
   background-color: ${(props) => props.theme.bgColor};
-  height: 30px;
+  height: 40px;
   font-size: 15px;
   padding: 5px 15px;
 `;

@@ -24,10 +24,11 @@ const Container = styled.button`
   font-weight: 600;
   font-size: 15px;
   background-color: ${(props) =>
-    props.disabled ? props.theme.darkGreyColor : props.theme.blueColor};
+    props.disabled ? props.theme.darkGreyColor : props.theme.greenColor};
   text-align: center;
   padding: 10px 15px;
   height: 40px;
+  cursor: pointer;
 `;
 
 export default Button;

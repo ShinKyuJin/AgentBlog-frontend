@@ -8,6 +8,7 @@ const Theme = {
   darkGreyColor: "#999",
   lightGreyColor: "#c7c7c7",
   blueColor: "#3897f0",
+  greenColor: "rgb(32, 201, 151)",
   redColor: "#ED4956",
   darkBlueColor: "#003569",
   boxBorder: BOX_BORDER,
