@@ -118,6 +118,9 @@ const Image = styled(ImageLoader)`
 `;
 
 const ETitleText = styled(FatText)`
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
   font-size: 1.5rem;
   word-break: keep-all;
   color: ${(prop) => prop.theme.deepDarkGreyColor};
@@ -125,6 +128,10 @@ const ETitleText = styled(FatText)`
 `;
 
 const ContentText = styled.p`
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
   width: 100%;
   max-height: 75px;
   font-size: 1rem;
@@ -137,6 +144,7 @@ const ContentText = styled.p`
 
 const HashtagContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 `;
 

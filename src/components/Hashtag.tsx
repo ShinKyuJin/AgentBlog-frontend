@@ -9,7 +9,7 @@ const Hashtag: React.FC<HashtagPrpps> = ({ name }) => (
   <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>
 );
 
-const Container = styled(Link)`
+const HashtagContainer = styled(Link)`
   @media (max-width: 768px) {
     height: 1.5rem;
     font-size: 0.75rem;
@@ -19,27 +19,11 @@ const Container = styled(Link)`
     margin-bottom: 0.5rem;
     border-radius: 0.75rem;
   }
-  align-self: center;
-  color: white;
-  width: 70px;
-  margin-right: 30px;
-  border-radius: 30px;
-  background-color: rgba(12, 166, 120, 0.3);
-  color: white;
-  text-decoration: none;
-
-  border: 0px;
-  font-weight: 600;
-  font-size: 15px;
-  text-align: center;
-  padding: 10px 15px;
-`;
-
-const HashtagContainer = styled(Link)`
   display: inline-flex;
   align-items: center;
   height: 2rem;
   padding: 0px 1rem;
+  margin-bottom: 0.875rem;
   background-color: rgb(241, 243, 245);
 
   color: rgb(12, 166, 120);
