@@ -3,11 +3,11 @@ import styled from "styled-components";
 import Input from "../../components/Input";
 import SearchPost, { PostLoadingSkeleton } from "../../components/SearchPost";
 import FatText from "../../components/FatText";
-import { postInterface } from "./SearchPostListQueries";
+import { SearchPostProps } from "../../interface/post";
 
 interface SearchPostListProps {
   searchType: "Search" | "Hashtag";
-  posts?: postInterface[] | null;
+  posts?: SearchPostProps[] | null;
   loading: boolean;
   tagname?: string;
   term?: string;

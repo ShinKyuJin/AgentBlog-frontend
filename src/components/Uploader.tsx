@@ -26,7 +26,7 @@ const Uploader = () => {
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <FileUploader>Upload your file here!</FileUploader>
       )}
     </Container>
   );
@@ -35,5 +35,11 @@ const Uploader = () => {
 const Container = styled.div`
   border: 1px solid black;
 `;
+
+const FileUploader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 export default Uploader;

@@ -6,9 +6,9 @@ import FatText from "./FatText";
 import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
 import ImageLoader from "./ImageLoader";
-import { postInterface } from "../containers/SearchPostList/SearchPostListQueries";
+import { SearchPostProps } from "../interface/post";
 
-const SearchPost: React.FC<postInterface> = ({
+const SearchPost: React.FC<SearchPostProps> = ({
   user: { username, avatar },
   url,
   files,

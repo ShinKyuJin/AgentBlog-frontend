@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
@@ -15,6 +15,8 @@ interface SidebarData {
 let key = 0;
 
 const Sidebar = () => {
+  const [fix, setFix] = useState<Boolean>(false);
+
   const { data } = useQuery<SidebarData>(QUERY_POP_TAGS);
   console.log(data?.getPopularHashtag);
   const mappingTags = data?.getPopularHashtag.map(({ name }) => (
@@ -23,14 +25,24 @@ const Sidebar = () => {
     </Tag>
   ));
 
-  const handleWheel = (e: React.WheelEvent) => {};
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.screenY >= 90) {
+      setFix(true);
+    } else {
+      setFix(false);
+    }
+  };
 
   return (
     <Container>
       <ContentContainer>
         <PopularTagP>인기 태그</PopularTagP>
         <Contour />
-        <Tags>{mappingTags}</Tags>
+        {fix ? (
+          <Tags onWheel={handleWheel}>{mappingTags}</Tags>
+        ) : (
+          <Tags onWheel={handleWheel}>{mappingTags}</Tags>
+        )}
       </ContentContainer>
       <Footer />
     </Container>

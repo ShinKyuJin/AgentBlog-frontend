@@ -46,7 +46,7 @@ const Home = () => {
         <FocusBar tabNum={tabNum} />
       </TabContainer>
       <ContentContainer>
-        <HomePostList />
+        <HomePostList postType={tabNum === 0 ? "trend" : "recent"} />
         <Sidebar />
       </ContentContainer>
     </Container>

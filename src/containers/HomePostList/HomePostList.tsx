@@ -1,21 +1,58 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-apollo-hooks";
-import { seeMainData, QUERY_POSTS } from "./HomePostListQueries";
+import {
+  seeLatestPostData,
+  seeTrendyPostData,
+  QUERY_LATEST_POST,
+  QUERY_TRENDY_POST,
+} from "./HomePostListQueries";
 import HomePostCard from "../../components/HomePostCard";
 
-const HomePostList = () => {
-  const { data, loading, error } = useQuery<seeMainData>(QUERY_POSTS);
+interface HomePostListProps {
+  postType: "trend" | "recent";
+}
 
-  const loadingCard = Array.from({ length: 20 }, (x, i) => i).map(() => (
-    <HomePostCard />
-  ));
-  const mappingCard = data?.seeMain.map((postInfo) => (
-    <HomePostCard postInfo={postInfo} />
-  ));
+const HomePostList: FC<HomePostListProps> = ({ postType }) => {
+  const {
+    data: trendData,
+    loading: trendLoading,
+    error: trendError,
+  } = useQuery<seeTrendyPostData>(QUERY_TRENDY_POST, {
+    skip: postType === "recent",
+  });
+  const {
+    data: recentData,
+    loading: recentLoading,
+    error: recentError,
+  } = useQuery<seeLatestPostData>(QUERY_LATEST_POST, {
+    skip: postType === "trend",
+  });
+
+  let post, loading, error;
+  if (postType === "trend") {
+    [post, loading, error] = [
+      trendData?.seeTrendyPost,
+      trendLoading,
+      trendError,
+    ];
+  } else if (postType === "recent") {
+    [post, loading, error] = [
+      recentData?.seeLatestPost,
+      recentLoading,
+      recentError,
+    ];
+  }
+
+  const loadingCard = Array.from({ length: 20 }).map(() => <HomePostCard />);
+  const mappingCard = post
+    ? post.map((postInfo) => <HomePostCard postInfo={postInfo} />)
+    : null;
   return (
     <Main>
-      <Container>{loading || error ? loadingCard : mappingCard}</Container>
+      <Container>
+        {loading || !post || error ? loadingCard : mappingCard}
+      </Container>
     </Main>
   );
 };

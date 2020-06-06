@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
-import { seeMain } from "../containers/HomePostList/HomePostListQueries";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
+import { HomePostProps } from "../interface/post";
 
 interface PostCardProps {
-  postInfo?: seeMain;
+  postInfo?: HomePostProps;
 }
 
 const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
