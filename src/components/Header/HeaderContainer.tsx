@@ -8,6 +8,8 @@ interface HeaderContainerProps {
 
 const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [path, setPath] = useState(window.location.pathname);
+
   const openModal = () => {
     setModalVisible(true);
   };
@@ -16,12 +18,16 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   };
 
   return (
-    <HeaderPresenter
-      modalVisible={modalVisible}
-      openModal={openModal}
-      closeModal={closeModal}
-      isLoggedIn={isLoggedIn}
-    />
+    <>
+      {path !== "writing" && (
+        <HeaderPresenter
+          modalVisible={modalVisible}
+          openModal={openModal}
+          closeModal={closeModal}
+          isLoggedIn={isLoggedIn}
+        />
+      )}
+    </>
   );
 };
 

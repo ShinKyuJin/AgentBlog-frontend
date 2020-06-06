@@ -83,11 +83,11 @@ const SearchContainer = styled(Link)`
 `;
 
 const EButton = styled(Button)`
+  width: auto;
+  height: 2rem;
+  padding: 0px 15px;
   align-self: center;
   color: white;
-  width: auto;
-  padding: 0px 15px;
-  height: 2rem;
   font-size: 1rem;
   font-weight: 700;
   border-radius: 30px;
@@ -101,18 +101,19 @@ const EButton = styled(Button)`
 `;
 
 const EWriteLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 2rem;
+  padding: 0px 15px;
   align-self: center;
   color: white;
-  width: auto;
+  font-size: 1rem;
+  font-weight: 700;
   border-radius: 30px;
   background-color: ${(props) => props.theme.deepDarkGreyColor};
   text-decoration: none;
-
-  border: 0px;
-  font-weight: 600;
-  font-size: 15px;
-  text-align: center;
-  padding: 10px 15px;
 
   transition: background-color 0.08s ease-out 0s;
   &:hover {
