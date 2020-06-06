@@ -86,12 +86,12 @@ const Tags = styled.p`
 
 const Tag = styled(Link)`
   text-decoration: none;
-  color: rgb(73, 80, 87);
+  color: ${(prop) => prop.theme.greyColor};
   font-size: 15px;
   line-height: 1.5;
 
   &:focus {
-    color: rgb(73, 80, 87);
+    color: ${(prop) => prop.theme.greyColor};
   }
 
   &:hover {

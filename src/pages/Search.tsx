@@ -8,17 +8,19 @@ import {
   QUERY_SEARCH_POST,
 } from "../containers/SearchPostList/SearchPostListQueries";
 import { Helmet } from "react-helmet";
+import styled from "styled-components";
 
 const Search = () => {
   const history = useHistory();
   const location = useLocation();
   const searchTerm: string = location.search.split("=")[1];
-  const [term, setTerm] = useState<string>(searchTerm);
+  const [term, setTerm] = useState<string>(searchTerm ? searchTerm : "");
 
   const { data, loading } = useQuery<searchPostData, searchPostVars>(
     QUERY_SEARCH_POST,
     {
       variables: { term },
+      skip: term.length === 0,
     }
   );
 
@@ -28,21 +30,34 @@ const Search = () => {
   };
 
   return (
-    <>
+    <Container>
       <Helmet>
         <title>
-          {term === "" ? "Agent Blog" : `"${term}" 검색 결과 - Agent Blog`}
+          {term.length > 0 ? `"${term}" 검색 결과 - Agent Blog` : "Agent Blog"}
         </title>
       </Helmet>
       <SearchPostList
         searchType={"Search"}
         posts={data?.searchPost}
-        term={searchTerm}
+        term={term}
         onTermChange={onTermChange}
         loading={loading}
       />
-    </>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  @media (max-width: 1024px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 2rem;
+  }
+  margin-top: 3.5rem;
+
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default Search;

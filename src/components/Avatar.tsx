@@ -34,7 +34,7 @@ const getSize = (size: "sm" | "md" | "lg" | undefined) => {
   if (size === "sm") {
     num = 30;
   } else if (size === "md") {
-    num = 50;
+    num = 48;
   } else if (size === "lg") {
     num = 150;
   }

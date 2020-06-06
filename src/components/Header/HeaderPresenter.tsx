@@ -55,7 +55,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 64px;
   padding-bottom: 0;
 `;
 

@@ -5,6 +5,7 @@ const Theme = {
   homeBgColor: "rgba(33, 37, 41, 0.028)",
   maxWidth: "100%",
   blackColor: "#262626",
+  deepDarkGreyColor: "rgb(33, 37, 41)",
   darkGreyColor: "#999",
   lightGreyColor: "#c7c7c7",
   blueColor: "#3897f0",

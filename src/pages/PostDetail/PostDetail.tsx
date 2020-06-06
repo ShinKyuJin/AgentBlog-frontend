@@ -2,9 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
-import { getPostDetailVars, QUERY_POST_DETAIL, getPostDetailData } from "./PostDetailQueries";
+import {
+  getPostDetailVars,
+  QUERY_POST_DETAIL,
+  getPostDetailData,
+} from "./PostDetailQueries";
 import Markdown from "../../components/Markdown";
 import Avatar from "../../components/Avatar";
+import Hashtag from "../../components/Hashtag";
 
 interface PostDetailParams {
   username: string;
@@ -14,35 +19,32 @@ interface PostDetailParams {
 let key = 0;
 const PostDetail = () => {
   const { username, posturl } = useParams() as PostDetailParams;
-  const { data } = useQuery<getPostDetailData, getPostDetailVars>(QUERY_POST_DETAIL, {
-    variables: {
-      username: username,
-      url: posturl
+  const { data } = useQuery<getPostDetailData, getPostDetailVars>(
+    QUERY_POST_DETAIL,
+    {
+      variables: {
+        username: username,
+        url: posturl,
+      },
     }
-  });
+  );
 
   const content = data?.getPostDetail.content as string;
   const avatar = data?.getPostDetail.user.avatar as string;
-  
 
   const mappingHashtag = data?.getPostDetail.hashtags.map(({ name }) => (
-    <Hashtag to={`/tags/${name}`} key={key++}>
-      {name}
-    </Hashtag>
-  ))
+    <Hashtag key={key++} name={name} />
+  ));
 
   return (
     <Container>
       <HeaderContainer>
-        <TitleContainer>
-          {data?.getPostDetail.title}
-        </TitleContainer>
+        <TitleContainer>{data?.getPostDetail.title}</TitleContainer>
         <InfoContainer>
-          <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> · {data?.getPostDetail.createdAt.slice(0, 10)}
+          <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> ·{" "}
+          {data?.getPostDetail.createdAt.slice(0, 10)}
         </InfoContainer>
-        <HashtagContainer>
-          {mappingHashtag}
-        </HashtagContainer>
+        <HashtagContainer>{mappingHashtag}</HashtagContainer>
       </HeaderContainer>
       <BodyContainer>
         <Markdown source={content} />
@@ -69,19 +71,19 @@ const Container = styled.div`
   margin: 0 auto;
   background-color: white;
   margin-top: 5rem;
-`
+`;
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: no-wrap;
-`
+`;
 const TitleContainer = styled.div`
   font-weight: 700;
   font-size: 60px;
-`
-const InfoContainer = styled.div` 
+`;
+const InfoContainer = styled.div`
   font-size: 18px;
-`  // username, createdAt
+`; // username, createdAt
 const ToUserInfo = styled(Link)`
   text-decoration: none;
   font-weight: bold;
@@ -90,32 +92,17 @@ const ToUserInfo = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 const HashtagContainer = styled.div`
   margin-top: 10px;
-`
-const Hashtag = styled(Link)`
-  color: rgb(12, 166, 120);
-  background-color: rgb(241, 243, 245);
-  padding: 3px 1rem;
-  text-decoration: none;
-  border-radius: 16px;
+`;
 
-  & + & {
-    margin-left: 10px;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
-const BodyContainer = styled.div``
+const BodyContainer = styled.div``;
 const TailContainer = styled.div`
   display: flex;
   align-items: center;
-`
-const TailAvatar = styled(Avatar)``
+`;
+const TailAvatar = styled(Avatar)``;
 const TailLink = styled(Link)`
   display: block;
   text-decoration: none;
@@ -125,16 +112,16 @@ const TailLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 const TailUserInfo = styled.div`
   margin-left: 1rem;
   font-size: 1.5rem;
-`
+`;
 
 const Contour = styled.hr`
   margin-top: 25px;
   width: 100%;
   border: 1px solid rgb(241, 242, 243);
-`
+`;
 
 export default PostDetail;

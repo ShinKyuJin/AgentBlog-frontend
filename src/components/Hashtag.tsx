@@ -6,7 +6,7 @@ interface HashtagPrpps {
   name: string;
 }
 const Hashtag: React.FC<HashtagPrpps> = ({ name }) => (
-  <Container to={`/tags/${name}`}>{name}</Container>
+  <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>
 );
 
 const Container = styled(Link)`
@@ -24,6 +24,29 @@ const Container = styled(Link)`
   font-size: 15px;
   text-align: center;
   padding: 10px 15px;
+`;
+
+const HashtagContainer = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0px 1rem;
+  background-color: rgb(241, 243, 245);
+
+  color: rgb(12, 166, 120);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 1rem;
+
+  & + & {
+    margin-left: 10px;
+  }
+
+  transition: background-color 0.08s ease-out 0s;
+  &:hover {
+    background-color: rgb(249, 249, 250);
+  }
 `;
 
 export default Hashtag;

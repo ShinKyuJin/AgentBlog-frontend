@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import Input from "../../components/Input";
-import SearchPost, { PostLoadingSkeleton } from "../../components/SearchPost";
+import SearchPostCard, {
+  PostLoadingSkeleton,
+} from "../../components/SearchPostCard";
 import FatText from "../../components/FatText";
 import { SearchPostProps } from "../../interface/post";
+import Theme from "../../styles/theme";
 
 interface SearchPostListProps {
   searchType: "Search" | "Hashtag";
@@ -44,7 +47,9 @@ const SearchPostList: FC<SearchPostListProps> = ({
             <EText>검색 결과가 없습니다.</EText>
           ) : (
             <EText>
-              총 <b>{posts.length}개</b>의 포스트를 찾았습니다.
+              총{" "}
+              <b style={{ color: Theme.deepDarkGreyColor }}>{posts.length}개</b>
+              의 포스트를 찾았습니다.
             </EText>
           ))}
 
@@ -55,24 +60,12 @@ const SearchPostList: FC<SearchPostListProps> = ({
           </>
         )}
 
-        {posts && posts.map((post) => <SearchPost key={post.id} {...post} />)}
+        {posts &&
+          posts.map((post) => <SearchPostCard key={post.id} {...post} />)}
       </SearchContainer>
     </Wrapper>
   );
 };
-
-const EText = styled.span`
-  display: block;
-  font-weight: 400;
-  width: 100%;
-`;
-
-const SearchContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 50vh;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,8 +77,25 @@ const Wrapper = styled.div`
   min-height: 50vh;
 `;
 
+const EText = styled.span`
+  display: block;
+  font-weight: 400;
+  width: 100%;
+  color: ${(prop) => prop.theme.greyColor};
+  line-height: 1.5;
+  font-size: 1.125rem;
+  margin-bottom: 4rem;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 50vh;
+`;
+
 const SearchInputContainer = styled.div`
-  padding: 10px 40px 10px 10px;
+  margin-bottom: 1.5rem;
 `;
 const SearchInput = styled(Input)`
   display: block;
@@ -93,9 +103,14 @@ const SearchInput = styled(Input)`
   border-color: ${(props) => props.theme.darkGreyColor};
   background: white;
   font-size: 25px;
-  height: 60px;
+  height: 4rem;
   width: 100%;
-  margin-bottom: 15px;
+  padding: 0px 1.5rem;
+
+  transition: border-color 0.08s ease-out 0s;
+  &:focus {
+    border-color: ${(prop) => prop.theme.deepDarkGreyColor};
+  }
 `;
 
 const ETagnameText = styled(FatText)`
