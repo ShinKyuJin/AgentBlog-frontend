@@ -9,6 +9,7 @@ import Uploader from "../../components/Uploader";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { Icon } from "../../components/Icon";
+import Hashtag from "../../components/Hashtag";
 
 let count = 0;
 
@@ -106,9 +107,12 @@ const WritePost = () => {
   };
   const hashtags = form.hashtags.map((text) => {
     return (
-      <Hashtag key={count++} onClick={handleClickHashtag}>
-        {text}
-      </Hashtag>
+      <Hashtag
+        key={count++}
+        name={text}
+        isLink={false}
+        onClick={handleClickHashtag}
+      />
     );
   });
 
@@ -201,23 +205,7 @@ const HashtagEditor = styled.input`
     outline: none;
   }
 `;
-const Hashtag = styled.span`
-  display: inline;
-  border-radius: 15px;
-  color: rgb(12, 166, 120);
-  background-color: rgb(241, 243, 245);
-  padding: 10px;
-  font-size: 18px;
-  font-weight: 500;
 
-  &:hover {
-    cursor: pointer;
-  }
-
-  & + & {
-    margin: 0 5px;
-  }
-`;
 const HashtagBox = styled.div`
   margin: 10px 0;
   display: flex;

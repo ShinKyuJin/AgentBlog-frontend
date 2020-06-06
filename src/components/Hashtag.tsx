@@ -4,10 +4,29 @@ import { Link } from "react-router-dom";
 
 interface HashtagPrpps {
   name: string;
+  isLink?: boolean;
+  onClick?:
+    | ((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void)
+    | undefined;
 }
-const Hashtag: React.FC<HashtagPrpps> = ({ name }) => (
-  <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>
-);
+const Hashtag: React.FC<HashtagPrpps> = ({ name, isLink = true, onClick }) => {
+  if (isLink) {
+    return <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>;
+  }
+  return (
+    <HashtagContainer
+      to={`/tags/${name}`}
+      onClick={(e) => {
+        e.preventDefault();
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+    >
+      {name}
+    </HashtagContainer>
+  );
+};
 
 const HashtagContainer = styled(Link)`
   @media (max-width: 768px) {
