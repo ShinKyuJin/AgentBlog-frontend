@@ -5,11 +5,11 @@ const noAvatarURl = "http://noavatar.be/get/jklk/200";
 
 interface AvatarProps {
   size: "sm" | "md" | "lg" | undefined;
-  url: string;
+  url: string | undefined;
   className?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size = "md", url, className }) => {
+const Avatar: React.FC<AvatarProps> = ({ size = "md", url = undefined, className }) => {
   if (url === undefined || url === null) {
     url = noAvatarURl;
   }
@@ -18,7 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ size = "md", url, className }) => {
 
 interface ContatinerProps {
   size: "sm" | "md" | "lg" | undefined;
-  url: string;
+  url: string | undefined;
 }
 
 const Contatiner = styled.div<ContatinerProps>`
