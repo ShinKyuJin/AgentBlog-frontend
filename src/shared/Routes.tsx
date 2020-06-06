@@ -4,13 +4,14 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Auth from "../pages/Auth";
 import PostDetail from "../pages/PostDetail";
 import UserHome from "../pages/UserHome";
-import Search from "../pages/Search/Search";
 import WritePost from "../pages/WritePost";
 import Setting from "../pages/Setting";
-import SearchHashtag from "../pages/SearchHashtag";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
+import PageNotFound from "../pages/PageNotFound";
+import Search from "../pages/Search";
+import SearchHashtag from "../pages/SearchHashtag";
 
 interface RoutesProps {
   isLoggedIn: boolean;
@@ -25,6 +26,10 @@ const QUERY_CHECK_TOKEN = gql`
 const RoutesListWithoutLogin = [
   {
     path: "/",
+    component: Home,
+  },
+  {
+    path: "/recent",
     component: Home,
   },
   {
@@ -77,6 +82,7 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
       {RoutesListWithLogin.map((route) => {
         return <Route exact {...route} key={i++} />;
       })}
+      <Route path="/" component={PageNotFound} key={i++} />
       <Redirect from="*" to="/" />
     </Switch>
   );

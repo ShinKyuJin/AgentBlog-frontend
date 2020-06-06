@@ -13,7 +13,12 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const onLoad = () => setLoading(false);
-  const onError = () => setError(true);
+  const onError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    setError(true);
+    if (props.onError) {
+      props.onError(e);
+    }
+  };
 
   return (
     <>

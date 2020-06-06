@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
-import { seeMain } from "../containers/PostList/PostListQueries";
+import { seeMain } from "../containers/HomePostList/HomePostListQueries";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 
@@ -10,7 +10,9 @@ interface PostCardProps {
   postInfo?: seeMain;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
+  const [thumbnailError, setThumbnailError] = useState(false);
+
   if (!postInfo)
     return (
       <Container>
@@ -20,11 +22,15 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   else
     return (
       <Container>
-        {postInfo.thumbnail ? (
+        {postInfo.thumbnail && !thumbnailError && (
           <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
-            <Image src={postInfo.thumbnail} loadingHeight={177} />
+            <Image
+              src={postInfo.thumbnail}
+              loadingHeight={177}
+              onError={() => setThumbnailError(true)}
+            />
           </ImageContainer>
-        ) : null}
+        )}
 
         <PostInfoContainer>
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
@@ -51,15 +57,25 @@ const PostCard: React.FC<PostCardProps> = ({ postInfo }) => {
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  @media (max-width: 944px) {
+    width: calc(50% - 2rem);
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    margin: 0px 0px 1rem 0px;
+  }
+  width: 20rem;
+  margin: 1rem;
+
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  background-color: white;
   flex-direction: column;
-  border-radius: 8px;
-  position: relative;
   justify-content: space-between;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
 
   -webkit-transition: box-shadow 0.25s ease-in 0s,
@@ -67,14 +83,18 @@ const Container = styled.div`
   transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
 
   &:hover {
-    transform: translateY(-10px);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
+  }
+  @media (min-width: 944px) {
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px 0px;
+    }
   }
 `;
 
 const ImageContainer = styled(Link)`
   position: relative;
-  /* height: 177px; */
   padding-bottom: 55%;
   width: 100%;
 `;
@@ -85,30 +105,34 @@ const Image = styled(ImageLoader)`
   left: 0;
   width: 100%;
   height: 100%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   display: block;
   object-fit: cover;
 `;
+
 const PostInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 16px 16px 0 16px;
+  justify-content: space-between;
+  padding: 1rem;
+  flex: 1 1 0%;
 `;
+
 const ContentContainer = styled(Link)`
   color: black;
   text-decoration: none;
-  min-height: 200px;
 
   &:focus {
     color: black;
   }
 `;
+
 const RestInfoContainer = styled.div`
   font-size: 13px;
   color: rgb(134, 142, 150);
 `;
+
 const UserInfoContainer = styled(Link)`
   padding: 0 16px;
   display: flex;
@@ -144,4 +168,4 @@ const AvatarUsername = styled.p`
   font-weight: 550;
 `;
 
-export default PostCard;
+export default HomePostCard;

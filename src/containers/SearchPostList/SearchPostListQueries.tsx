@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-export interface searchPost {
+export interface postInterface {
   id: string;
   user: {
     id: string;
@@ -23,7 +23,7 @@ export interface searchPost {
 }
 
 export interface searchPostData {
-  searchPost: searchPost[];
+  searchPost: postInterface[];
 }
 
 export interface searchPostVars {
@@ -52,6 +52,50 @@ export const QUERY_SEARCH_POST = gql`
       }
       createdAt
       commentCount
+    }
+  }
+`;
+
+export interface searchHashtag {
+  id: string;
+  explanation: string;
+  posts: [postInterface];
+}
+
+export interface searchHashtagData {
+  searchHashtag: searchHashtag;
+}
+
+export interface searchHashtagVars {
+  name: string;
+}
+
+export const QUERY_SEARCH_HASHTAG = gql`
+  query searchHashtag($name: String!) {
+    searchHashtag(name: $name) {
+      id
+      explanation
+      posts {
+        id
+        user {
+          id
+          username
+          avatar
+        }
+        files {
+          id
+          url
+        }
+        url
+        title
+        content
+        hashtags {
+          id
+          name
+        }
+        createdAt
+        commentCount
+      }
     }
   }
 `;

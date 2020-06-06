@@ -6,31 +6,19 @@ import FatText from "./FatText";
 import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
 import ImageLoader from "./ImageLoader";
+import { postInterface } from "../containers/SearchPostList/SearchPostListQueries";
 
-interface PostProps {
-  key: string;
-  username: string;
-  avatar: string;
-  file_url: string | null;
-  url: string;
-  title: string;
-  content: string;
-  hashtags: string[];
-  createdAt: string;
-  commentCount: number;
-}
-
-const Post: React.FC<PostProps> = ({
-  username,
-  avatar,
-  file_url,
+const SearchPost: React.FC<postInterface> = ({
+  user: { username, avatar },
   url,
+  files,
   title,
   content,
   hashtags,
   createdAt,
   commentCount,
 }) => {
+  const thumbnail_url = files.length > 0 ? files[0].url : null;
   return (
     <Wrapper>
       <Header>
@@ -43,10 +31,10 @@ const Post: React.FC<PostProps> = ({
           </ELink>
         </UserColumn>
       </Header>
-      {file_url && (
+      {thumbnail_url && (
         <ImageWrapper>
           <ELink to={`/@${username}/${url}`}>
-            <Image src={file_url} loadingHeight={370} />
+            <Image src={thumbnail_url} loadingHeight={370} />
           </ELink>
         </ImageWrapper>
       )}
@@ -55,8 +43,8 @@ const Post: React.FC<PostProps> = ({
       </ELink>
       <ContentText>{content}</ContentText>
       <HashtagContainer>
-        {hashtags.map((name) => (
-          <Hashtag name={name} />
+        {hashtags.map((hashtag) => (
+          <Hashtag key={hashtag.id} name={hashtag.name} />
         ))}
       </HashtagContainer>
       <InfoText>
@@ -154,4 +142,4 @@ const InfoText = styled.span`
   margin: 10px 0px;
 `;
 
-export default Post;
+export default SearchPost;

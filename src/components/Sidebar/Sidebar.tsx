@@ -51,25 +51,29 @@ const Sidebar = () => {
     </Wrap>
   );
 };
-const Wrap = styled.div`
-  @media (max-width: 945px) {
-    display: none;
-  }
-  width: 20%;
-  min-width: 14rem;
-`;
 
 const Container = styled.aside`
+  @media (max-width: 1440px) {
+    margin-left: 3rem;
+    width: 12rem;
+  }
+
+  @media (max-width: 944px) {
+    display: none;
+  }
+  margin-left: 6rem;
+  width: 16rem;
+
   display: flex;
   flex-direction: column;
-  margin-left: 15px;
   margin-right: auto;
-  width: 14rem;
-  margin-top: 50px;
 `;
 
 const ContentContainer = styled.div`
-  width: 100%;
+  @media (max-width: 1440px) {
+    width: 12rem;
+  }
+  width: 16rem;
 `;
 
 const PopularTagP = styled.b``;
