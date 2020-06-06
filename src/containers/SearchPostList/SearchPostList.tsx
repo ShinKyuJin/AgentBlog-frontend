@@ -4,7 +4,6 @@ import Input from "../../components/Input";
 import SearchPostCard, {
   PostLoadingSkeleton,
 } from "../../components/SearchPostCard";
-import FatText from "../../components/FatText";
 import { SearchPostProps } from "../../interface/post";
 import Theme from "../../styles/theme";
 

@@ -16,7 +16,9 @@ const App = () => {
     <ThemeProvider theme={Theme}>
       <GlobalStyles />
       <Wrapper>
-        <Header isLoggedIn={isLoggedIn} />
+        {window.location.pathname !== "/write" && (
+          <Header isLoggedIn={isLoggedIn} />
+        )}
         <Routes isLoggedIn={isLoggedIn} />
       </Wrapper>
       <ToastContainer position={"bottom-left"} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchPostList from "../containers/SearchPostList/SearchPostList";
 import { useHistory, useLocation } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
@@ -9,6 +9,7 @@ import {
 } from "../containers/SearchPostList/SearchPostListQueries";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const Search = () => {
   const history = useHistory();
@@ -16,7 +17,7 @@ const Search = () => {
   const searchTerm: string = location.search.split("=")[1];
   const [term, setTerm] = useState<string>(searchTerm ? searchTerm : "");
 
-  const { data, loading } = useQuery<searchPostData, searchPostVars>(
+  const { data, loading, error } = useQuery<searchPostData, searchPostVars>(
     QUERY_SEARCH_POST,
     {
       variables: { term },
@@ -28,6 +29,13 @@ const Search = () => {
     history.replace("/search?q=" + e.target.value);
     setTerm(e.target.value);
   };
+
+  useEffect(() => {
+    if (error) {
+      window.location.reload();
+      toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
+    }
+  }, [error]);
 
   return (
     <Container>
