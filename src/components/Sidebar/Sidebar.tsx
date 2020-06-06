@@ -18,7 +18,7 @@ const Sidebar = () => {
   const [fix, setFix] = useState<Boolean>(false);
 
   const { data } = useQuery<SidebarData>(QUERY_POP_TAGS);
-  console.log(data?.getPopularHashtag);
+  //console.log(data?.getPopularHashtag);
   const mappingTags = data?.getPopularHashtag.map(({ name }) => (
     <Tag to={`/tags/${name}`} key={key++}>
       #&nbsp;{name}
@@ -28,27 +28,24 @@ const Sidebar = () => {
   const handleWheel = (e: React.WheelEvent) => {
     if (e.screenY >= 90) {
       setFix(true);
-    }
-    else {
+    } else {
       setFix(false);
     }
   };
 
   return (
-    <Wrap>
-      <Container>
-        <ContentContainer>
-          <PopularTagP>인기 태그</PopularTagP>
-          <Contour />
-          {
-            fix ?
-            <Tags onWheel={handleWheel}>{mappingTags}</Tags>
-            : <Tags onWheel={handleWheel}>{mappingTags}</Tags>
-          }
-        </ContentContainer>
-        <Footer />
-      </Container>
-    </Wrap>
+    <Container>
+      <ContentContainer>
+        <PopularTagP>인기 태그</PopularTagP>
+        <Contour />
+        {fix ? (
+          <Tags onWheel={handleWheel}>{mappingTags}</Tags>
+        ) : (
+          <Tags onWheel={handleWheel}>{mappingTags}</Tags>
+        )}
+      </ContentContainer>
+      <Footer />
+    </Container>
   );
 };
 
@@ -89,12 +86,12 @@ const Tags = styled.p`
 
 const Tag = styled(Link)`
   text-decoration: none;
-  color: rgb(73, 80, 87);
+  color: ${(prop) => prop.theme.greyColor};
   font-size: 15px;
   line-height: 1.5;
 
   &:focus {
-    color: rgb(73, 80, 87);
+    color: ${(prop) => prop.theme.greyColor};
   }
 
   &:hover {

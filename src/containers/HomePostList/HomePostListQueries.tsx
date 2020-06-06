@@ -1,30 +1,17 @@
 import { gql } from "apollo-boost";
+import { HomePostProps } from "../../interface/post";
 
-export interface seeMain {
-  files: {
-    id: string;
-    url: string | null;
-  }[];
-  title: string;
-  content: string;
-  createdAt: string;
-  commentCount: number;
-  user: {
-    avatar: string;
-    username: string;
-  };
-  url: string;
-  thumbnail: string;
-  likeCount: number;
+export interface seeLatestPostData {
+  seeLatestPost: HomePostProps[];
 }
 
-export interface seeMainData {
-  seeMain: seeMain[];
+export interface seeTrendyPostData {
+  seeTrendyPost: HomePostProps[];
 }
 
-export const QUERY_POSTS = gql`
+export const QUERY_LATEST_POST = gql`
   {
-    seeMain {
+    seeLatestPost {
       id
       user {
         avatar
@@ -33,13 +20,35 @@ export const QUERY_POSTS = gql`
       files {
         url
       }
+      url
       title
       content
-      createdAt
-      commentCount
-      url
       thumbnail
       likeCount
+      createdAt
+      commentCount
+    }
+  }
+`;
+
+export const QUERY_TRENDY_POST = gql`
+  {
+    seeTrendyPost {
+      id
+      user {
+        avatar
+        username
+      }
+      files {
+        url
+      }
+      url
+      title
+      content
+      thumbnail
+      likeCount
+      createdAt
+      commentCount
     }
   }
 `;

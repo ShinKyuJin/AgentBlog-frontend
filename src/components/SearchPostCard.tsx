@@ -6,9 +6,9 @@ import FatText from "./FatText";
 import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
 import ImageLoader from "./ImageLoader";
-import { postInterface } from "../containers/SearchPostList/SearchPostListQueries";
+import { SearchPostProps } from "../interface/post";
 
-const SearchPost: React.FC<postInterface> = ({
+const SearchPostCard: React.FC<SearchPostProps> = ({
   user: { username, avatar },
   url,
   files,
@@ -41,14 +41,16 @@ const SearchPost: React.FC<postInterface> = ({
       <ELink to={`/@${username}/${url}`}>
         <ETitleText text={title} />
       </ELink>
-      <ContentText>{content}</ContentText>
+      <ContentText>
+        {content.length < 120 ? content : content.slice(0, 120).concat("...")}
+      </ContentText>
       <HashtagContainer>
         {hashtags.map((hashtag) => (
           <Hashtag key={hashtag.id} name={hashtag.name} />
         ))}
       </HashtagContainer>
       <InfoText>
-        {createdAt} {"&"} {commentCount}의 댓글
+        {createdAt} {" · "} {commentCount}의 댓글
       </InfoText>
     </Wrapper>
   );
@@ -71,17 +73,15 @@ export const PostLoadingSkeleton = () => (
 
 const Wrapper = styled.div`
   width: 100%;
-  a {
-    color: inherit;
-  }
-  margin-bottom: 70px;
+  line-height: 1.5;
+  padding-bottom: 4rem;
 `;
 
 const Header = styled.div`
   width: 100%;
-  padding: 15px;
   display: flex;
   align-items: center;
+  margin-bottom: 1.5rem;
 `;
 
 const ELink = styled(Link)`
@@ -113,19 +113,21 @@ const Image = styled(ImageLoader)`
 `;
 
 const ETitleText = styled(FatText)`
-  font-weight: 800;
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  word-break: keep-all;
+  color: ${(prop) => prop.theme.deepDarkGreyColor};
   text-decoration: none;
 `;
 
-const ContentText = styled.div`
+const ContentText = styled.p`
   width: 100%;
   max-height: 75px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  color: ${(prop) => prop.theme.greyColor};
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 `;
 
 const HashtagContainer = styled.div`
@@ -142,4 +144,4 @@ const InfoText = styled.span`
   margin: 10px 0px;
 `;
 
-export default SearchPost;
+export default SearchPostCard;

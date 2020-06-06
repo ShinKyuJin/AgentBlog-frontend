@@ -1,21 +1,73 @@
-import React from "react";
+import React, { FC, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-apollo-hooks";
-import { seeMainData, QUERY_POSTS } from "./HomePostListQueries";
+import {
+  seeLatestPostData,
+  seeTrendyPostData,
+  QUERY_LATEST_POST,
+  QUERY_TRENDY_POST,
+} from "./HomePostListQueries";
 import HomePostCard from "../../components/HomePostCard";
+import { toast } from "react-toastify";
+import { HomePostProps } from "../../interface/post";
+import { ApolloError } from "apollo-boost";
 
-const HomePostList = () => {
-  const { data, loading, error } = useQuery<seeMainData>(QUERY_POSTS);
+interface HomePostListProps {
+  postType: "trend" | "recent";
+}
 
-  const loadingCard = Array.from({ length: 20 }, (x, i) => i).map(() => (
-    <HomePostCard />
+const HomePostList: FC<HomePostListProps> = ({ postType }) => {
+  const {
+    data: trendData,
+    loading: trendLoading,
+    error: trendError,
+  } = useQuery<seeTrendyPostData>(QUERY_TRENDY_POST, {
+    skip: postType === "recent",
+  });
+  const {
+    data: recentData,
+    loading: recentLoading,
+    error: recentError,
+  } = useQuery<seeLatestPostData>(QUERY_LATEST_POST, {
+    skip: postType === "trend",
+  });
+
+  let post: HomePostProps[] | undefined,
+    loading: boolean | undefined,
+    error: ApolloError | undefined;
+  if (postType === "trend") {
+    [post, loading, error] = [
+      trendData?.seeTrendyPost,
+      trendLoading,
+      trendError,
+    ];
+  } else if (postType === "recent") {
+    [post, loading, error] = [
+      recentData?.seeLatestPost,
+      recentLoading,
+      recentError,
+    ];
+  }
+  useEffect(() => {
+    if (error) {
+      toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
+    }
+  }, [error]);
+
+  const loadingCard = Array.from({ length: 20 }, (x, i) => i).map((i) => (
+    <HomePostCard key={i} />
   ));
-  const mappingCard = data?.seeMain.map((postInfo) => (
-    <HomePostCard postInfo={postInfo} />
-  ));
+  const mappingCard = post
+    ? post.map((postInfo) => (
+        <HomePostCard key={postInfo.id} postInfo={postInfo} />
+      ))
+    : null;
+
   return (
     <Main>
-      <Container>{loading || error ? loadingCard : mappingCard}</Container>
+      <Container>
+        {loading || !post || error ? loadingCard : mappingCard}
+      </Container>
     </Main>
   );
 };

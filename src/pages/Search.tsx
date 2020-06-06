@@ -7,41 +7,57 @@ import {
   searchPostVars,
   QUERY_SEARCH_POST,
 } from "../containers/SearchPostList/SearchPostListQueries";
-
-interface SearchParams {}
+import { Helmet } from "react-helmet";
+import styled from "styled-components";
 
 const Search = () => {
   const history = useHistory();
   const location = useLocation();
   const searchTerm: string = location.search.split("=")[1];
-  const [term, setTerm] = useState<string>(searchTerm);
+  const [term, setTerm] = useState<string>(searchTerm ? searchTerm : "");
 
   const { data, loading } = useQuery<searchPostData, searchPostVars>(
     QUERY_SEARCH_POST,
     {
       variables: { term },
+      skip: term.length === 0,
     }
   );
 
   const onTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // window.history.replaceState(
-    //   null,
-    //   `"${e.target.value}" 검색 결과 - Agent Blog`,
-    //   "/search?q=" + e.target.value
-    // );
     history.replace("/search?q=" + e.target.value);
     setTerm(e.target.value);
   };
 
   return (
-    <SearchPostList
-      searchType={"Search"}
-      posts={data?.searchPost}
-      term={searchTerm}
-      onTermChange={onTermChange}
-      loading={loading}
-    />
+    <Container>
+      <Helmet>
+        <title>
+          {term.length > 0 ? `"${term}" 검색 결과 - Agent Blog` : "Agent Blog"}
+        </title>
+      </Helmet>
+      <SearchPostList
+        searchType={"Search"}
+        posts={data?.searchPost}
+        term={term}
+        onTermChange={onTermChange}
+        loading={loading}
+      />
+    </Container>
   );
 };
+
+const Container = styled.div`
+  @media (max-width: 1024px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 2rem;
+  }
+  margin-top: 3.5rem;
+
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default Search;

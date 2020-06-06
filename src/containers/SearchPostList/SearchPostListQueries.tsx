@@ -1,33 +1,26 @@
 import { gql } from "apollo-boost";
-
-export interface postInterface {
-  id: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-  files: {
-    id: string;
-    url: string;
-  }[];
-  url: string;
-  title: string;
-  content: string;
-  hashtags: {
-    id: string;
-    name: string;
-  }[];
-  createdAt: string;
-  commentCount: number;
-}
+import { SearchPostProps } from "../../interface/post";
 
 export interface searchPostData {
-  searchPost: postInterface[];
+  searchPost: SearchPostProps[];
 }
 
 export interface searchPostVars {
   term: string;
+}
+
+export interface searchHashtag {
+  id: string;
+  explanation: string;
+  posts: [SearchPostProps];
+}
+
+export interface searchHashtagData {
+  searchHashtag: searchHashtag;
+}
+
+export interface searchHashtagVars {
+  name: string;
 }
 
 export const QUERY_SEARCH_POST = gql`
@@ -55,20 +48,6 @@ export const QUERY_SEARCH_POST = gql`
     }
   }
 `;
-
-export interface searchHashtag {
-  id: string;
-  explanation: string;
-  posts: [postInterface];
-}
-
-export interface searchHashtagData {
-  searchHashtag: searchHashtag;
-}
-
-export interface searchHashtagVars {
-  name: string;
-}
 
 export const QUERY_SEARCH_HASHTAG = gql`
   query searchHashtag($name: String!) {
