@@ -117,7 +117,7 @@ const WritePost = () => {
       />
     );
   });
-  const [uploaded, setUploaded] = useState<Array<string>>([]);
+
   const onUpload = async (file: any) => {
     const formData = new FormData();
     formData.append("file", file, file.originalname);
@@ -128,12 +128,10 @@ const WritePost = () => {
           "content-type": "multipart/form-data",
         },
       });
-      setUploaded([...uploaded, data.location])
       setForm({
         ...form,
         content: form.content.concat(`\n![](${data.location})`)
       })
-      console.log(data.location);
     } catch (err) {
       toast.error("파일 업로드에 실패하였습니다." + err);
       return null;

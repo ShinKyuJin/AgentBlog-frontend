@@ -1,12 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { serverUri } from "../Apollo/Client";
 
 interface UploaderInterface {
-  onUpload: (e: string) => void;
+  onUpload: (file: any) => void;
 }
 
 const Uploader = ({ onUpload }: UploaderInterface) => {
