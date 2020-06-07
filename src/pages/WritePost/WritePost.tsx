@@ -10,6 +10,8 @@ import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { Icon } from "../../components/Icon";
 import Hashtag from "../../components/Hashtag";
+import { serverUri } from "../../Apollo/Client";
+import axios from 'axios';
 
 let count = 0;
 
@@ -116,6 +118,26 @@ const WritePost = () => {
     );
   });
 
+  const onUpload = async (file: any) => {
+    const formData = new FormData();
+    formData.append("file", file, file.originalname);
+
+    try {
+      const { data } = await axios.post(serverUri + "/api/upload", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      setForm({
+        ...form,
+        content: form.content.concat(`\n![](${data.location})`)
+      })
+    } catch (err) {
+      toast.error("파일 업로드에 실패하였습니다." + err);
+      return null;
+    }
+  }
+
   return (
     <Container>
       <Helmet>
@@ -139,7 +161,7 @@ const WritePost = () => {
           placeholder="해시태그"
         />
         <FileContainer>
-          <Uploader />
+          <Uploader onUpload={onUpload} />
         </FileContainer>
         <ContentEditor
           value={form.content}

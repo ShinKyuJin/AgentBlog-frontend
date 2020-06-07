@@ -1,7 +1,7 @@
 import ApolloClient from "apollo-boost";
 import { defaults, resolvers } from "./LocalState";
 
-export const serverUri = "http://localhost:4000"; //"https://agent-blog.herokuapp.com"; //"http://localhost:4000";
+export const serverUri = "https://agent-blog.herokuapp.com"; //"https://agent-blog.herokuapp.com"; //"http://localhost:4000";
 
 export default new ApolloClient({
   uri: serverUri,
