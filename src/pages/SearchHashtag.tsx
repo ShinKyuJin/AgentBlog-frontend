@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
 
@@ -9,6 +9,7 @@ import {
   QUERY_SEARCH_HASHTAG,
 } from "../containers/SearchPostList/SearchPostListQueries";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 interface TagsParams {
   tagname: string;
@@ -17,12 +18,18 @@ interface TagsParams {
 const SearchHashtag = () => {
   const { tagname } = useParams() as TagsParams;
 
-  const { data, loading } = useQuery<searchHashtagData, searchHashtagVars>(
-    QUERY_SEARCH_HASHTAG,
-    {
-      variables: { name: tagname },
+  const { data, loading, error } = useQuery<
+    searchHashtagData,
+    searchHashtagVars
+  >(QUERY_SEARCH_HASHTAG, {
+    variables: { name: tagname },
+  });
+  useEffect(() => {
+    if (error) {
+      window.location.reload();
+      toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
     }
-  );
+  }, [error]);
 
   return (
     <Container>
@@ -46,11 +53,16 @@ const Container = styled.div`
     padding-right: 1rem;
     margin-top: 2rem;
   }
-  margin-top: 3.5rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 
-  width: 768px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 3rem;
+  width: 702px;
 `;
 
 export default SearchHashtag;

@@ -4,33 +4,45 @@ import { Link } from "react-router-dom";
 
 interface HashtagPrpps {
   name: string;
+  isLink?: boolean;
+  onClick?:
+    | ((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void)
+    | undefined;
 }
-const Hashtag: React.FC<HashtagPrpps> = ({ name }) => (
-  <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>
-);
-
-const Container = styled(Link)`
-  align-self: center;
-  color: white;
-  width: 70px;
-  margin-right: 30px;
-  border-radius: 30px;
-  background-color: rgba(12, 166, 120, 0.3);
-  color: white;
-  text-decoration: none;
-
-  border: 0px;
-  font-weight: 600;
-  font-size: 15px;
-  text-align: center;
-  padding: 10px 15px;
-`;
+const Hashtag: React.FC<HashtagPrpps> = ({ name, isLink = true, onClick }) => {
+  if (isLink) {
+    return <HashtagContainer to={`/tags/${name}`}>{name}</HashtagContainer>;
+  }
+  return (
+    <HashtagContainer
+      to={`/tags/${name}`}
+      onClick={(e) => {
+        e.preventDefault();
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+    >
+      {name}
+    </HashtagContainer>
+  );
+};
 
 const HashtagContainer = styled(Link)`
+  @media (max-width: 768px) {
+    height: 1.5rem;
+    font-size: 0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.75rem;
+  }
   display: inline-flex;
   align-items: center;
   height: 2rem;
   padding: 0px 1rem;
+  margin-bottom: 0.875rem;
   background-color: rgb(241, 243, 245);
 
   color: rgb(12, 166, 120);

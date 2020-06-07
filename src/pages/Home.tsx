@@ -5,6 +5,7 @@ import HomePostList from "../containers/HomePostList/HomePostList";
 import Sidebar from "../components/Sidebar";
 import Theme from "../styles/theme";
 import { useLocation } from "react-router-dom";
+import { Icon } from "../components/Icon";
 
 const Home = () => {
   const location = useLocation();
@@ -32,7 +33,8 @@ const Home = () => {
           }}
           tabNum={tabNum}
         >
-          트렌딩
+          <Icon type={"trend"} size={18} />
+          <TabText>트렌딩</TabText>
         </TabButton>
         <TabButton
           onClick={() => {
@@ -41,7 +43,8 @@ const Home = () => {
           }}
           tabNum={tabNum}
         >
-          최신
+          <Icon type={"time"} size={18} />
+          <TabText>최신</TabText>
         </TabButton>
         <FocusBar tabNum={tabNum} />
       </TabContainer>
@@ -91,6 +94,10 @@ const TabButton = styled.div<TabProps>`
   }
   color: rgb(134, 142, 150);
   cursor: pointer;
+`;
+
+const TabText = styled.div`
+  margin-left: 0.5rem;
 `;
 
 const FocusBar = styled.div<TabProps>`

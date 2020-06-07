@@ -4,7 +4,6 @@ import Input from "../../components/Input";
 import SearchPostCard, {
   PostLoadingSkeleton,
 } from "../../components/SearchPostCard";
-import FatText from "../../components/FatText";
 import { SearchPostProps } from "../../interface/post";
 import Theme from "../../styles/theme";
 
@@ -30,7 +29,9 @@ const SearchPostList: FC<SearchPostListProps> = ({
   return (
     <Wrapper>
       <SearchContainer>
-        {searchType === "Hashtag" && <ETagnameText text={`# ${tagname}`} />}
+        {searchType === "Hashtag" && (
+          <ETagnameText>{`# ${tagname}`}</ETagnameText>
+        )}
         {searchType === "Search" && (
           <SearchInputContainer>
             <SearchInput
@@ -98,6 +99,11 @@ const SearchInputContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 const SearchInput = styled(Input)`
+  @media (max-width: 768px) {
+    height: 2.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
   display: block;
   border-radius: 1px;
   border-color: ${(props) => props.theme.darkGreyColor};
@@ -113,9 +119,10 @@ const SearchInput = styled(Input)`
   }
 `;
 
-const ETagnameText = styled(FatText)`
-  font-weight: 800;
-  font-size: 48px;
+const ETagnameText = styled.h2`
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.5;
   margin-bottom: 20px;
 `;
 

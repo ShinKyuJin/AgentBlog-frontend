@@ -6,6 +6,10 @@ import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
 import Markdown from "../../components/Markdown";
 import Uploader from "../../components/Uploader";
+import Button from "../../components/Button";
+import { Link } from "react-router-dom";
+import { Icon } from "../../components/Icon";
+import Hashtag from "../../components/Hashtag";
 
 let count = 0;
 
@@ -103,9 +107,12 @@ const WritePost = () => {
   };
   const hashtags = form.hashtags.map((text) => {
     return (
-      <Hashtag key={count++} onClick={handleClickHashtag}>
-        {text}
-      </Hashtag>
+      <Hashtag
+        key={count++}
+        name={text}
+        isLink={false}
+        onClick={handleClickHashtag}
+      />
     );
   });
 
@@ -140,7 +147,11 @@ const WritePost = () => {
           placeholder="내용을 입력해주세요"
         />
         <ConfirmWrapper>
-          <ConfirmBtn onClick={handleSubmit}>출간하기</ConfirmBtn>
+          <ExitBtnContainer to={"/"}>
+            <Icon type={"back"} size={20} />
+            <ExitBtnText>나가기 </ExitBtnText>
+          </ExitBtnContainer>
+          <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
         </ConfirmWrapper>
       </Wrapper>
       <MarkContainer>
@@ -194,23 +205,7 @@ const HashtagEditor = styled.input`
     outline: none;
   }
 `;
-const Hashtag = styled.span`
-  display: inline;
-  border-radius: 15px;
-  color: rgb(12, 166, 120);
-  background-color: rgb(241, 243, 245);
-  padding: 10px;
-  font-size: 18px;
-  font-weight: 500;
 
-  &:hover {
-    cursor: pointer;
-  }
-
-  & + & {
-    margin: 0 5px;
-  }
-`;
 const HashtagBox = styled.div`
   margin: 10px 0;
   display: flex;
@@ -233,10 +228,36 @@ const ContentEditor = styled.textarea`
 const ConfirmWrapper = styled.div`
   height: 5%;
   display: flex;
-  flex-direction: row-reverse;
+  align-content: center;
+  justify-content: space-between;
 `;
 
-const ConfirmBtn = styled.button``;
+const ConfirmBtn = styled(Button)`
+  font-size: 1.125rem;
+  height: 2.5rem;
+  width: 10rem;
+  font-weight: bold;
+`;
+
+const ExitBtnContainer = styled(Link)`
+  width: 7rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  border-radius: 4px;
+  background-color: inherit;
+
+  transition: background-color 0.05s;
+  &:hover {
+    background-color: rgb(240, 240, 240);
+  }
+`;
+
+const ExitBtnText = styled.div`
+  margin-left: 0.8rem;
+`;
 
 const FileContainer = styled.div`
   height: 30px;

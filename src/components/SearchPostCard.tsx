@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
@@ -19,6 +19,7 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   commentCount,
 }) => {
   const thumbnail_url = files.length > 0 ? files[0].url : null;
+  const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
       <Header>
@@ -31,10 +32,14 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
           </ELink>
         </UserColumn>
       </Header>
-      {thumbnail_url && (
+      {thumbnail_url && !errorThumbnailLoading && (
         <ImageWrapper>
           <ELink to={`/@${username}/${url}`}>
-            <Image src={thumbnail_url} loadingHeight={370} />
+            <Image
+              src={thumbnail_url}
+              loadingHeight={370}
+              onError={() => setErrorThumbnailLoading(true)}
+            />
           </ELink>
         </ImageWrapper>
       )}
@@ -113,6 +118,9 @@ const Image = styled(ImageLoader)`
 `;
 
 const ETitleText = styled(FatText)`
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
   font-size: 1.5rem;
   word-break: keep-all;
   color: ${(prop) => prop.theme.deepDarkGreyColor};
@@ -120,6 +128,10 @@ const ETitleText = styled(FatText)`
 `;
 
 const ContentText = styled.p`
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
   width: 100%;
   max-height: 75px;
   font-size: 1rem;
@@ -132,6 +144,7 @@ const ContentText = styled.p`
 
 const HashtagContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 `;
 

@@ -7,6 +7,7 @@ const Theme = {
   blackColor: "#262626",
   deepDarkGreyColor: "rgb(33, 37, 41)",
   darkGreyColor: "#999",
+  greyColor: "rgb(73, 80, 87)",
   lightGreyColor: "#c7c7c7",
   blueColor: "#3897f0",
   greenColor: "rgb(32, 201, 151)",
