@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "../../components/Icon";
 import Hashtag from "../../components/Hashtag";
 import { serverUri } from "../../Apollo/Client";
-import axios from 'axios';
+import axios from "axios";
 
 let count = 0;
 
@@ -107,16 +107,6 @@ const WritePost = () => {
       ],
     });
   };
-  const hashtags = form.hashtags.map((text) => {
-    return (
-      <Hashtag
-        key={count++}
-        name={text}
-        isLink={false}
-        onClick={handleClickHashtag}
-      />
-    );
-  });
 
   const onUpload = async (file: any) => {
     const formData = new FormData();
@@ -128,16 +118,27 @@ const WritePost = () => {
           "content-type": "multipart/form-data",
         },
       });
+
       setForm({
         ...form,
-        content: form.content.concat(`\n![](${data.location})`)
-      })
+        content: form.content.concat(`\n![](${data.location})`),
+      });
     } catch (err) {
       toast.error("파일 업로드에 실패하였습니다." + err);
       return null;
     }
-  }
+  };
 
+  const hashtags = form.hashtags.map((text) => {
+    return (
+      <Hashtag
+        key={count++}
+        name={text}
+        isLink={false}
+        onClick={handleClickHashtag}
+      />
+    );
+  });
   return (
     <Container>
       <Helmet>
