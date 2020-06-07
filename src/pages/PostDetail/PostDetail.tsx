@@ -10,6 +10,7 @@ import {
 import Markdown from "../../components/Markdown";
 import Avatar from "../../components/Avatar";
 import Hashtag from "../../components/Hashtag";
+import PostDetailSidebar from "./PostDetailSidebar";
 
 interface PostDetailParams {
   username: string;
@@ -60,6 +61,7 @@ const PostDetail = () => {
       </TailContainer>
       <Contour />
       <hr />
+      <PostDetailSidebar content={content} />
     </Container>
   );
 };
