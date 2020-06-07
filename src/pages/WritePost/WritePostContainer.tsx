@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
@@ -28,6 +28,7 @@ const WritePostContainer = () => {
     url: "",
     files: [],
   });
+  const textareaEl = useRef(null);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, title: e.target.value });
@@ -130,6 +131,7 @@ const WritePostContainer = () => {
       handleSubmit={handleSubmit}
       handleClickHashtag={handleClickHashtag}
       onUpload={onUpload}
+      textareaEl={textareaEl}
     />
   );
 };

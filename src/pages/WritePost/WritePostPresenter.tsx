@@ -9,8 +9,6 @@ import Markdown from "../../components/Markdown";
 import { Icon } from "../../components/Icon";
 import Uploader from "../../components/Uploader";
 
-let count = 0;
-
 interface WritePostPresenterProps {
   form: formProps;
   handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,6 +20,7 @@ interface WritePostPresenterProps {
   handleSubmit: (e: React.FormEvent<Element>) => Promise<void>;
   handleClickHashtag: (e: any) => void;
   onUpload: any;
+  textareaEl: React.MutableRefObject<null>;
 }
 
 export const WritePostPresenter: FC<WritePostPresenterProps> = ({
@@ -33,11 +32,12 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
   handleSubmit,
   handleClickHashtag,
   onUpload,
+  textareaEl,
 }) => {
-  const hashtags = form.hashtags.map((text) => {
+  const hashtags = form.hashtags.map((text, i) => {
     return (
       <Hashtag
-        key={count++}
+        key={i}
         name={text}
         isLink={false}
         onClick={handleClickHashtag}
@@ -72,6 +72,7 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
         <ContentEditor
           value={form.content}
           onChange={handleChangeContent}
+          ref={textareaEl}
           placeholder="내용을 입력해주세요"
         />
         <ConfirmWrapper>
