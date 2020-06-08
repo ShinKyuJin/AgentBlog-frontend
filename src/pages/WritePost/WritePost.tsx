@@ -121,13 +121,14 @@ const WritePost = () => {
   const onUpload = async (file: any) => {
     const formData = new FormData();
     formData.append("file", file, file.originalname);
-
+    
     try {
       const { data } = await axios.post(serverUri + "/api/upload", formData, {
         headers: {
           "content-type": "multipart/form-data",
         },
       });
+      console.log(form.content);
       setForm({
         ...form,
         content: form.content.concat(`\n![](${data.location})`)

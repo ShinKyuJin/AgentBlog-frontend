@@ -10,7 +10,6 @@ const Uploader = ({ onUpload }: UploaderInterface) => {
   const onDrop = useCallback(async (acceptedFiles) => {
     const test = acceptedFiles.map(async (file: any) => {
       const reader = new FileReader();
-
       reader.onabort = () => console.log("aborted");
       reader.onerror = () => console.log("failed");
       reader.onload = () => {
@@ -18,6 +17,7 @@ const Uploader = ({ onUpload }: UploaderInterface) => {
         console.log(binaryStr);
       };
       reader.readAsArrayBuffer(file);
+
       const url = await onUpload(file);
       return url;
     });
@@ -30,7 +30,7 @@ const Uploader = ({ onUpload }: UploaderInterface) => {
 
   return (
     <Container {...getRootProps()}>
-      <input {...getInputProps()} />
+      <input {...getInputProps({onClick: event => event.stopPropagation()})} />
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
