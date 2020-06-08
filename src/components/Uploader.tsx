@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 
@@ -7,21 +7,19 @@ interface UploaderInterface {
 }
 
 const Uploader = ({ onUpload }: UploaderInterface) => {
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const test = acceptedFiles.map(async (file: any) => {
-      const reader = new FileReader();
-
-      reader.onabort = () => console.log("aborted");
-      reader.onerror = () => console.log("failed");
-      reader.onload = () => {
-        const binaryStr = reader.result;
-        console.log(binaryStr);
-      };
-      reader.readAsArrayBuffer(file);
-      const url = await onUpload(file);
-      return url;
+  const onDrop = (acceptedFiles: File[]) => {
+    acceptedFiles.forEach((file) => {
+      //const reader = new FileReader();
+      // reader.onabort = () => console.log("aborted");
+      // reader.onerror = () => console.log("failed");
+      // reader.onload = () => {
+      //   const binaryStr = reader.result;
+      //   console.log(binaryStr);
+      // };
+      // reader.readAsArrayBuffer(file);
+      onUpload(file);
     });
-  }, []);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/*",

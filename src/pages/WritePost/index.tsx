@@ -1,3 +1,3 @@
-import WritePost from './WritePost';
+import WritePostContainer from "./WritePostContainer";
 
-export default WritePost;
+export default WritePostContainer;
