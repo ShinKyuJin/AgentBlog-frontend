@@ -15,6 +15,14 @@ export interface getPostDetail {
   content: string;
   createdAt: string;
   commentCount: number;
+  comments: {
+    text: string;
+    user: {
+      username: string;
+      avatar: string;
+    }
+    createdAt: string;
+  }[]
 }
 
 export interface getPostDetailData {
@@ -43,6 +51,14 @@ query getPostDetail($username: String!, $url: String!) {
     createdAt
     commentCount
     content
+    comments {
+      text
+      user {
+        username
+        avatar
+      }
+      createdAt
+    }
   }
 }
 `
