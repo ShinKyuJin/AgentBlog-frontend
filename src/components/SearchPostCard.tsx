@@ -11,6 +11,7 @@ import { SearchPostProps } from "../interface/post";
 const SearchPostCard: React.FC<SearchPostProps> = ({
   user: { username, avatar },
   url,
+  thumbnail,
   files,
   title,
   content,
@@ -18,7 +19,11 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   createdAt,
   commentCount,
 }) => {
-  const thumbnail_url = files.length > 0 ? files[0].url : null;
+  const thumbnail_url = thumbnail
+    ? thumbnail
+    : files.length > 0
+    ? files[0].url
+    : null;
   const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
