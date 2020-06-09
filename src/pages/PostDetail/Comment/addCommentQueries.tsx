@@ -19,8 +19,8 @@ export interface addCommentData {
 
 export const ADD_COMMENT = gql`
 mutation addComment(
-  $text: string!,
-  $postId: string!
+  $text: String!,
+  $postId: String!
 ) {
   addComment(text: $text, postId: $postId) {
     user {
