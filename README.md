@@ -10,6 +10,7 @@
 > React + TypeScript + Hooks + Apollo 기술을 공부하고, **협업능력**을 기르기 위해 시작한 프로젝트입니다. <br /> <br /> 또한 React를 Javascript로 개발해오면서 디버깅이 불편하고 유지보수도 어렵다는 단점을 개선하고자 **TypeScript**를 도입하게 되었습니다.  (+ 효율적인 협업을 위해)
 
 
+
 ## 서비스 소개
 
 ### [Velog](https://velog.io/) 블로그 서비스 클론코딩 프로젝트
