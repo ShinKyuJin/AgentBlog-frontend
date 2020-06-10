@@ -92,4 +92,11 @@
 
 
 ## 활용기술
-- **[Styled-component]()**: 
+- **[Hooks]()**: 함수형 컴포넌트의 React State와 생명주기 관리를 도와주는 모듈로 기존의 함수형 컴포넌트에서 할 수 없었던 다양한 작업을 할 수 있게 도와줍니다. (클래스형 컴포넌트 기능 거의 대부분을 대체가능)
+- **[Styled-component]()**: CSS 파일 없이 자바스크립트 안에서 CSS 작업을 할 수있게 도와주는 모듈로 HTML element + CSS + Javascript 코드를 Component로 캡슐화시켜 코드를 관리하기 용이하도록 도와준다. (클래스 기반 Component 스타일링 대체)
+- **[Apollo]()**: GraphQL의 클라이언트 라이브러리 중 하나로 GraphQL 상태 관리 플랫폼입니다.
+- **[Axios]()**: 파일 업로드를 처리하기 위해 도입한 HTTP 클라이언트 라이브러리로써, 비동기 방식으로 Node.js 서버에 HTTP 데이터 요청을 실행합니다. (파일 관리에 있어서는 RESTfull 방식이 GraphQL 방식보다 효과적)
+- **[Sass]()**: CSS의 유지보수의 불편함을 개선하여 효율적인 스타일링을 도와주는 라이브러리입니다.
+- **[Intersection Observer]()**: 기존 Scroll Event로 Infinite Scroll을 구현하면 엘리먼트의 offset을 구하기 위해 불필요한 함수 호출과 매번 layout을 새로 그려 성능의 문제가 발생하게 되는 데, Intersection Observer는 타겟 엘리먼트와, 타겟 엘리먼트의 부모나 뷰포트가 교차하는 부분의 변화를 비동기적으로 관찰하여 이러한 문제점을 해결해준다.
+- **[Toastify]()**: Notification, Alert를 쉽고 예쁘게 처리하도록 도와준다.
+
