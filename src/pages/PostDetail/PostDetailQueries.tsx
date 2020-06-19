@@ -1,6 +1,7 @@
 import { gql } from "apollo-boost";
 
 export interface getPostDetail {
+  id: string;
   title: string;
   user: {
     avatar: string;
@@ -15,6 +16,16 @@ export interface getPostDetail {
   content: string;
   createdAt: string;
   commentCount: number;
+  comments: {
+    text: string;
+    user: {
+      username: string;
+      avatar: string;
+    }
+    createdAt: string;
+  }[];
+  isLiked: boolean;
+  likeCount: number;
 }
 
 export interface getPostDetailData {
@@ -26,9 +37,16 @@ export interface getPostDetailVars {
   url: string;
 }
 
+export const LIKE = gql`
+mutation toggleLike($postId: String!) {
+  toggleLike(postId: $postId)
+}
+`
+
 export const QUERY_POST_DETAIL = gql`
 query getPostDetail($username: String!, $url: String!) {
   getPostDetail(username: $username, url: $url) {
+    id
     title
     user {
       avatar
@@ -43,6 +61,16 @@ query getPostDetail($username: String!, $url: String!) {
     createdAt
     commentCount
     content
+    comments {
+      text
+      user {
+        username
+        avatar
+      }
+      createdAt
+    }
+    isLiked
+    likeCount
   }
 }
 `
