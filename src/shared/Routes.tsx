@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Home from "../pages/Home";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import Auth from "../pages/Auth";
 import PostDetail from "../pages/PostDetail";
 import UserHome from "../pages/UserHome";
@@ -73,16 +73,28 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
   if (isLoggedIn && data && data.checkToken === false) {
     logOutMutation();
   }
-  let i = 0;
+
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <Switch>
-      {RoutesListWithoutLogin.map((route) => {
-        return <Route exact {...route} key={i++} />;
+      {RoutesListWithoutLogin.map((route, i) => {
+        return <Route exact {...route} key={i} />;
       })}
-      {RoutesListWithLogin.map((route) => {
-        return <Route exact {...route} key={i++} />;
+      {RoutesListWithLogin.map((route, i) => {
+        return (
+          <Route
+            exact
+            {...route}
+            key={i}
+            onUpdate={() => window.scrollTo(0, 0)}
+          />
+        );
       })}
-      <Route path="/" component={PageNotFound} key={i++} />
+      <Route path="/" component={PageNotFound} />
       <Redirect from="*" to="/" />
     </Switch>
   );

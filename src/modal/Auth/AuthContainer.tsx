@@ -79,7 +79,7 @@ const AuthContainer = ({ closeModal }: AuthContainerProps) => {
             setTimeout(() => setAction("logIn"), 1200);
           }
         } catch (err) {
-          toast.error(err + "");
+          toast.error(err.toString().split(":")[2]);
         }
       }
     } else if (action === "confirm") {

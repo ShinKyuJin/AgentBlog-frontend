@@ -32,6 +32,7 @@ export const QUERY_SEARCH_POST = gql`
         username
         avatar
       }
+      thumbnail
       files {
         id
         url
@@ -61,6 +62,7 @@ export const QUERY_SEARCH_HASHTAG = gql`
           username
           avatar
         }
+        thumbnail
         files {
           id
           url
