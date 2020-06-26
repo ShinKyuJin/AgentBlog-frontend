@@ -20,6 +20,7 @@ const Avatar: React.FC<AvatarProps> = ({
   if (url === undefined || url === null) {
     url = noAvatarURl;
   }
+
   if (link)
     return (
       <Link to={link}>
