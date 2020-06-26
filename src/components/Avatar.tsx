@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const noAvatarURl = "http://noavatar.be/get/jklk/200";
 
@@ -7,12 +8,25 @@ interface AvatarProps {
   size: "sm" | "md" | "lg" | undefined;
   url: string;
   className?: string;
+  link?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size = "md", url, className }) => {
-  if (url === undefined || url === null) {
+const Avatar: React.FC<AvatarProps> = ({
+  size = "md",
+  url,
+  className,
+  link,
+}) => {
+  if (!url) {
     url = noAvatarURl;
   }
+
+  if (link)
+    return (
+      <Link to={link}>
+        <Contatiner size={size} url={url} className={className} />
+      </Link>
+    );
   return <Contatiner size={size} url={url} className={className} />;
 };
 

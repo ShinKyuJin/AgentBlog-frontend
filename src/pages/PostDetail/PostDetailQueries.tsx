@@ -6,13 +6,13 @@ export interface getPostDetail {
   user: {
     avatar: string;
     bio: string;
-  }
+  };
   files: {
     url: string;
-  }[]
+  }[];
   hashtags: {
     name: string;
-  }[]
+  }[];
   content: string;
   createdAt: string;
   commentCount: number;
@@ -21,7 +21,7 @@ export interface getPostDetail {
     user: {
       username: string;
       avatar: string;
-    }
+    };
     createdAt: string;
   }[];
   isLiked: boolean;
@@ -38,39 +38,39 @@ export interface getPostDetailVars {
 }
 
 export const LIKE = gql`
-mutation toggleLike($postId: String!) {
-  toggleLike(postId: $postId)
-}
-`
+  mutation toggleLike($postId: String!) {
+    toggleLike(postId: $postId)
+  }
+`;
 
 export const QUERY_POST_DETAIL = gql`
-query getPostDetail($username: String!, $url: String!) {
-  getPostDetail(username: $username, url: $url) {
-    id
-    title
-    user {
-      avatar
-      bio
-    }
-    files {
-      url
-    }
-    hashtags {
-      name
-    }
-    createdAt
-    commentCount
-    content
-    comments {
-      text
+  query getPostDetail($username: String!, $url: String!) {
+    getPostDetail(username: $username, url: $url) {
+      id
+      title
       user {
-        username
         avatar
+        bio
+      }
+      files {
+        url
+      }
+      hashtags {
+        name
       }
       createdAt
+      commentCount
+      content
+      comments {
+        text
+        user {
+          username
+          avatar
+        }
+        createdAt
+      }
+      isLiked
+      likeCount
     }
-    isLiked
-    likeCount
   }
-}
-`
+`;
