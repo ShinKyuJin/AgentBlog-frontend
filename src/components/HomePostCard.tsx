@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 import { HomePostProps } from "../interface/post";
+import marked from "marked";
+
 interface PostCardProps {
   postInfo?: HomePostProps;
 }
@@ -21,7 +23,12 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   else {
     const description = postInfo.description
       ? postInfo.description
-      : postInfo.content;
+      : marked(postInfo.content)
+          .replace(/<[^>]+>/g, "")
+          .replace(/&#(\d+);/g, function (match, dec) {
+            return String.fromCharCode(dec);
+          });
+
     return (
       <Container>
         {postInfo.thumbnail && !thumbnailError && (
@@ -38,8 +45,8 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <TitleCon>{postInfo.title}</TitleCon>
             <ContentCon>
-              {description.length > 60
-                ? description.slice(0, 60).concat("...")
+              {description.length > 150
+                ? description.slice(0, 150).concat("...")
                 : description}
             </ContentCon>
           </ContentContainer>

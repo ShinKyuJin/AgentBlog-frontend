@@ -15,6 +15,7 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   files,
   title,
   content,
+  description,
   hashtags,
   createdAt,
   commentCount,
