@@ -14,7 +14,7 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
-      console.log(location.pathname);
+      //console.log(location.pathname);
       setPath(location.pathname);
     });
     return () => unlisten();

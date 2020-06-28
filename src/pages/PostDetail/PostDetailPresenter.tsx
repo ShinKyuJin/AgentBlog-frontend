@@ -1,100 +1,36 @@
-import React, { useState } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
-import { useParams, Link } from "react-router-dom";
-import { useQuery, useMutation } from "react-apollo-hooks";
-import {
-  getPostDetailVars,
-  QUERY_POST_DETAIL,
-  getPostDetailData,
-  LIKE,
-} from "./PostDetailQueries";
+import { Link } from "react-router-dom";
+import Hashtag from "../../components/Hashtag";
 import Markdown from "../../components/Markdown";
 import Avatar from "../../components/Avatar";
-import Hashtag from "../../components/Hashtag";
-import { ADD_COMMENT } from "./Comment/addCommentQueries";
-import { toast } from "react-toastify";
 import Button from "../../components/Button";
+import { getPostDetailData } from "./PostDetailQueries";
 
-interface PostDetailParams {
+interface PostDetailPresenterProps {
   username: string;
-  posturl: string;
+  data?: getPostDetailData;
+  loading: boolean;
+  comment: string;
+  makeCommentDisable: any;
+  handleChangeComment: any;
+  handleMakeComment: any;
+  handleClickLike: any;
 }
 
-let key = 0;
-const PostDetail = () => {
-  const { username, posturl } = useParams() as PostDetailParams;
-  const { data, refetch } = useQuery<getPostDetailData, getPostDetailVars>(
-    QUERY_POST_DETAIL,
-    {
-      variables: {
-        username: username,
-        url: posturl,
-      },
-    }
-  );
-
-  const content = data?.getPostDetail.content as string;
-  const avatar = data?.getPostDetail.user.avatar as string;
-  const id = data?.getPostDetail.id as string;
-
-  const [makeCommentDisable, setMakeCommentDisable] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>("");
-  const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
-  };
-
-  const [commentMutation] = useMutation(ADD_COMMENT, {
-    variables: {
-      text: comment,
-      postId: id,
-    },
-  });
-
-  const handleMakeComment = async (e: any) => {
-    e.preventDefault();
-    setMakeCommentDisable(true);
-    if (comment !== "") {
-      try {
-        const { data }: any = await commentMutation();
-        await refetch();
-        if (!data.addComment) {
-          toast.error("댓글 작성에 실패했습니다.");
-        } else {
-          toast.success("댓글 작성에 성공했습니다..");
-        }
-        window.scrollTo(0, document.body.scrollHeight);
-      } catch (e) {
-        console.log(e);
-        toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
-      }
-    }
-    setMakeCommentDisable(false);
-  };
-
-  const mappingHashtag = data?.getPostDetail.hashtags.map(({ name }) => (
-    <Hashtag key={key++} name={name} />
-  ));
-
-  const [likeMutation] = useMutation(LIKE, {
-    variables: {
-      postId: id,
-    },
-  });
-
-  const handleClickLike = async (e: any) => {
-    e.preventDefault();
-    try {
-      const {
-        data: { toggleLike },
-      }: any = await likeMutation();
-      if (!toggleLike) {
-        toast.error("잠시 후 다시 시도해주세요.");
-      }
-    } catch (e) {
-      console.log(e);
-      toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
-    }
-  };
+const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
+  username,
+  data,
+  loading,
+  comment,
+  makeCommentDisable,
+  handleChangeComment,
+  handleMakeComment,
+  handleClickLike,
+}) => {
+  if (loading || !data) {
+    return <Container></Container>;
+  }
 
   return (
     <Container>
@@ -104,14 +40,44 @@ const PostDetail = () => {
           <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> ·{" "}
           {data?.getPostDetail.createdAt.slice(0, 10)}
         </InfoContainer>
-        <HashtagContainer>{mappingHashtag}</HashtagContainer>
+        <HashtagContainer>
+          {data?.getPostDetail.hashtags.map(({ name }, key) => (
+            <Hashtag key={key++} name={name} />
+          ))}
+        </HashtagContainer>
+        <LikeSidebarContainer>
+          <LikeSidebar>
+            <LikeContainer>
+              {data?.getPostDetail.isLiked ? (
+                <LikedButton onClick={handleClickLike}>
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
+                    ></path>
+                  </svg>
+                </LikedButton>
+              ) : (
+                <LikeButton onClick={handleClickLike}>
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
+                    ></path>
+                  </svg>
+                </LikeButton>
+              )}
+              <LikeCount>{data?.getPostDetail.likeCount}</LikeCount>
+            </LikeContainer>
+          </LikeSidebar>
+        </LikeSidebarContainer>
       </HeaderContainer>
       <BodyContainer>
-        <Markdown source={content} />
+        <Markdown source={data?.getPostDetail.content || ""} />
       </BodyContainer>
       <TailContainer>
         <Link to={`/@${username}`}>
-          <TailAvatar url={avatar} size="lg" />
+          <TailAvatar url={data?.getPostDetail.user.avatar || ""} size="lg" />
         </Link>
         <TailUserInfo>
           <TailLink to={`/@${username}`}>{username}</TailLink>
@@ -144,33 +110,10 @@ const PostDetail = () => {
           </CommentBox>
         ))}
       </CommentsContaniner>
-      <LikeSidebar>
-        <LikeContainer>
-          {data?.getPostDetail.isLiked ? (
-            <LikedButton onClick={handleClickLike}>
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
-                ></path>
-              </svg>
-            </LikedButton>
-          ) : (
-            <LikeButton onClick={handleClickLike}>
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
-                ></path>
-              </svg>
-            </LikeButton>
-          )}
-          <LikeCount>{data?.getPostDetail.likeCount}</LikeCount>
-        </LikeContainer>
-      </LikeSidebar>
     </Container>
   );
 };
+
 const CommentsContaniner = styled.div`
   margin-top: 2.5rem;
 `;
@@ -220,6 +163,11 @@ const CommentContent = styled.div`
 `;
 
 const Container = styled.div`
+  @media (max-width: 1024px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+  }
   display: flex;
   flex-direction: column;
   width: 768px;
@@ -233,8 +181,14 @@ const HeaderContainer = styled.div`
   flex-wrap: no-wrap;
 `;
 const TitleContainer = styled.div`
+  @media (max-width: 1024px) {
+    font-size: 2.25rem;
+  }
   font-weight: 700;
+  font-size: 1.5rem;
   font-size: 60px;
+  line-height: 1.5;
+  margin-bottom: 2rem;
 `;
 const InfoContainer = styled.div`
   font-size: 18px;
@@ -308,11 +262,19 @@ const CommentSubmit = styled(Button)`
   margin-top: 10px;
 `;
 
-const LikeSidebar = styled.div`
-  position: fixed;
-  top: 200px;
-  left: 400px;
+const LikeSidebarContainer = styled.div`
+  position: relative;
+  margin-top: 2rem;
 `;
+
+const LikeSidebar = styled.div`
+  @media (max-width: 1024px) {
+    display: none;
+  }
+  position: absolute;
+  left: -7rem;
+`;
+
 const LikeContainer = styled.div`
   width: 4rem;
   display: flex;
@@ -360,4 +322,4 @@ const LikeCount = styled.p`
   font-weight: 500;
 `;
 
-export default PostDetail;
+export default PostDetailPresenter;

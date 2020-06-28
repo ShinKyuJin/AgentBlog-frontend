@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 import { HomePostProps } from "../interface/post";
-
 interface PostCardProps {
   postInfo?: HomePostProps;
 }
@@ -19,7 +18,10 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         <Skeleton height={400} />
       </Container>
     );
-  else
+  else {
+    const description = postInfo.description
+      ? postInfo.description
+      : postInfo.content;
     return (
       <Container>
         {postInfo.thumbnail && !thumbnailError && (
@@ -36,9 +38,9 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <TitleCon>{postInfo.title}</TitleCon>
             <ContentCon>
-              {postInfo.content.length > 60
-                ? postInfo.content.slice(0, 60).concat("...")
-                : postInfo.content}
+              {description.length > 60
+                ? description.slice(0, 60).concat("...")
+                : description}
             </ContentCon>
           </ContentContainer>
           <RestInfoContainer>
@@ -54,6 +56,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         </UserInfoContainer>
       </Container>
     );
+  }
 };
 
 const Container = styled.div`

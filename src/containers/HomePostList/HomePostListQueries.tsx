@@ -22,6 +22,7 @@ export const QUERY_LATEST_POST = gql`
       }
       url
       title
+      description
       content
       thumbnail
       likeCount
@@ -44,6 +45,7 @@ export const QUERY_TRENDY_POST = gql`
       }
       url
       title
+      description
       content
       thumbnail
       likeCount

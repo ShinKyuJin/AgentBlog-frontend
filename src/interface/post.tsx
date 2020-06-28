@@ -4,9 +4,11 @@ export interface postInterface {
     id: string;
     username: string;
     avatar: string;
+    bio: string;
   };
   title: string;
   url: string;
+  description: string;
   content: string;
   hashtags: {
     id: string;
@@ -35,13 +37,14 @@ export interface postInterface {
   comments: {
     id: string;
     text: string;
+    createdAt: string;
+    updatedAt: string;
     user: {
       id: string;
+      avatar: string;
       username: string;
-      createdAt: string;
-      updatedAt: string;
     };
-  };
+  }[];
   isLiked: boolean;
   likeCount: number;
   createdAt: string;
@@ -56,6 +59,7 @@ export type HomePostProps = Pick<
   | "files"
   | "url"
   | "title"
+  | "description"
   | "content"
   | "thumbnail"
   | "likeCount"
@@ -70,9 +74,25 @@ export type SearchPostProps = Pick<
   | "files"
   | "url"
   | "title"
+  | "description"
   | "content"
   | "thumbnail"
   | "hashtags"
   | "createdAt"
   | "commentCount"
+>;
+
+export type getPostDetail = Pick<
+  postInterface,
+  | "id"
+  | "title"
+  | "user"
+  | "files"
+  | "content"
+  | "hashtags"
+  | "createdAt"
+  | "comments"
+  | "commentCount"
+  | "isLiked"
+  | "likeCount"
 >;
