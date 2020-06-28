@@ -6,6 +6,7 @@ import Markdown from "../../components/Markdown";
 import Avatar from "../../components/Avatar";
 import Button from "../../components/Button";
 import { getPostDetailData } from "./PostDetailQueries";
+import { Icon } from "../../components/Icon";
 
 interface PostDetailPresenterProps {
   username: string;
@@ -28,7 +29,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   handleMakeComment,
   handleClickLike,
 }) => {
-  if (loading || !data) {
+  if (loading || (data && Object.keys(data).length === 0)) {
     return <Container></Container>;
   }
 
@@ -50,21 +51,11 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
             <LikeContainer>
               {data?.getPostDetail.isLiked ? (
                 <LikedButton onClick={handleClickLike}>
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
-                    ></path>
-                  </svg>
+                  <Icon type={"redHeart"} />
                 </LikedButton>
               ) : (
                 <LikeButton onClick={handleClickLike}>
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"
-                    ></path>
-                  </svg>
+                  <Icon type={"blackHeart"} />
                 </LikeButton>
               )}
               <LikeCount>{data?.getPostDetail.likeCount}</LikeCount>
@@ -97,7 +88,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
       </CommentMakeContainer>
       <CommentsContaniner>
         {data?.getPostDetail.comments.map((comment) => (
-          <CommentBox>
+          <CommentBox key={comment.id}>
             <CommentUser>
               <CommentProfile></CommentProfile>
               <Avatar url={comment.user.avatar} size={"md"} />

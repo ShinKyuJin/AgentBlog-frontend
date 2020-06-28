@@ -18,7 +18,7 @@ interface PostDetailParams {
 
 const PostDetailContainer = () => {
   const { username, posturl } = useParams() as PostDetailParams;
-  const { data, loading, refetch } = useQuery<
+  const { data: postData, loading, refetch } = useQuery<
     getPostDetailData,
     getPostDetailVars
   >(QUERY_POST_DETAIL, {
@@ -27,33 +27,33 @@ const PostDetailContainer = () => {
       url: posturl,
     },
   });
-  const postId = (data?.getPostDetail && data?.getPostDetail.id) || "";
+  console.log(loading);
+  console.log(postData);
+  if (loading === false) {
+    setTimeout(async () => await refetch(), 3000);
+  }
 
   const [makeCommentDisable, setMakeCommentDisable] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
+
+  const [commentMutation] = useMutation(ADD_COMMENT);
+  const [likeMutation] = useMutation(MUTATION_LIKE_POST);
+
   const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
-
-  const [commentMutation] = useMutation(ADD_COMMENT, {
-    variables: {
-      text: comment,
-      postId,
-    },
-  });
-
-  const [likeMutation] = useMutation(MUTATION_LIKE_POST, {
-    variables: {
-      postId,
-    },
-  });
 
   const handleMakeComment = async (e: any) => {
     e.preventDefault();
     setMakeCommentDisable(true);
     if (comment !== "") {
       try {
-        const { data }: any = await commentMutation();
+        const { data }: any = await commentMutation({
+          variables: {
+            text: comment,
+            postId: postData?.getPostDetail.id,
+          },
+        });
         await refetch();
         if (!data.addComment) {
           toast.error("댓글 작성에 실패했습니다.");
@@ -74,7 +74,11 @@ const PostDetailContainer = () => {
     try {
       const {
         data: { toggleLike },
-      }: any = await likeMutation();
+      }: any = await likeMutation({
+        variables: {
+          postId: postData?.getPostDetail.id,
+        },
+      });
       await refetch();
       if (!toggleLike) {
         toast.error("잠시 후 다시 시도해주세요.");
@@ -87,7 +91,7 @@ const PostDetailContainer = () => {
   return (
     <PostDetailPresenter
       username={username}
-      data={data}
+      data={postData}
       loading={loading}
       comment={comment}
       makeCommentDisable={makeCommentDisable}

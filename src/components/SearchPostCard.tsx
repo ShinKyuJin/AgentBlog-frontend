@@ -37,25 +37,25 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
           <Avatar size="md" url={avatar} />
         </Link>
         <UserColumn>
-          <ELink to={`/@${username}`}>
+          <Link to={`/@${username}`}>
             <FatText text={username} />
-          </ELink>
+          </Link>
         </UserColumn>
       </Header>
       {thumbnail_url && !errorThumbnailLoading && (
         <ImageWrapper>
-          <ELink to={`/@${username}/${url}`}>
+          <Link to={`/@${username}/${url}`}>
             <Image
               src={thumbnail_url}
               loadingHeight={370}
               onError={() => setErrorThumbnailLoading(true)}
             />
-          </ELink>
+          </Link>
         </ImageWrapper>
       )}
-      <ELink to={`/@${username}/${url}`}>
+      <Link to={`/@${username}/${url}`}>
         <ETitleText text={title} />
-      </ELink>
+      </Link>
       <ContentText>
         {descriptionText.length < 150
           ? descriptionText
@@ -99,10 +99,6 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
-`;
-
-const ELink = styled(Link)`
-  text-decoration: none;
 `;
 
 const UserColumn = styled.div`

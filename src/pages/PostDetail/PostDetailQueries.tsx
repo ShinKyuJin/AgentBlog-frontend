@@ -22,19 +22,23 @@ export const QUERY_POST_DETAIL = gql`
       id
       title
       user {
+        id
         avatar
         bio
       }
       files {
+        id
         url
       }
       hashtags {
+        id
         name
       }
       createdAt
       commentCount
       content
       comments {
+        id
         text
         user {
           username
