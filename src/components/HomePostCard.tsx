@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 import { HomePostProps } from "../interface/post";
-import marked from "marked";
+import { convertMarkdownToText } from "../shared/utils";
 
 interface PostCardProps {
   postInfo?: HomePostProps;
@@ -21,20 +21,20 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
       </Container>
     );
   else {
+    const thumbnail = postInfo.thumbnail
+      ? postInfo.thumbnail
+      : postInfo.files.length > 0
+      ? postInfo.files[0].url
+      : null;
     const description = postInfo.description
       ? postInfo.description
-      : marked(postInfo.content)
-          .replace(/<[^>]+>/g, "")
-          .replace(/&#(\d+);/g, function (match, dec) {
-            return String.fromCharCode(dec);
-          });
-
+      : convertMarkdownToText(postInfo.content);
     return (
       <Container>
-        {postInfo.thumbnail && !thumbnailError && (
+        {thumbnail && !thumbnailError && (
           <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <Image
-              src={postInfo.thumbnail}
+              src={thumbnail}
               loadingHeight={177}
               onError={() => setThumbnailError(true)}
             />
@@ -107,6 +107,7 @@ const ImageContainer = styled(Link)`
   position: relative;
   padding-bottom: 55%;
   width: 100%;
+  max-height: 177px;
 `;
 
 const Image = styled(ImageLoader)`

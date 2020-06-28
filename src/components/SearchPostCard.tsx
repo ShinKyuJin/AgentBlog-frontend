@@ -7,6 +7,7 @@ import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
 import ImageLoader from "./ImageLoader";
 import { SearchPostProps } from "../interface/post";
+import { convertMarkdownToText } from "../shared/utils";
 
 const SearchPostCard: React.FC<SearchPostProps> = ({
   user: { username, avatar },
@@ -25,6 +26,9 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
     : files.length > 0
     ? files[0].url
     : null;
+  const descriptionText = description
+    ? description
+    : convertMarkdownToText(content);
   const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
@@ -53,7 +57,9 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
         <ETitleText text={title} />
       </ELink>
       <ContentText>
-        {content.length < 120 ? content : content.slice(0, 120).concat("...")}
+        {descriptionText.length < 150
+          ? descriptionText
+          : descriptionText.slice(0, 150).concat("...")}
       </ContentText>
       <HashtagContainer>
         {hashtags.map((hashtag) => (
