@@ -27,11 +27,6 @@ const PostDetailContainer = () => {
       url: posturl,
     },
   });
-  console.log(loading);
-  console.log(postData);
-  if (loading === false) {
-    setTimeout(async () => await refetch(), 3000);
-  }
 
   const [makeCommentDisable, setMakeCommentDisable] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
