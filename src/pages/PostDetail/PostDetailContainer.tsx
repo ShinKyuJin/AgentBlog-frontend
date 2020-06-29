@@ -7,7 +7,7 @@ import {
   MUTATION_LIKE_POST,
 } from "./PostDetailQueries";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { ADD_COMMENT } from "./Comment/addCommentQueries";
 import PostDetailPresenter from "./PostDetailPresenter";
 
@@ -27,7 +27,6 @@ const PostDetailContainer = () => {
       url: posturl,
     },
   });
-
   const [makeCommentDisable, setMakeCommentDisable] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
 

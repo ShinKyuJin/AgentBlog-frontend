@@ -45,8 +45,8 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <TitleCon>{postInfo.title}</TitleCon>
             <ContentCon>
-              {description.length > 150
-                ? description.slice(0, 150).concat("...")
+              {description.length > 80
+                ? description //description.slice(0, 80).concat("...")
                 : description}
             </ContentCon>
           </ContentContainer>
@@ -160,15 +160,26 @@ const UserInfoContainer = styled(Link)`
 `;
 
 const LikesCon = styled.div`
-  font-size: 14px;
+  font-size: 0.875rem;
   position: absolute;
   right: 16px;
 `;
 
 const TitleCon = styled.b`
-  font-size: 18px;
+  font-size: 1rem;
+  line-height: 1.5;
 `;
-const ContentCon = styled.p``;
+
+const ContentCon = styled.p`
+  word-break: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  color: rgb(73, 80, 87);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  height: 4rem;
+`;
 
 const AvatarBy = styled.p`
   color: rgb(134, 142, 150);
