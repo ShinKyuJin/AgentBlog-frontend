@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { seeUser, QUERY_USER_HOME } from "./UserHomeQueries";
 import { useQuery } from "react-apollo-hooks";
 import Avatar from "../../components/Avatar";
+import { Icon } from "../../components/Icon";
 
 interface UserHomeParams {
   username: string;
@@ -20,6 +21,9 @@ interface seeUserVar {
 
 const UserHome = () => {
   const { username } = useParams() as UserHomeParams;
+  const location = useLocation();
+  const [tabNum, setTabNum] = useState(location.pathname === "/recent" ? 1 : 0);
+
   const { data } = useQuery<seeUserData, seeUserVar>(QUERY_USER_HOME, {
     variables: {
       username,
@@ -27,11 +31,15 @@ const UserHome = () => {
   });
 
   const avatar = data?.seeUser.avatar as string;
-
+  const titles = [
+    username + " - Agent Blog",
+    username + " / 시리즈 - Agent Blog",
+    username + " / 소개 - Agent Blog",
+  ];
   return (
     <Container>
       <Helmet>
-        <title>Agents Blog!</title>
+        <title>{titles[tabNum]}</title>
       </Helmet>
       <UserContainer>
         <AvatarContainer>
@@ -43,9 +51,44 @@ const UserHome = () => {
         </UserInfoContainer>
       </UserContainer>
       <CarouselContainer>
-        <Carousel>글</Carousel>
-        <Carousel>시리즈</Carousel>
-        <Carousel>소개</Carousel>
+        <TabContainer>
+          <TabButton
+            onClick={() => {
+              setTabNum(0);
+              window.history.replaceState(null, titles[0], location.pathname);
+            }}
+            tabNum={tabNum}
+          >
+            <TabText>글</TabText>
+          </TabButton>
+          <TabButton
+            onClick={() => {
+              setTabNum(1);
+              window.history.replaceState(
+                null,
+                titles[1],
+                location.pathname + "/series"
+              );
+            }}
+            tabNum={tabNum}
+          >
+            <TabText>시리즈</TabText>
+          </TabButton>
+          <TabButton
+            onClick={() => {
+              setTabNum(2);
+              window.history.replaceState(
+                null,
+                titles[2],
+                location.pathname + "/about"
+              );
+            }}
+            tabNum={tabNum}
+          >
+            <TabText>소개</TabText>
+          </TabButton>
+          <FocusBar tabNum={tabNum} />
+        </TabContainer>
       </CarouselContainer>
     </Container>
   );
@@ -90,13 +133,44 @@ const CarouselContainer = styled.div`
   align-items: center;
 `;
 
-const Carousel = styled.div`
-  margin: 60px 0;
-  text-align: center;
-  width: 100px;
-  height: 30px;
-  font-size: 24px;
-  font-weight: 500;
+const TabContainer = styled.div`
+  width: 24rem;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+interface TabProps {
+  tabNum: number;
+}
+const TabButton = styled.div<TabProps>`
+  width: 8rem;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  height: 3rem;
+  text-decoration: none;
+  &:nth-child(${(props) => props.tabNum + 1}) {
+    color: rgb(32, 201, 151);
+    font-weight: bold;
+  }
+  color: rgb(134, 142, 150);
+  cursor: pointer;
+`;
+
+const TabText = styled.div`
+  margin-left: 0.5rem;
+`;
+
+const FocusBar = styled.div<TabProps>`
+  width: 33%;
+  height: 2px;
+  bottom: 0px;
+  background: rgb(32, 201, 151);
+  transition: transform 0.35s cubic-bezier(0, 0, 0.1, 1.5) 0s;
+  position: relative;
+  transform: ${(props) => `translateX(${props.tabNum * 100}%);`};
 `;
 
 export default UserHome;

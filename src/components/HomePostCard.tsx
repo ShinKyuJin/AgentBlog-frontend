@@ -44,11 +44,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         <PostInfoContainer>
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <TitleCon>{postInfo.title}</TitleCon>
-            <ContentCon>
-              {description.length > 80
-                ? description //description.slice(0, 80).concat("...")
-                : description}
-            </ContentCon>
+            <ContentCon>{description}</ContentCon>
           </ContentContainer>
           <RestInfoContainer>
             {postInfo.createdAt.slice(0, 10)} · {postInfo.commentCount}개의 댓글
@@ -172,13 +168,16 @@ const TitleCon = styled.b`
 
 const ContentCon = styled.p`
   word-break: break-word;
-  text-overflow: ellipsis;
   overflow: hidden;
-
-  color: rgb(73, 80, 87);
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  height: 1.5rem * 3;
   font-size: 0.875rem;
-  line-height: 1.5;
-  height: 4rem;
+  color: rgb(73, 80, 87);
 `;
 
 const AvatarBy = styled.p`

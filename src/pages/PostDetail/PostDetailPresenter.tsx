@@ -7,6 +7,7 @@ import Avatar from "../../components/Avatar";
 import Button from "../../components/Button";
 import { getPostDetailData } from "./PostDetailQueries";
 import { Icon } from "../../components/Icon";
+import { Helmet } from "react-helmet";
 
 interface PostDetailPresenterProps {
   username: string;
@@ -35,6 +36,9 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
 
   return (
     <Container>
+      <Helmet>
+        <title>{data?.getPostDetail.title}</title>
+      </Helmet>
       <HeaderContainer>
         <TitleContainer>{data?.getPostDetail.title}</TitleContainer>
         <InfoContainer>
@@ -94,7 +98,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
               <Avatar url={comment.user.avatar} size={"md"} />
               <CommentInfo>
                 <ConmentUserName>{comment.user.username}</ConmentUserName>
-                <CommentDate>{comment.createdAt}</CommentDate>
+                <CommentDate>{comment.createdAt.slice(0, 10)}</CommentDate>
               </CommentInfo>
             </CommentUser>
             <CommentContent>{comment.text}</CommentContent>
