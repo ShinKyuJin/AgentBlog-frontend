@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Markdown from "../../components/Markdown";
 import { Icon } from "../../components/Icon";
 import Uploader from "../../components/Uploader";
+import { toast } from "react-toastify";
 
 interface WritePostPresenterProps {
   form: formProps;
@@ -44,6 +45,20 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
       />
     );
   });
+  const showTagInfo = () => {
+    toast.dark(
+      "태그를 입력한 뒤 엔터를 누르시면 등록할 수 있습니다.\n등록된 태그는 클릭하면 삭제됩니다.",
+      {
+        position: "top-left",
+        hideProgressBar: true,
+        autoClose: false,
+        toastId: "tagInfo",
+      }
+    );
+  };
+  const dismissInfo = () => {
+    toast.dismiss("tagInfo");
+  };
   return (
     <Container>
       <Helmet>
@@ -59,12 +74,15 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
           onChange={handleChangeTitle}
           placeholder="제목을 입력해주세요"
         />
+        <FocusBar />
         <HashtagBox>{hashtags}</HashtagBox>
         <HashtagEditor
           value={form.hashtag}
           onChange={handleChangeHashtag}
           onKeyPress={handleChangeHashtags}
-          placeholder="해시태그"
+          onFocus={showTagInfo}
+          onBlur={dismissInfo}
+          placeholder="태그를 입력해주세요"
         />
         <FileContainer>
           <Uploader onUpload={onUpload} />
@@ -75,13 +93,13 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
           ref={textareaEl}
           placeholder="내용을 입력해주세요"
         />
-        <ConfirmWrapper>
+        <ButtonsWrapper>
           <ExitBtnContainer to={"/"}>
-            <Icon type={"back"} size={20} />
+            <Icon type={"back"} size={16} />
             <ExitBtnText>나가기 </ExitBtnText>
           </ExitBtnContainer>
           <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
-        </ConfirmWrapper>
+        </ButtonsWrapper>
       </Wrapper>
       <MarkContainer>
         <h1>{form.title}</h1>
@@ -94,7 +112,7 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100% - 90px);
+  height: calc(100% - 0px);
   flex-wrap: no-wrap;
 `;
 const Wrapper = styled.div`
@@ -154,8 +172,10 @@ const ContentEditor = styled.textarea`
     outline: none;
   }
 `;
-const ConfirmWrapper = styled.div`
-  height: 5%;
+const ButtonsWrapper = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.04) 0px -4px 16px 0px;
+  margin: -30px;
+  padding: 10px;
   display: flex;
   align-content: center;
   justify-content: space-between;
@@ -198,4 +218,11 @@ const MarkContainer = styled.div`
   @media (max-width: 1024px) {
     display: none;
   }
+`;
+
+const FocusBar = styled.div`
+  width: 4rem;
+  height: 0.5rem;
+  background: rgb(52, 58, 64);
+  margin: 1rem 0rem;
 `;

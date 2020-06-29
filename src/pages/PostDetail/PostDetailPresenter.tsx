@@ -101,61 +101,15 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
                 <CommentDate>{comment.createdAt.slice(0, 10)}</CommentDate>
               </CommentInfo>
             </CommentUser>
-            <CommentContent>{comment.text}</CommentContent>
+            <CommentContent>
+              <pre>{comment.text}</pre>
+            </CommentContent>
           </CommentBox>
         ))}
       </CommentsContaniner>
     </Container>
   );
 };
-
-const CommentsContaniner = styled.div`
-  margin-top: 2.5rem;
-`;
-const CommentBox = styled.div`
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-`;
-
-const CommentUser = styled.div`
-  margin-bottom: 1.5rem;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-box-align: center;
-  align-items: center;
-`;
-
-const CommentProfile = styled.div`
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-`;
-
-const CommentInfo = styled.div`
-  margin-left: 1rem;
-  line-height: 1;
-`;
-
-const ConmentUserName = styled.div`
-  font-size: 1rem;
-  font-weight: bold;
-  color: rgb(52, 58, 64);
-`;
-
-const CommentDate = styled.div`
-  margin-top: 0.5rem;
-  color: rgb(134, 142, 150);
-  font-size: 0.875rem;
-`;
-
-const CommentContent = styled.div`
-  font-size: 1.125rem;
-  color: rgb(34, 36, 38);
-  line-height: 1.7;
-  letter-spacing: -0.004em;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-`;
 
 const Container = styled.div`
   @media (max-width: 1024px) {
@@ -238,7 +192,7 @@ const CommentCount = styled.div`
   margin-bottom: 15px;
 `;
 
-const CommentInput = styled.input`
+const CommentInput = styled.textarea`
   width: 100%;
   height: 80px;
   font-size: 16px;
@@ -315,6 +269,54 @@ const LikedButton = styled.div`
 
 const LikeCount = styled.p`
   font-weight: 500;
+`;
+
+const CommentsContaniner = styled.div`
+  margin-top: 2.5rem;
+`;
+const CommentBox = styled.div`
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+`;
+
+const CommentUser = styled.div`
+  margin-bottom: 1.5rem;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-box-align: center;
+  align-items: center;
+`;
+
+const CommentProfile = styled.div`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+`;
+
+const CommentInfo = styled.div`
+  margin-left: 1rem;
+  line-height: 1;
+`;
+
+const ConmentUserName = styled.div`
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(52, 58, 64);
+`;
+
+const CommentDate = styled.div`
+  margin-top: 0.5rem;
+  color: rgb(134, 142, 150);
+  font-size: 0.875rem;
+`;
+
+const CommentContent = styled.div`
+  font-size: 1.125rem;
+  color: rgb(34, 36, 38);
+  line-height: 1.7;
+  letter-spacing: -0.004em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `;
 
 export default PostDetailPresenter;
