@@ -5,7 +5,6 @@ import { useParams, useLocation } from "react-router-dom";
 import { seeUser, QUERY_USER_HOME } from "./UserHomeQueries";
 import { useQuery } from "react-apollo-hooks";
 import Avatar from "../../components/Avatar";
-import { Icon } from "../../components/Icon";
 
 interface UserHomeParams {
   username: string;

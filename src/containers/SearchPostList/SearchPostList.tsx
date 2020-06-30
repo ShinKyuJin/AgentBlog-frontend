@@ -66,7 +66,9 @@ const SearchPostList: FC<SearchPostListProps> = ({
           </>
         )}
 
-        {posts && (
+        {posts &&
+          posts.map((post) => <SearchPostCard key={post.id} {...post} />)}
+        {/* {posts && (
           <WList
             height={800}
             itemCount={posts.length}
@@ -78,7 +80,7 @@ const SearchPostList: FC<SearchPostListProps> = ({
               return <SearchPostCard key={post.id} {...post} />;
             }}
           </WList>
-        )}
+        )} */}
       </SearchContainer>
     </Wrapper>
   );
