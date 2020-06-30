@@ -1,32 +1,5 @@
 import { gql } from "apollo-boost";
-
-export interface getPostDetail {
-  id: string;
-  title: string;
-  user: {
-    avatar: string;
-    bio: string;
-  };
-  files: {
-    url: string;
-  }[];
-  hashtags: {
-    name: string;
-  }[];
-  content: string;
-  createdAt: string;
-  commentCount: number;
-  comments: {
-    text: string;
-    user: {
-      username: string;
-      avatar: string;
-    };
-    createdAt: string;
-  }[];
-  isLiked: boolean;
-  likeCount: number;
-}
+import { getPostDetail } from "../../interface/post";
 
 export interface getPostDetailData {
   getPostDetail: getPostDetail;
@@ -37,7 +10,7 @@ export interface getPostDetailVars {
   url: string;
 }
 
-export const LIKE = gql`
+export const MUTATION_LIKE_POST = gql`
   mutation toggleLike($postId: String!) {
     toggleLike(postId: $postId)
   }
@@ -49,19 +22,23 @@ export const QUERY_POST_DETAIL = gql`
       id
       title
       user {
+        id
         avatar
         bio
       }
       files {
+        id
         url
       }
       hashtags {
+        id
         name
       }
       createdAt
       commentCount
       content
       comments {
+        id
         text
         user {
           username

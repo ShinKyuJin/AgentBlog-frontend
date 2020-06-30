@@ -10,10 +10,10 @@ export interface seeUser {
     content: string;
     hashtags: {
       name: string;
-    }
+    };
     createdAt: string;
     commentCount: number;
-  }
+  };
 }
 
 export const QUERY_USER_HOME = gql`

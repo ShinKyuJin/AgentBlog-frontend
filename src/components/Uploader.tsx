@@ -30,13 +30,14 @@ const Uploader = ({ onUpload }: UploaderInterface) => {
     <Container {...getRootProps()}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p>Drop the files here ...</p>
+        <DropBox>드래그해서 사진을 올리세요! </DropBox>
       ) : (
-        <FileUploader>Upload your file here! </FileUploader>
+        <FileUploader>사진을 여기에 놔주세요 </FileUploader>
       )}
     </Container>
   );
 };
+const DropBox = styled.div``;
 
 const Container = styled.div`
   border: 1px solid black;

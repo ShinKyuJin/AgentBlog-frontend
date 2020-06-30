@@ -6,6 +6,7 @@ import SearchPostCard, {
 } from "../../components/SearchPostCard";
 import { SearchPostProps } from "../../interface/post";
 import Theme from "../../styles/theme";
+import { VariableSizeList as WList } from "react-window";
 
 interface SearchPostListProps {
   searchType: "Search" | "Hashtag";
@@ -26,6 +27,10 @@ const SearchPostList: FC<SearchPostListProps> = ({
   onTermChange,
   tagname,
 }) => {
+  const getItemHeight = (index: number) =>
+    posts && (posts[index].thumbnail || posts[index].files.length > 0)
+      ? 753
+      : 323;
   return (
     <Wrapper>
       <SearchContainer>
@@ -63,6 +68,19 @@ const SearchPostList: FC<SearchPostListProps> = ({
 
         {posts &&
           posts.map((post) => <SearchPostCard key={post.id} {...post} />)}
+        {/* {posts && (
+          <WList
+            height={800}
+            itemCount={posts.length}
+            itemSize={getItemHeight}
+            width={"100%"}
+          >
+            {({ index, style }) => {
+              const post = posts[index];
+              return <SearchPostCard key={post.id} {...post} />;
+            }}
+          </WList>
+        )} */}
       </SearchContainer>
     </Wrapper>
   );

@@ -1,3 +1,3 @@
-import PostDetail from './PostDetail';
+import PostDetailContainer from "./PostDetailContainer";
 
-export default PostDetail;
+export default PostDetailContainer;

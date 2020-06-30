@@ -44,7 +44,7 @@ const WritePostContainer = () => {
       if (form.hashtags.find((text) => text === form.hashtag)) {
         return toast.warning("이미 있는 해시태그입니다.");
       }
-      if (form.hashtag !== "") {
+      if (form.hashtag.trim() !== "") {
         setForm({
           ...form,
           hashtags: [...form.hashtags.concat(form.hashtag)],

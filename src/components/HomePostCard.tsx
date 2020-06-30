@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ImageLoader from "./ImageLoader";
 import Skeleton from "react-loading-skeleton";
 import { HomePostProps } from "../interface/post";
+import { convertMarkdownToText } from "../shared/utils";
 
 interface PostCardProps {
   postInfo?: HomePostProps;
@@ -19,13 +20,21 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         <Skeleton height={400} />
       </Container>
     );
-  else
+  else {
+    const thumbnail = postInfo.thumbnail
+      ? postInfo.thumbnail
+      : postInfo.files.length > 0
+      ? postInfo.files[0].url
+      : null;
+    const description = postInfo.description
+      ? postInfo.description
+      : convertMarkdownToText(postInfo.content);
     return (
       <Container>
-        {postInfo.thumbnail && !thumbnailError && (
+        {thumbnail && !thumbnailError && (
           <ImageContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <Image
-              src={postInfo.thumbnail}
+              src={thumbnail}
               loadingHeight={177}
               onError={() => setThumbnailError(true)}
             />
@@ -35,11 +44,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         <PostInfoContainer>
           <ContentContainer to={`/@${postInfo.user.username}/${postInfo.url}`}>
             <TitleCon>{postInfo.title}</TitleCon>
-            <ContentCon>
-              {postInfo.content.length > 60
-                ? postInfo.content.slice(0, 60).concat("...")
-                : postInfo.content}
-            </ContentCon>
+            <ContentCon>{description}</ContentCon>
           </ContentContainer>
           <RestInfoContainer>
             {postInfo.createdAt.slice(0, 10)} · {postInfo.commentCount}개의 댓글
@@ -54,6 +59,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
         </UserInfoContainer>
       </Container>
     );
+  }
 };
 
 const Container = styled.div`
@@ -97,6 +103,7 @@ const ImageContainer = styled(Link)`
   position: relative;
   padding-bottom: 55%;
   width: 100%;
+  max-height: 177px;
 `;
 
 const Image = styled(ImageLoader)`
@@ -149,15 +156,29 @@ const UserInfoContainer = styled(Link)`
 `;
 
 const LikesCon = styled.div`
-  font-size: 14px;
+  font-size: 0.875rem;
   position: absolute;
   right: 16px;
 `;
 
 const TitleCon = styled.b`
-  font-size: 18px;
+  font-size: 1rem;
+  line-height: 1.5;
 `;
-const ContentCon = styled.p``;
+
+const ContentCon = styled.p`
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  height: 1.5rem * 3;
+  font-size: 0.875rem;
+  color: rgb(73, 80, 87);
+`;
 
 const AvatarBy = styled.p`
   color: rgb(134, 142, 150);

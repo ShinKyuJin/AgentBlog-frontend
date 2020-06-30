@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
-import Home from "../pages/Home";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
-import Auth from "../pages/Auth";
-import PostDetail from "../pages/PostDetail";
-import UserHome from "../pages/UserHome";
-import WritePost from "../pages/WritePost";
-import Setting from "../pages/Setting";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
-import PageNotFound from "../pages/PageNotFound";
-import Search from "../pages/Search";
-import SearchHashtag from "../pages/SearchHashtag";
+import PulseLoader from "react-spinners/PulseLoader";
+import styled from "styled-components";
+import MyErrorBoundary from "../components/ErrorBoundary";
+
+const Home = lazy(() => import("../pages/Home"));
+const Auth = lazy(() => import("../pages/Auth"));
+const PostDetail = lazy(() => import("../pages/PostDetail"));
+const UserHome = lazy(() => import("../pages/UserHome"));
+const WritePost = lazy(() => import("../pages/WritePost"));
+const Setting = lazy(() => import("../pages/Setting"));
+const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+const Search = lazy(() => import("../pages/Search"));
+const SearchHashtag = lazy(() => import("../pages/SearchHashtag"));
 
 interface RoutesProps {
   isLoggedIn: boolean;
@@ -80,24 +84,42 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
   }, [location]);
 
   return (
-    <Switch>
-      {RoutesListWithoutLogin.map((route, i) => {
-        return <Route exact {...route} key={i} />;
-      })}
-      {RoutesListWithLogin.map((route, i) => {
-        return (
-          <Route
-            exact
-            {...route}
-            key={i}
-            onUpdate={() => window.scrollTo(0, 0)}
-          />
-        );
-      })}
-      <Route path="/" component={PageNotFound} />
-      <Redirect from="*" to="/" />
-    </Switch>
+    <MyErrorBoundary>
+      <Suspense
+        fallback={
+          <LoadingContainer>
+            <PulseLoader size={15} color={"#36D7B7"} />
+          </LoadingContainer>
+        }
+      >
+        <Switch>
+          {RoutesListWithoutLogin.map((route, i) => {
+            return <Route exact {...route} key={i} />;
+          })}
+          {RoutesListWithLogin.map((route, i) => {
+            return (
+              <Route
+                exact
+                {...route}
+                key={i}
+                onUpdate={() => window.scrollTo(0, 0)}
+              />
+            );
+          })}
+          <Route path="/" component={PageNotFound} />
+          <Redirect from="*" to="/" />
+        </Switch>
+      </Suspense>
+    </MyErrorBoundary>
   );
 };
+
+const LoadingContainer = styled.div`
+  width: 100%;
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default Routes;
