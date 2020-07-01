@@ -14,13 +14,13 @@ interface PostCardProps {
 const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   const [thumbnailError, setThumbnailError] = useState(false);
 
-  if (!postInfo)
+  if (!postInfo) {
     return (
       <Container>
         <Skeleton height={400} />
       </Container>
     );
-  else {
+  } else {
     const thumbnail = postInfo.thumbnail
       ? postInfo.thumbnail
       : postInfo.files.length > 0

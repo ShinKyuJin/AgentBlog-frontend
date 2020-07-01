@@ -83,6 +83,8 @@ const Container = styled.div`
   margin: -1rem;
 `;
 
-const Main = styled.main``;
+const Main = styled.main`
+  width: 100%;
+`;
 
 export default HomePostList;
