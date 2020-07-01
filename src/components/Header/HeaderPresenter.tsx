@@ -49,7 +49,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.header`
   ${(prop) => prop.theme.responsiveContainer}
   display: flex;
   flex-direction: row;
@@ -59,7 +59,7 @@ const Container = styled.div`
   padding-bottom: 0;
 `;
 
-const SemiContainer = styled.div`
+const SemiContainer = styled.nav`
   display: flex;
 `;
 

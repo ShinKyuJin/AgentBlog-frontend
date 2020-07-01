@@ -73,7 +73,7 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.section`
   @media (max-width: 768px) {
     margin: 0px;
   }

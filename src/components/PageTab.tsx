@@ -24,7 +24,7 @@ const PageTab: FC<PageTabProps> = ({
   };
 
   return (
-    <>
+    <nav>
       <Helmet>
         <title>{tabItems[tabNum].title}</title>
       </Helmet>
@@ -40,7 +40,7 @@ const PageTab: FC<PageTabProps> = ({
         ))}
         <FocusBar tabNum={tabNum} tabCount={tabItems.length} />
       </TabContainer>
-    </>
+    </nav>
   );
 };
 

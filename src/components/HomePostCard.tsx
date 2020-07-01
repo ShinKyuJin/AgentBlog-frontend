@@ -62,7 +62,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   }
 };
 
-const Container = styled.div`
+const Container = styled.article`
   @media (max-width: 944px) {
     width: calc(50% - 2rem);
   }
