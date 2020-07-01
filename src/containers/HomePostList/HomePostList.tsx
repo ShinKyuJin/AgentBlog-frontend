@@ -74,7 +74,7 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
 };
 
 const Container = styled.div`
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     margin: 0px;
   }
   display: flex;
