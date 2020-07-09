@@ -6,6 +6,7 @@ import Modal from "../../modal/Modal";
 import AuthContainer from "../../modal/Auth";
 import Button from "../Button";
 import { Icon } from "../Icon";
+import Avatar from "../Avatar";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
@@ -30,7 +31,21 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           <Icon type={"search"} size={20} />
         </SearchContainer>
         {isLoggedIn ? (
-          <EWriteLink to="/write">새 글 작성</EWriteLink>
+          <>
+            <EWriteLink to="/write">새 글 작성</EWriteLink>
+            <EAvatar size={"md"} url={""} />
+            <DropdownIconContainer>
+              <Icon type={"down"} size={9} />
+            </DropdownIconContainer>
+            <DropdownContainer>
+              <DropdownContent>
+                <DropdownWrapper>
+                  <DropdownItem>내 블로그</DropdownItem>
+                  <DropdownItem>hihi</DropdownItem>
+                </DropdownWrapper>
+              </DropdownContent>
+            </DropdownContainer>
+          </>
         ) : (
           <EButton text={"로그인"} onClick={openModal} />
         )}
@@ -72,7 +87,7 @@ const SearchContainer = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   background-color: inherit;
   width: 37px;
   height: 37px;
@@ -101,6 +116,9 @@ const EButton = styled(Button)`
 `;
 
 const EWriteLink = styled(Link)`
+  @media (max-width: 1024px) {
+    display: none;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,6 +136,46 @@ const EWriteLink = styled(Link)`
   transition: background-color 0.08s ease-out 0s;
   &:hover {
     background-color: ${(props) => props.theme.greyColor};
+  }
+`;
+
+const EAvatar = styled(Avatar)`
+  width: 40px;
+  height: 40px;
+  margin-left: 0.5rem;
+`;
+
+const DropdownIconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 40px;
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+`;
+const DropdownContent = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0px;
+  margin-top: 1rem;
+`;
+const DropdownWrapper = styled.div`
+  position: relative;
+  width: 12rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+  background: white;
+`;
+const DropdownItem = styled.div`
+  color: rgb(33, 37, 41);
+  line-height: 1.5;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  &:hover {
+    background: rgb(248, 249, 250);
   }
 `;
 
