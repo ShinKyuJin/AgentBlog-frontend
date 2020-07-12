@@ -7,12 +7,15 @@ import AuthContainer from "../../modal/Auth";
 import Button from "../Button";
 import { Icon } from "../Icon";
 import Avatar from "../Avatar";
+import Dropdown from "./Dropdown";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
   openModal: () => void;
   closeModal: () => void;
   isLoggedIn: boolean;
+  isDropdown: boolean;
+  setIsDropdown: any;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
@@ -20,6 +23,8 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   openModal,
   closeModal,
   isLoggedIn,
+  isDropdown,
+  setIsDropdown,
 }) => {
   return (
     <Container>
@@ -33,18 +38,21 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
         {isLoggedIn ? (
           <>
             <EWriteLink to="/write">새 글 작성</EWriteLink>
-            <EAvatar size={"md"} url={""} />
-            <DropdownIconContainer>
-              <Icon type={"down"} size={9} />
-            </DropdownIconContainer>
-            <DropdownContainer>
-              <DropdownContent>
-                <DropdownWrapper>
-                  <DropdownItem>내 블로그</DropdownItem>
-                  <DropdownItem>hihi</DropdownItem>
-                </DropdownWrapper>
-              </DropdownContent>
-            </DropdownContainer>
+            <DropdownController onClick={() => setIsDropdown(!isDropdown)}>
+              <EAvatar size={"md"} url={""} />
+              <DropdownIconContainer>
+                <Icon type={"down"} size={9} />
+              </DropdownIconContainer>
+            </DropdownController>
+            {isDropdown && (
+              <Dropdown
+                items={[
+                  { name: "내블로그", to: "/" },
+                  { name: "설정", to: "/" },
+                  { name: "로그아웃", to: "/" },
+                ]}
+              />
+            )}
           </>
         ) : (
           <EButton text={"로그인"} onClick={openModal} />
@@ -139,6 +147,10 @@ const EWriteLink = styled(Link)`
   }
 `;
 
+const DropdownController = styled.div`
+  display: flex;
+`;
+
 const EAvatar = styled(Avatar)`
   width: 40px;
   height: 40px;
@@ -151,32 +163,6 @@ const DropdownIconContainer = styled.div`
   align-items: center;
   width: 25px;
   height: 40px;
-`;
-
-const DropdownContainer = styled.div`
-  position: relative;
-`;
-const DropdownContent = styled.div`
-  position: absolute;
-  top: 100%;
-  right: 0px;
-  margin-top: 1rem;
-`;
-const DropdownWrapper = styled.div`
-  position: relative;
-  width: 12rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-  background: white;
-`;
-const DropdownItem = styled.div`
-  color: rgb(33, 37, 41);
-  line-height: 1.5;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.75rem 1rem;
-  &:hover {
-    background: rgb(248, 249, 250);
-  }
 `;
 
 export default HeaderPresenter;
