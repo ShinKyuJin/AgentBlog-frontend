@@ -149,6 +149,7 @@ const EWriteLink = styled(Link)`
 
 const DropdownController = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const EAvatar = styled(Avatar)`
