@@ -90,4 +90,4 @@ const FocusBar = styled.div<TabFocusProps>`
   transform: ${(props) => `translateX(${props.tabNum * 100}%);`};
 `;
 
-export default PageTab;
+export default React.memo(PageTab);

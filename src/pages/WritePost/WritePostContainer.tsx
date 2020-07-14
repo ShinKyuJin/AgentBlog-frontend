@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
 import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
 import { serverUri } from "../../Apollo/Client";
 import axios from "axios";
-import { WritePostPresenter } from "./WritePostPresenter";
+import WritePostPresenter from "./WritePostPresenter";
 
 export interface formProps {
   title: string;
@@ -30,31 +30,32 @@ const WritePostContainer = () => {
   });
   const textareaEl = useRef(null);
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, title: e.target.value });
-  };
-  const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setForm({ ...form, content: e.target.value });
-  };
-  const handleChangeHashtag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, hashtag: e.target.value });
-  };
-  const handleChangeHashtags = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (form.hashtags.find((text) => text === form.hashtag)) {
-        return toast.warning("이미 있는 해시태그입니다.");
+  const handleChangeText = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setForm({ ...form, [e.target.name]: e.target.value });
+      console.log(form);
+    },
+    [form]
+  );
+  const handleChangeHashtags = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        if (form.hashtags.find((text) => text === form.hashtag)) {
+          return toast.warning("이미 있는 해시태그입니다.");
+        }
+        if (form.hashtag.trim() !== "") {
+          setForm({
+            ...form,
+            hashtags: [...form.hashtags.concat(form.hashtag)],
+            hashtag: "",
+          });
+        } else {
+          toast.error("해시태그를 입력해주세요!");
+        }
       }
-      if (form.hashtag.trim() !== "") {
-        setForm({
-          ...form,
-          hashtags: [...form.hashtags.concat(form.hashtag)],
-          hashtag: "",
-        });
-      } else {
-        toast.error("해시태그를 입력해주세요!");
-      }
-    }
-  };
+    },
+    [form]
+  );
 
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
@@ -67,66 +68,74 @@ const WritePostContainer = () => {
       files: form.files,
     },
   });
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
 
-    if (form.title === "" || form.content === "") {
-      toast.error("제목과 내용을 비우지 말아주세요!");
-    } else {
-      try {
-        const {
-          data: { posting },
-        }: any = await postingMutation();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-        if (!posting) {
-          toast.error("글 작성에 실패했습니다.");
-        } else {
-          toast.success("글 작성에 성공했습니다.");
-          window.location.href = `/@${posting.user.username}/${posting.url}`;
+      if (form.title === "" || form.content === "") {
+        toast.error("제목과 내용을 비우지 말아주세요!");
+      } else {
+        try {
+          const {
+            data: { posting },
+          }: any = await postingMutation();
+
+          if (!posting) {
+            toast.error("글 작성에 실패했습니다.");
+          } else {
+            toast.success("글 작성에 성공했습니다.");
+            window.location.href = `/@${posting.user.username}/${posting.url}`;
+          }
+        } catch (e) {
+          console.log(e);
+          toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
         }
-      } catch (e) {
-        console.log(e);
-        toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
       }
-    }
-  };
+    },
+    [form, postingMutation]
+  );
 
-  const handleClickHashtag = (e: any) => {
-    setForm({
-      ...form,
-      hashtags: [
-        ...form.hashtags.filter((text) => text !== e.target.textContent),
-      ],
-    });
-  };
-
-  const onUpload = async (file: any) => {
-    const formData = new FormData();
-    formData.append("file", file, file.originalname);
-
-    try {
-      const { data } = await axios.post(serverUri + "/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-
+  const handleClickHashtag = useCallback(
+    (e: any) => {
       setForm({
         ...form,
-        content: form.content.concat(`\n![](${data.location})`),
+        hashtags: [
+          ...form.hashtags.filter((text) => text !== e.target.textContent),
+        ],
       });
-    } catch (err) {
-      toast.error("파일 업로드에 실패하였습니다." + err);
-      return null;
-    }
-  };
+    },
+    [form]
+  );
+
+  const onUpload = useCallback(
+    async (file: any) => {
+      const formData = new FormData();
+      formData.append("file", file, file.originalname);
+
+      try {
+        const { data } = await axios.post(serverUri + "/api/upload", formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        });
+
+        setForm({
+          ...form,
+          content: form.content.concat(`\n![](${data.location})`),
+        });
+      } catch (err) {
+        toast.error("파일 업로드에 실패하였습니다." + err);
+        return null;
+      }
+    },
+    [form]
+  );
 
   return (
     <WritePostPresenter
       form={form}
-      handleChangeTitle={handleChangeTitle}
-      handleChangeContent={handleChangeContent}
-      handleChangeHashtag={handleChangeHashtag}
+      handleChangeText={handleChangeText}
       handleChangeHashtags={handleChangeHashtags}
       handleSubmit={handleSubmit}
       handleClickHashtag={handleClickHashtag}

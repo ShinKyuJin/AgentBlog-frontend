@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { formProps } from "./WritePostContainer";
@@ -12,9 +12,7 @@ import { toast } from "react-toastify";
 
 interface WritePostPresenterProps {
   form: formProps;
-  handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeContent: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleChangeHashtag: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeText: any;
   handleChangeHashtags: (
     e: React.KeyboardEvent<Element>
   ) => string | number | undefined;
@@ -24,11 +22,9 @@ interface WritePostPresenterProps {
   textareaEl: React.MutableRefObject<null>;
 }
 
-export const WritePostPresenter: FC<WritePostPresenterProps> = ({
+const WritePostPresenter: FC<WritePostPresenterProps> = ({
   form,
-  handleChangeTitle,
-  handleChangeContent,
-  handleChangeHashtag,
+  handleChangeText,
   handleChangeHashtags,
   handleSubmit,
   handleClickHashtag,
@@ -71,27 +67,30 @@ export const WritePostPresenter: FC<WritePostPresenterProps> = ({
       <Wrapper>
         <TitleEditor
           value={form.title}
-          onChange={handleChangeTitle}
+          onChange={handleChangeText}
           placeholder="제목을 입력해주세요"
+          name="title"
         />
         <FocusBar />
         <HashtagBox>{hashtags}</HashtagBox>
         <HashtagEditor
           value={form.hashtag}
-          onChange={handleChangeHashtag}
+          onChange={handleChangeText}
           onKeyPress={handleChangeHashtags}
           onFocus={showTagInfo}
           onBlur={dismissInfo}
           placeholder="태그를 입력해주세요"
+          name="hashtag"
         />
         <FileContainer>
           <Uploader onUpload={onUpload} />
         </FileContainer>
         <ContentEditor
           value={form.content}
-          onChange={handleChangeContent}
+          onChange={handleChangeText}
           ref={textareaEl}
           placeholder="내용을 입력해주세요"
+          name="content"
         />
         <ButtonsWrapper>
           <ExitBtnContainer to={"/"}>
@@ -226,3 +225,5 @@ const FocusBar = styled.div`
   background: rgb(52, 58, 64);
   margin: 1rem 0rem;
 `;
+
+export default React.memo(WritePostPresenter);
