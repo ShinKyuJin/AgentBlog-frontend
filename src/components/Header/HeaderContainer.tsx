@@ -44,4 +44,6 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   );
 };
 
-export default HeaderContainer;
+export default React.memo(HeaderContainer, (currProps, nextProps) => {
+  return currProps.isLoggedIn !== nextProps.isLoggedIn;
+});

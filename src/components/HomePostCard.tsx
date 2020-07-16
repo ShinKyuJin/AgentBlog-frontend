@@ -189,4 +189,4 @@ const AvatarUsername = styled.p`
   font-weight: 550;
 `;
 
-export default HomePostCard;
+export default React.memo(HomePostCard);

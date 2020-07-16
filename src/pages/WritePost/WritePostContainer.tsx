@@ -33,7 +33,6 @@ const WritePostContainer = () => {
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setForm({ ...form, [e.target.name]: e.target.value });
-      console.log(form);
     },
     [form]
   );
@@ -100,9 +99,7 @@ const WritePostContainer = () => {
     (e: any) => {
       setForm({
         ...form,
-        hashtags: [
-          ...form.hashtags.filter((text) => text !== e.target.textContent),
-        ],
+        hashtags: form.hashtags.filter((text) => text !== e.target.textContent),
       });
     },
     [form]
