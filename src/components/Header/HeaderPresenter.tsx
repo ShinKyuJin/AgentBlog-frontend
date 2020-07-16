@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoImg from "../../assets/logo.png";
@@ -6,12 +6,16 @@ import Modal from "../../modal/Modal";
 import AuthContainer from "../../modal/Auth";
 import Button from "../Button";
 import { Icon } from "../Icon";
+import Avatar from "../Avatar";
+import Dropdown from "./Dropdown";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
   openModal: () => void;
   closeModal: () => void;
   isLoggedIn: boolean;
+  isDropdown: boolean;
+  setIsDropdown: any;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
@@ -19,7 +23,17 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   openModal,
   closeModal,
   isLoggedIn,
+  isDropdown,
+  setIsDropdown,
 }) => {
+  useEffect(() => {
+    const handleOnClick = () => setIsDropdown(false);
+    document.addEventListener("click", handleOnClick, true);
+    return () => {
+      document.removeEventListener("click", handleOnClick, true);
+    };
+  }, []);
+
   return (
     <Container>
       <LogoContainer to="/">
@@ -30,7 +44,24 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           <Icon type={"search"} size={20} />
         </SearchContainer>
         {isLoggedIn ? (
-          <EWriteLink to="/write">새 글 작성</EWriteLink>
+          <>
+            <EWriteLink to="/write">새 글 작성</EWriteLink>
+            <DropdownController onClick={() => setIsDropdown(true)}>
+              <EAvatar size={"md"} url={""} />
+              <DropdownIconContainer>
+                <Icon type={"down"} size={9} />
+              </DropdownIconContainer>
+            </DropdownController>
+            {isDropdown && (
+              <Dropdown
+                items={[
+                  { name: "내블로그", to: "/me" },
+                  { name: "설정", to: "/setting" },
+                  { name: "로그아웃", to: "/logout" },
+                ]}
+              />
+            )}
+          </>
         ) : (
           <EButton text={"로그인"} onClick={openModal} />
         )}
@@ -49,7 +80,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.header`
   ${(prop) => prop.theme.responsiveContainer}
   display: flex;
   flex-direction: row;
@@ -59,7 +90,7 @@ const Container = styled.div`
   padding-bottom: 0;
 `;
 
-const SemiContainer = styled.div`
+const SemiContainer = styled.nav`
   display: flex;
 `;
 
@@ -72,7 +103,7 @@ const SearchContainer = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   background-color: inherit;
   width: 37px;
   height: 37px;
@@ -101,6 +132,9 @@ const EButton = styled(Button)`
 `;
 
 const EWriteLink = styled(Link)`
+  @media (max-width: 1024px) {
+    display: none;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,6 +153,25 @@ const EWriteLink = styled(Link)`
   &:hover {
     background-color: ${(props) => props.theme.greyColor};
   }
+`;
+
+const DropdownController = styled.div`
+  display: flex;
+  cursor: pointer;
+`;
+
+const EAvatar = styled(Avatar)`
+  width: 40px;
+  height: 40px;
+  margin-left: 0.5rem;
+`;
+
+const DropdownIconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 40px;
 `;
 
 export default HeaderPresenter;

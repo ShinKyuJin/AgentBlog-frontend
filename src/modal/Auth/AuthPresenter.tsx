@@ -110,6 +110,10 @@ const ELink = styled(Link)`
 `;
 
 const Form = styled(Box)`
+  @media (max-width: 768px) {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   max-width: 450px;
   padding: 40px;
   padding-bottom: 30px;

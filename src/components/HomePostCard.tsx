@@ -14,13 +14,13 @@ interface PostCardProps {
 const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   const [thumbnailError, setThumbnailError] = useState(false);
 
-  if (!postInfo)
+  if (!postInfo) {
     return (
       <Container>
         <Skeleton height={400} />
       </Container>
     );
-  else {
+  } else {
     const thumbnail = postInfo.thumbnail
       ? postInfo.thumbnail
       : postInfo.files.length > 0
@@ -62,7 +62,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
   }
 };
 
-const Container = styled.div`
+const Container = styled.article`
   @media (max-width: 944px) {
     width: calc(50% - 2rem);
   }
@@ -189,4 +189,4 @@ const AvatarUsername = styled.p`
   font-weight: 550;
 `;
 
-export default HomePostCard;
+export default React.memo(HomePostCard);

@@ -92,14 +92,19 @@ const ModalWrapper = styled.div<ModalWrapperProps>`
 `;
 
 const ModalInner = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
+  width: 600px;
+  height: fit-content;
+
   box-sizing: border-box;
   position: relative;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
   background-color: #fff;
   border-radius: 2px;
-  width: 600px;
-  max-width: 600px;
-  height: fit-content;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;

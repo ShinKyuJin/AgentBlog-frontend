@@ -11,6 +11,7 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [path, setPath] = useState(window.location.pathname);
+  const [isDropdown, setIsDropdown] = useState(false);
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
@@ -35,10 +36,14 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
           openModal={openModal}
           closeModal={closeModal}
           isLoggedIn={isLoggedIn}
+          isDropdown={isDropdown}
+          setIsDropdown={setIsDropdown}
         />
       )}
     </>
   );
 };
 
-export default HeaderContainer;
+export default React.memo(HeaderContainer, (currProps, nextProps) => {
+  return currProps.isLoggedIn !== nextProps.isLoggedIn;
+});

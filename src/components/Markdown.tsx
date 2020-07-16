@@ -52,4 +52,4 @@ const CodeBlock = (props: any) => {
 
 const Conatiner = styled.div``;
 
-export default Markdown;
+export default React.memo(Markdown);

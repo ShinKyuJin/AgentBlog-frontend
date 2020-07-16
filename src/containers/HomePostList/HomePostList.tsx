@@ -73,8 +73,8 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
   );
 };
 
-const Container = styled.div`
-  @media (max-width: 767px) {
+const Container = styled.section`
+  @media (max-width: 768px) {
     margin: 0px;
   }
   display: flex;
@@ -83,6 +83,8 @@ const Container = styled.div`
   margin: -1rem;
 `;
 
-const Main = styled.main``;
+const Main = styled.main`
+  width: 100%;
+`;
 
 export default HomePostList;

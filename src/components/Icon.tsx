@@ -1,7 +1,14 @@
 import React, { FC } from "react";
 
 interface IconProps {
-  type: "search" | "trend" | "time" | "back" | "redHeart" | "blackHeart";
+  type:
+    | "search"
+    | "trend"
+    | "time"
+    | "back"
+    | "redHeart"
+    | "blackHeart"
+    | "down";
   size?: number;
   color?: string | undefined;
 }
@@ -26,6 +33,7 @@ export const Icon: FC<IconProps> = ({ type, size = 24, color }) => {
     blackHeart: (
       <path fill="currentColor" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"></path>
     ),
+    down: <path d="M12 21l-12-18h24z" />,
   };
   return (
     <svg

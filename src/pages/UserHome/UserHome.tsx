@@ -93,7 +93,7 @@ const UserHome = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
   width: 768px;
   margin: 0 auto;
   display: flex;

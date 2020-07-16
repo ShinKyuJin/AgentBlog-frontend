@@ -103,4 +103,4 @@ const Tag = styled(Link)`
   }
 `;
 
-export default Sidebar;
+export default React.memo(Sidebar);

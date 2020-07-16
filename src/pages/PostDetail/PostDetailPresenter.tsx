@@ -111,7 +111,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
   @media (max-width: 1024px) {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -124,7 +124,7 @@ const Container = styled.div`
   background-color: white;
   margin-top: 5rem;
 `;
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   display: flex;
   flex-direction: column;
   flex-wrap: no-wrap;
@@ -155,7 +155,7 @@ const HashtagContainer = styled.div`
   margin-top: 10px;
 `;
 
-const BodyContainer = styled.div``;
+const BodyContainer = styled.article``;
 const TailContainer = styled.div`
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@ const LikeSidebarContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const LikeSidebar = styled.div`
+const LikeSidebar = styled.aside`
   @media (max-width: 1024px) {
     display: none;
   }

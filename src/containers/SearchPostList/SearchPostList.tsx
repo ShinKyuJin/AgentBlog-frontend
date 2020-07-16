@@ -6,7 +6,7 @@ import SearchPostCard, {
 } from "../../components/SearchPostCard";
 import { SearchPostProps } from "../../interface/post";
 import Theme from "../../styles/theme";
-import { VariableSizeList as WList } from "react-window";
+// import { VariableSizeList as WList } from "react-window";
 
 interface SearchPostListProps {
   searchType: "Search" | "Hashtag";
@@ -27,38 +27,41 @@ const SearchPostList: FC<SearchPostListProps> = ({
   onTermChange,
   tagname,
 }) => {
-  const getItemHeight = (index: number) =>
-    posts && (posts[index].thumbnail || posts[index].files.length > 0)
-      ? 753
-      : 323;
+  // const getItemHeight = (index: number) =>
+  //   posts && (posts[index].thumbnail || posts[index].files.length > 0)
+  //     ? 753
+  //     : 323;
   return (
     <Wrapper>
       <SearchContainer>
-        {searchType === "Hashtag" && (
-          <ETagnameText>{`# ${tagname}`}</ETagnameText>
-        )}
-        {searchType === "Search" && (
-          <SearchInputContainer>
-            <SearchInput
-              value={term}
-              onChange={onTermChange}
-              placeholder={"검색어를 입력하세요."}
-            />
-          </SearchInputContainer>
-        )}
+        <header>
+          {searchType === "Hashtag" && (
+            <ETagnameText>{`# ${tagname}`}</ETagnameText>
+          )}
+          {searchType === "Search" && (
+            <SearchInputContainer>
+              <SearchInput
+                value={term}
+                onChange={onTermChange}
+                placeholder={"검색어를 입력하세요."}
+              />
+            </SearchInputContainer>
+          )}
 
-        {!loading &&
-          posts &&
-          (posts.length === 0 ? (
-            <EText>검색 결과가 없습니다.</EText>
-          ) : (
-            <EText>
-              총{" "}
-              <b style={{ color: Theme.deepDarkGreyColor }}>{posts.length}개</b>
-              의 포스트를 찾았습니다.
-            </EText>
-          ))}
-
+          {!loading &&
+            posts &&
+            (posts.length === 0 ? (
+              <EText>검색 결과가 없습니다.</EText>
+            ) : (
+              <EText>
+                총{" "}
+                <b style={{ color: Theme.deepDarkGreyColor }}>
+                  {posts.length}개
+                </b>
+                의 포스트를 찾았습니다.
+              </EText>
+            ))}
+        </header>
         {loading && (searchType !== "Search" || (term && term.length > 0)) && (
           <>
             <PostLoadingSkeleton />
@@ -86,7 +89,7 @@ const SearchPostList: FC<SearchPostListProps> = ({
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +109,7 @@ const EText = styled.span`
   margin-bottom: 4rem;
 `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -88,7 +88,7 @@ export const PostLoadingSkeleton = () => (
   </Wrapper>
 );
 
-const Wrapper = styled.div`
+const Wrapper = styled.article`
   width: 100%;
   line-height: 1.5;
   padding-bottom: 4rem;

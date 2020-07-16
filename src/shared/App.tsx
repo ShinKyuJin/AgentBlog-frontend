@@ -19,7 +19,7 @@ const App = () => {
         <Header isLoggedIn={isLoggedIn} />
         <Routes isLoggedIn={isLoggedIn} />
       </Wrapper>
-      <ToastContainer position={"bottom-left"} />
+      <ToastContainer position={"bottom-left"} autoClose={3000} />
     </ThemeProvider>
   );
 };
