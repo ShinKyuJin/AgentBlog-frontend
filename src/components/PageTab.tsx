@@ -17,8 +17,8 @@ const PageTab: FC<PageTabProps> = ({
 }) => {
   const tabButtonHandler = (idx: number) => {
     const newTabItem = tabItems[idx];
-    console.log(idx);
-    console.log(newTabItem);
+    //console.log(idx);
+    //console.log(newTabItem);
     setTabNum(idx);
     window.history.replaceState(null, newTabItem.title || "", newTabItem.url);
   };

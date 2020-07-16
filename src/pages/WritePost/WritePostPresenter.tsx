@@ -47,31 +47,39 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
   const dismissInfo = React.useCallback(() => toast.dismiss("tagInfo"), []);
 
   const Hashtags = React.useMemo(
-    () => (
-      <HashtagBox>
-        {form.hashtags.map((text) => {
-          return (
-            <Hashtag
-              key={text}
-              name={text}
-              isLink={false}
-              onClick={handleClickHashtag}
-            />
-          );
-        })}
-        <HashtagEditor
-          value={form.hashtag}
-          onChange={handleChangeText}
-          onKeyPress={handleChangeHashtags}
-          onFocus={showTagInfo}
-          onBlur={dismissInfo}
-          placeholder="태그를 입력해주세요"
-          name="hashtag"
-          tabIndex={1}
-        />
-      </HashtagBox>
-    ),
-    [form.hashtags, form.hashtag]
+    () =>
+      form.hashtags.map((text) => {
+        return (
+          <Hashtag
+            key={text}
+            name={text}
+            isLink={false}
+            onClick={handleClickHashtag}
+          />
+        );
+      }),
+    [form.hashtags]
+  );
+
+  const IndependentComp = React.useMemo(
+    () => ({
+      FocusBar: <FocusBar />,
+      Buttons: (
+        <ButtonsWrapper>
+          <ExitBtnContainer to={"/"}>
+            <Icon type={"back"} size={16} />
+            <ExitBtnText>나가기 </ExitBtnText>
+          </ExitBtnContainer>
+          <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
+        </ButtonsWrapper>
+      ),
+      FileUploader: (
+        <FileContainer>
+          <Uploader onUpload={onUpload} />
+        </FileContainer>
+      ),
+    }),
+    []
   );
 
   return (
@@ -91,12 +99,26 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
           name="title"
           tabIndex={0}
         />
-        <FocusBar />
-        {Hashtags}
-
-        <FileContainer>
-          <Uploader onUpload={onUpload} />
-        </FileContainer>
+        {IndependentComp.FocusBar}
+        <HashtagBox>
+          {Hashtags}
+          {React.useMemo(
+            () => (
+              <HashtagEditor
+                value={form.hashtag}
+                onChange={handleChangeText}
+                onKeyPress={handleChangeHashtags}
+                onFocus={showTagInfo}
+                onBlur={dismissInfo}
+                placeholder="태그를 입력해주세요"
+                name="hashtag"
+                tabIndex={1}
+              />
+            ),
+            [form]
+          )}
+        </HashtagBox>
+        {IndependentComp.FileUploader}
         <ContentEditor
           value={form.content}
           onChange={handleChangeText}
@@ -105,18 +127,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
           name="content"
           tabIndex={2}
         />
-        {React.useMemo(
-          () => (
-            <ButtonsWrapper>
-              <ExitBtnContainer to={"/"}>
-                <Icon type={"back"} size={16} />
-                <ExitBtnText>나가기 </ExitBtnText>
-              </ExitBtnContainer>
-              <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
-            </ButtonsWrapper>
-          ),
-          []
-        )}
+        {IndependentComp.Buttons}
       </Wrapper>
       <MarkContainer>
         {React.useMemo(
@@ -162,7 +173,7 @@ const TitleEditor = styled.input`
   }
 `;
 const HashtagEditor = styled.input`
-  width: 12rem;
+  min-width: 12rem;
   padding: 0;
   margin-left: 1rem;
   height: 40px;

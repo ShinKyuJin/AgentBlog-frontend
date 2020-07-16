@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoImg from "../../assets/logo.png";
@@ -8,6 +8,7 @@ import Button from "../Button";
 import { Icon } from "../Icon";
 import Avatar from "../Avatar";
 import Dropdown from "./Dropdown";
+import { useOnOutsideClick } from "../../hooks/useOnOutsideClick";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
@@ -26,6 +27,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   isDropdown,
   setIsDropdown,
 }) => {
+  const { innerBorderRef } = useOnOutsideClick(() => setIsDropdown(false));
   return (
     <Container>
       <LogoContainer to="/">
@@ -38,7 +40,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
         {isLoggedIn ? (
           <>
             <EWriteLink to="/write">새 글 작성</EWriteLink>
-            <DropdownController onClick={() => setIsDropdown(!isDropdown)}>
+            <DropdownController onClick={() => setIsDropdown(true)}>
               <EAvatar size={"md"} url={""} />
               <DropdownIconContainer>
                 <Icon type={"down"} size={9} />
@@ -46,10 +48,11 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
             </DropdownController>
             {isDropdown && (
               <Dropdown
+                ref={innerBorderRef}
                 items={[
-                  { name: "내블로그", to: "/" },
-                  { name: "설정", to: "/" },
-                  { name: "로그아웃", to: "/" },
+                  { name: "내블로그", to: "/me" },
+                  { name: "설정", to: "/setting" },
+                  { name: "로그아웃", to: "/logout" },
                 ]}
               />
             )}

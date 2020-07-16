@@ -9,21 +9,23 @@ interface DropdownProps {
   }[];
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ items }) => {
-  return (
-    <Container>
-      <Content>
-        <Wrapper>
-          {items.map((item) => (
-            <Link to={item.to}>
-              <DropdownItem>{item.name}</DropdownItem>
-            </Link>
-          ))}
-        </Wrapper>
-      </Content>
-    </Container>
-  );
-};
+const Dropdown = React.forwardRef<HTMLElement, DropdownProps>(
+  ({ items }, ref) => {
+    return (
+      <Container ref={ref as React.RefObject<HTMLDivElement>}>
+        <Content>
+          <Wrapper>
+            {items.map((item) => (
+              <Link to={item.to}>
+                <DropdownItem>{item.name}</DropdownItem>
+              </Link>
+            ))}
+          </Wrapper>
+        </Content>
+      </Container>
+    );
+  }
+);
 
 const Container = styled.div`
   position: relative;
