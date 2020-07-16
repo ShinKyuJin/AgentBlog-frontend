@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoImg from "../../assets/logo.png";
@@ -8,7 +8,6 @@ import Button from "../Button";
 import { Icon } from "../Icon";
 import Avatar from "../Avatar";
 import Dropdown from "./Dropdown";
-import { useOnOutsideClick } from "../../hooks/useOnOutsideClick";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
@@ -27,7 +26,14 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   isDropdown,
   setIsDropdown,
 }) => {
-  const { innerBorderRef } = useOnOutsideClick(() => setIsDropdown(false));
+  useEffect(() => {
+    const handleOnClick = () => setIsDropdown(false);
+    document.addEventListener("click", handleOnClick, true);
+    return () => {
+      document.removeEventListener("click", handleOnClick, true);
+    };
+  }, []);
+
   return (
     <Container>
       <LogoContainer to="/">
@@ -48,7 +54,6 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
             </DropdownController>
             {isDropdown && (
               <Dropdown
-                ref={innerBorderRef}
                 items={[
                   { name: "내블로그", to: "/me" },
                   { name: "설정", to: "/setting" },

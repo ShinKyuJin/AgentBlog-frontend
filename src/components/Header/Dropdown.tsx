@@ -15,8 +15,8 @@ const Dropdown = React.forwardRef<HTMLElement, DropdownProps>(
       <Container ref={ref as React.RefObject<HTMLDivElement>}>
         <Content>
           <Wrapper>
-            {items.map((item) => (
-              <Link to={item.to}>
+            {items.map((item, i) => (
+              <Link to={item.to} key={i}>
                 <DropdownItem>{item.name}</DropdownItem>
               </Link>
             ))}
