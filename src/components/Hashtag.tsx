@@ -61,4 +61,4 @@ const HashtagContainer = styled(Link)`
   }
 `;
 
-export default Hashtag;
+export default React.memo(Hashtag);
