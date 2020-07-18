@@ -29,6 +29,7 @@ const Dropdown = React.forwardRef<HTMLElement, DropdownProps>(
 
 const Container = styled.div`
   position: relative;
+  z-index: 10;
 `;
 const Content = styled.div`
   position: absolute;
