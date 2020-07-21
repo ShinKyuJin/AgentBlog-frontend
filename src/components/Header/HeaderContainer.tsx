@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import HeaderPresenter from "./HeaderPresenter";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 interface HeaderContainerProps {
   isLoggedIn: boolean;
 }
 
 const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
+  const {username} = useSelector(state:RootState => ({username : state., }))
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [path, setPath] = useState(window.location.pathname);

@@ -1,35 +1,70 @@
 import { createAction, handleActions } from "redux-actions";
+import { MeProps } from "../../interface/user";
+import { useQuery } from "react-apollo-hooks";
+import { gql } from "apollo-boost";
 
-const INCREMENT = "me/INCREMENT";
-const DECREMENT = "me/DECREMENT";
+const SET = "me/SET" as const;
+const CLEAR = "me/CLEAR" as const;
 
 // export const increment = () => ({ type: INCREMENT });
 // export const decrement = () => ({ type: DECREMENT });
-export const increment = createAction(INCREMENT);
-export const decrement = createAction(DECREMENT);
+//export const fetch =
+export const set = (data: MeProps) => ({ type: SET, payload: data });
+//createAction(FETCH);
+export const clear = () => ({ type: CLEAR });
+//export const clear = createAction(CLEAR);
 
-const initialState = {
-  number: 0,
+type MeAction = ReturnType<typeof set> | ReturnType<typeof clear>;
+
+const initialState: MeProps = {
+  id: "",
+  avatar: "",
+  bio: "",
+  blogname: "",
+  email: "",
+  posts: [],
+  username: "",
 };
 
-// export default function reducer(state = initialState, action) {
-//   switch (action.type) {
-//     case INCREMENT:
-//       return { number: state.number + 1 };
-//     case DECREMENT:
-//       return { number: state.number - 1 };
-//     default:
-//       return state;
-//   }
-// }
-export default handleActions(
+export default function reducer(state = initialState, action: MeAction) {
+  switch (action.type) {
+    case SET:
+      return action.payload;
+    case CLEAR:
+      return initialState;
+    default:
+      return state;
+  }
+}
+// export default handleActions(
+//   {
+//     [FETCH]: async ({ id }) => {
+//       return data;
+//     },
+//     [CLEAR]: () => initialState,
+//   },
+//   initialState
+// );
+
+export const ME_QUERY = gql`
   {
-    [INCREMENT]: ({ number }) => ({
-      number: number + 1,
-    }),
-    [DECREMENT]: ({ number }) => ({
-      number: number + 1,
-    }),
-  },
-  initialState
-);
+    me {
+      id
+      avatar
+      bio
+      blogname
+      email
+      posts {
+        id
+        url
+        title
+        description
+        thumbnail
+        likeCount
+        createdAt
+        commentCount
+      }
+      username
+    }
+  }
+`;

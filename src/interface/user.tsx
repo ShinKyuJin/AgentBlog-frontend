@@ -2,6 +2,7 @@ import { postInterface } from "./post";
 
 export interface userInterface {
   id: string;
+  avatar: string;
   username: string;
   blogname: string;
   email: string;
@@ -16,6 +17,10 @@ export interface userInterface {
     | "likeCount"
     | "createdAt"
     | "commentCount"
-  >;
-  avatar: string;
+  >[];
 }
+
+export type MeProps = Pick<
+  userInterface,
+  "id" | "avatar" | "username" | "blogname" | "email" | "bio" | "posts"
+>;

@@ -46,7 +46,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
         {isLoggedIn ? (
           <>
             <EWriteLink to="/write">새 글 작성</EWriteLink>
-            <DropdownController onClick={() => setIsDropdown(!isDropdown)}>
+            <DropdownController onClick={() => setIsDropdown(true)}>
               <EAvatar size={"md"} url={""} />
               <DropdownIconContainer>
                 <Icon type={"down"} size={9} />
