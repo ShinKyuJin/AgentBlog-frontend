@@ -3,13 +3,16 @@ import React, { useState, useEffect } from "react";
 import HeaderPresenter from "./HeaderPresenter";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store/modules";
 
 interface HeaderContainerProps {
   isLoggedIn: boolean;
 }
 
 const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
-  const {username} = useSelector(state:RootState => ({username : state., }))
+  const username = useSelector(
+    (state: RootState) => state.me.username
+  ) as string;
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [path, setPath] = useState(window.location.pathname);
@@ -40,6 +43,7 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
           isLoggedIn={isLoggedIn}
           isDropdown={isDropdown}
           setIsDropdown={setIsDropdown}
+          username={username}
         />
       )}
     </>

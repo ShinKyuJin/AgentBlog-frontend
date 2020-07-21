@@ -7,12 +7,16 @@ interface DropdownProps {
     name: string;
     to: string;
   }[];
+  isVisible: boolean;
 }
 
 const Dropdown = React.forwardRef<HTMLElement, DropdownProps>(
-  ({ items }, ref) => {
+  ({ items, isVisible }, ref) => {
     return (
-      <Container ref={ref as React.RefObject<HTMLDivElement>}>
+      <Container
+        style={{ display: isVisible ? `block` : `none` }}
+        ref={ref as React.RefObject<HTMLDivElement>}
+      >
         <Content>
           <Wrapper>
             {items.map((item, i) => (

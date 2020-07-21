@@ -29,6 +29,10 @@ const UserHome = () => {
     },
   });
 
+  if (data && !data.seeUser) {
+    return <FallbackContainer>없는 유저입니다!</FallbackContainer>;
+  }
+
   const avatar = data?.seeUser.avatar as string;
   const titles = [
     username + " - Agent Blog",
@@ -92,6 +96,15 @@ const UserHome = () => {
     </Container>
   );
 };
+const FallbackContainer = styled.div`
+  width: 100%;
+  height: 20rem;
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.main`
   width: 768px;
