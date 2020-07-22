@@ -30,57 +30,90 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   handleMakeComment,
   handleClickLike,
 }) => {
+  const PostDetail = React.useMemo(
+    () => ({
+      content: (
+        <>
+          <Helmet>
+            <title>{data?.getPostDetail.title}</title>
+          </Helmet>
+          <HeaderContainer>
+            <TitleContainer>{data?.getPostDetail.title}</TitleContainer>
+            <InfoContainer>
+              <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> ·{" "}
+              {data?.getPostDetail.createdAt.slice(0, 10)}
+            </InfoContainer>
+            <HashtagContainer>
+              {data?.getPostDetail.hashtags.map(({ name }, key) => (
+                <Hashtag key={key++} name={name} />
+              ))}
+            </HashtagContainer>
+            <LikeSidebarContainer>
+              <LikeSidebar>
+                <LikeContainer>
+                  {data?.getPostDetail.isLiked ? (
+                    <LikedButton onClick={handleClickLike}>
+                      <Icon type={"redHeart"} />
+                    </LikedButton>
+                  ) : (
+                    <LikeButton onClick={handleClickLike}>
+                      <Icon type={"blackHeart"} />
+                    </LikeButton>
+                  )}
+                  <LikeCount>{data?.getPostDetail.likeCount}</LikeCount>
+                </LikeContainer>
+              </LikeSidebar>
+            </LikeSidebarContainer>
+          </HeaderContainer>
+          <BodyContainer>
+            <Markdown source={data?.getPostDetail.content || ""} />
+          </BodyContainer>
+          <TailContainer>
+            <Link to={`/@${username}`}>
+              <TailAvatar
+                url={data?.getPostDetail.user.avatar || ""}
+                size="lg"
+              />
+            </Link>
+            <TailUserInfo>
+              <TailLink to={`/@${username}`}>{username}</TailLink>
+              {data?.getPostDetail.user.bio}
+            </TailUserInfo>
+          </TailContainer>
+          <Contour />
+          <hr />
+        </>
+      ),
+      comments: (
+        <CommentsContaniner>
+          {data?.getPostDetail.comments.map((comment) => (
+            <CommentBox key={comment.id}>
+              <CommentUser>
+                <CommentProfile></CommentProfile>
+                <Avatar url={comment.user.avatar} size={"md"} />
+                <CommentInfo>
+                  <ConmentUserName>{comment.user.username}</ConmentUserName>
+                  <CommentDate>{comment.createdAt.slice(0, 10)}</CommentDate>
+                </CommentInfo>
+              </CommentUser>
+              <CommentContent>
+                <pre>{comment.text}</pre>
+              </CommentContent>
+            </CommentBox>
+          ))}
+        </CommentsContaniner>
+      ),
+    }),
+    [data]
+  );
+
   if (loading || (data && Object.keys(data).length === 0)) {
     return <Container></Container>;
   }
 
   return (
     <Container>
-      <Helmet>
-        <title>{data?.getPostDetail.title}</title>
-      </Helmet>
-      <HeaderContainer>
-        <TitleContainer>{data?.getPostDetail.title}</TitleContainer>
-        <InfoContainer>
-          <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> ·{" "}
-          {data?.getPostDetail.createdAt.slice(0, 10)}
-        </InfoContainer>
-        <HashtagContainer>
-          {data?.getPostDetail.hashtags.map(({ name }, key) => (
-            <Hashtag key={key++} name={name} />
-          ))}
-        </HashtagContainer>
-        <LikeSidebarContainer>
-          <LikeSidebar>
-            <LikeContainer>
-              {data?.getPostDetail.isLiked ? (
-                <LikedButton onClick={handleClickLike}>
-                  <Icon type={"redHeart"} />
-                </LikedButton>
-              ) : (
-                <LikeButton onClick={handleClickLike}>
-                  <Icon type={"blackHeart"} />
-                </LikeButton>
-              )}
-              <LikeCount>{data?.getPostDetail.likeCount}</LikeCount>
-            </LikeContainer>
-          </LikeSidebar>
-        </LikeSidebarContainer>
-      </HeaderContainer>
-      <BodyContainer>
-        <Markdown source={data?.getPostDetail.content || ""} />
-      </BodyContainer>
-      <TailContainer>
-        <Link to={`/@${username}`}>
-          <TailAvatar url={data?.getPostDetail.user.avatar || ""} size="lg" />
-        </Link>
-        <TailUserInfo>
-          <TailLink to={`/@${username}`}>{username}</TailLink>
-          {data?.getPostDetail.user.bio}
-        </TailUserInfo>
-      </TailContainer>
-      <Contour />
-      <hr />
+      {PostDetail.content}
       <CommentMakeContainer>
         <CommentCount>{data?.getPostDetail.commentCount}개의 댓글</CommentCount>
         <CommentInput onChange={handleChangeComment} value={comment} />
@@ -90,23 +123,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
           disabled={makeCommentDisable}
         />
       </CommentMakeContainer>
-      <CommentsContaniner>
-        {data?.getPostDetail.comments.map((comment) => (
-          <CommentBox key={comment.id}>
-            <CommentUser>
-              <CommentProfile></CommentProfile>
-              <Avatar url={comment.user.avatar} size={"md"} />
-              <CommentInfo>
-                <ConmentUserName>{comment.user.username}</ConmentUserName>
-                <CommentDate>{comment.createdAt.slice(0, 10)}</CommentDate>
-              </CommentInfo>
-            </CommentUser>
-            <CommentContent>
-              <pre>{comment.text}</pre>
-            </CommentContent>
-          </CommentBox>
-        ))}
-      </CommentsContaniner>
+      {PostDetail.comments}
     </Container>
   );
 };

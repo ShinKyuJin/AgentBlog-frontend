@@ -1,11 +1,8 @@
+import { userInterface } from "./user";
+
 export interface postInterface {
   id: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-    bio: string;
-  };
+  user: Pick<userInterface, "id" | "username" | "avatar" | "bio">;
   title: string;
   url: string;
   description: string;
@@ -39,11 +36,7 @@ export interface postInterface {
     text: string;
     createdAt: string;
     updatedAt: string;
-    user: {
-      id: string;
-      avatar: string;
-      username: string;
-    };
+    user: Pick<userInterface, "id" | "avatar" | "username">;
   }[];
   isLiked: boolean;
   likeCount: number;

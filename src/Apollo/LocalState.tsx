@@ -15,9 +15,10 @@ export const resolvers = {
       window.location.reload();
       return null;
     },
-    logUserOut: () => {
+    logUserOut: (_: any, __: any, { cache }: { cache: InMemoryCache }) => {
       localStorage.removeItem("token");
       window.location.assign("/");
+
       return null;
     },
   },

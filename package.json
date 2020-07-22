@@ -47,6 +47,7 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
+    "redux-devtools-extension": "^2.13.8",
     "styled-components": "4.4.1",
     "styled-reset": "^4.1.4",
     "typescript": "^3.7.5",

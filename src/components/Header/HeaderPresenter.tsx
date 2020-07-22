@@ -16,6 +16,8 @@ interface HeaderPresenterProps {
   isLoggedIn: boolean;
   isDropdown: boolean;
   setIsDropdown: any;
+  username: string;
+  localLogOutMutation: any;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
@@ -25,6 +27,8 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   isLoggedIn,
   isDropdown,
   setIsDropdown,
+  username,
+  localLogOutMutation,
 }) => {
   useEffect(() => {
     const handleOnClick = () => setIsDropdown(false);
@@ -52,15 +56,20 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
                 <Icon type={"down"} size={9} />
               </DropdownIconContainer>
             </DropdownController>
-            {isDropdown && (
-              <Dropdown
-                items={[
-                  { name: "내블로그", to: "/me" },
-                  { name: "설정", to: "/setting" },
-                  { name: "로그아웃", to: "/logout" },
-                ]}
-              />
-            )}
+            <Dropdown
+              items={[
+                { name: `내블로그(${username})`, to: `/@${username}` },
+                { name: "설정", to: "/setting" },
+                {
+                  name: "로그아웃",
+                  to: "",
+                  callback: localLogOutMutation,
+                },
+              ]}
+              isVisible={
+                isDropdown && username !== "" && username !== undefined
+              }
+            />
           </>
         ) : (
           <EButton text={"로그인"} onClick={openModal} />

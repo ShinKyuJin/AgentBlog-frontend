@@ -31,6 +31,7 @@ const PageTab: FC<PageTabProps> = ({
       <TabContainer tabCount={tabItems.length} tabWidth={tabWidth || 7}>
         {tabItems.map((tab, idx) => (
           <TabButton
+            key={idx}
             tabNum={tabNum}
             tabWidth={tabWidth || 7}
             onClick={() => tabButtonHandler(idx)}

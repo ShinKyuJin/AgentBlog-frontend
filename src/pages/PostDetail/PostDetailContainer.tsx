@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import {
   getPostDetailVars,
@@ -33,55 +33,64 @@ const PostDetailContainer = () => {
   const [commentMutation] = useMutation(ADD_COMMENT);
   const [likeMutation] = useMutation(MUTATION_LIKE_POST);
 
-  const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
-  };
+  const handleChangeComment = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setComment(e.target.value);
+    },
+    []
+  );
 
-  const handleMakeComment = async (e: any) => {
-    e.preventDefault();
-    setMakeCommentDisable(true);
-    if (comment !== "") {
+  const handleMakeComment = useCallback(
+    async (e: any) => {
+      e.preventDefault();
+      setMakeCommentDisable(true);
+      if (comment !== "") {
+        try {
+          const { data }: any = await commentMutation({
+            variables: {
+              text: comment,
+              postId: postData?.getPostDetail.id,
+            },
+          });
+          await refetch();
+          if (!data.addComment) {
+            toast.error("댓글 작성에 실패했습니다.");
+          } else {
+            toast.success("댓글 작성에 성공했습니다.");
+          }
+          window.scrollTo(0, document.body.scrollHeight);
+        } catch (e) {
+          console.log(e);
+          toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
+        }
+      }
+      setMakeCommentDisable(false);
+    },
+    [postData, comment, commentMutation, refetch]
+  );
+
+  const handleClickLike = useCallback(
+    async (e: any) => {
+      e.preventDefault();
       try {
-        const { data }: any = await commentMutation({
+        const {
+          data: { toggleLike },
+        }: any = await likeMutation({
           variables: {
-            text: comment,
             postId: postData?.getPostDetail.id,
           },
         });
         await refetch();
-        if (!data.addComment) {
-          toast.error("댓글 작성에 실패했습니다.");
-        } else {
-          toast.success("댓글 작성에 성공했습니다..");
+        if (!toggleLike) {
+          toast.error("잠시 후 다시 시도해주세요.");
         }
-        window.scrollTo(0, document.body.scrollHeight);
       } catch (e) {
         console.log(e);
         toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
       }
-    }
-    setMakeCommentDisable(false);
-  };
-
-  const handleClickLike = async (e: any) => {
-    e.preventDefault();
-    try {
-      const {
-        data: { toggleLike },
-      }: any = await likeMutation({
-        variables: {
-          postId: postData?.getPostDetail.id,
-        },
-      });
-      await refetch();
-      if (!toggleLike) {
-        toast.error("잠시 후 다시 시도해주세요.");
-      }
-    } catch (e) {
-      console.log(e);
-      toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
-    }
-  };
+    },
+    [postData, likeMutation, refetch]
+  );
   return (
     <PostDetailPresenter
       username={username}

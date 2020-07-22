@@ -12,6 +12,10 @@ import { toast } from "react-toastify";
 
 interface WritePostPresenterProps {
   form: formProps;
+  title: string;
+  hashtag: string;
+  hashtags: Array<string>;
+  content: string;
   handleChangeText: any;
   handleChangeHashtags: (
     e: React.KeyboardEvent<Element>
@@ -24,6 +28,10 @@ interface WritePostPresenterProps {
 
 const WritePostPresenter: FC<WritePostPresenterProps> = ({
   form,
+  title,
+  hashtag,
+  hashtags,
+  content,
   handleChangeText,
   handleChangeHashtags,
   handleSubmit,
@@ -47,31 +55,39 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
   const dismissInfo = React.useCallback(() => toast.dismiss("tagInfo"), []);
 
   const Hashtags = React.useMemo(
-    () =>
-      form.hashtags.map((text) => {
-        return (
+    () => (
+      <HashtagBox>
+        {hashtags.map((text) => (
           <Hashtag
             key={text}
             name={text}
             isLink={false}
             onClick={handleClickHashtag}
           />
-        );
-      }),
-    [form.hashtags]
+        ))}
+        <HashtagEditor
+          value={hashtag}
+          onChange={handleChangeText}
+          onKeyPress={handleChangeHashtags}
+          onFocus={showTagInfo}
+          onBlur={dismissInfo}
+          placeholder="태그를 입력해주세요"
+          name="hashtag"
+          tabIndex={1}
+        />
+      </HashtagBox>
+    ),
+    [hashtags, hashtag, handleClickHashtag]
   );
 
   const IndependentComp = React.useMemo(
     () => ({
       FocusBar: <FocusBar />,
-      Buttons: (
-        <ButtonsWrapper>
-          <ExitBtnContainer to={"/"}>
-            <Icon type={"back"} size={16} />
-            <ExitBtnText>나가기 </ExitBtnText>
-          </ExitBtnContainer>
-          <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
-        </ButtonsWrapper>
+      ExitButton: (
+        <ExitBtnContainer to={"/"}>
+          <Icon type={"back"} size={16} />
+          <ExitBtnText>나가기 </ExitBtnText>
+        </ExitBtnContainer>
       ),
       FileUploader: (
         <FileContainer>
@@ -85,59 +101,61 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
   return (
     <Container>
       <Helmet>
-        {form.title.length > 0 ? (
-          <title>(작성중) {form.title}</title>
+        {title.length > 0 ? (
+          <title>(작성중) {title}</title>
         ) : (
           <title>글 작성</title>
         )}
       </Helmet>
       <Wrapper>
-        <TitleEditor
-          value={form.title}
-          onChange={handleChangeText}
-          placeholder="제목을 입력해주세요"
-          name="title"
-          tabIndex={0}
-        />
-        {IndependentComp.FocusBar}
-        <HashtagBox>
-          {Hashtags}
-          {React.useMemo(
-            () => (
-              <HashtagEditor
-                value={form.hashtag}
-                onChange={handleChangeText}
-                onKeyPress={handleChangeHashtags}
-                onFocus={showTagInfo}
-                onBlur={dismissInfo}
-                placeholder="태그를 입력해주세요"
-                name="hashtag"
-                tabIndex={1}
-              />
-            ),
-            [form]
-          )}
-        </HashtagBox>
-        {IndependentComp.FileUploader}
-        <ContentEditor
-          value={form.content}
-          onChange={handleChangeText}
-          ref={textareaEl}
-          placeholder="내용을 입력해주세요"
-          name="content"
-          tabIndex={2}
-        />
-        {IndependentComp.Buttons}
-      </Wrapper>
-      <MarkContainer>
         {React.useMemo(
           () => (
-            <h1>{form.title}</h1>
+            <TitleEditor
+              value={title}
+              onChange={handleChangeText}
+              placeholder="제목을 입력해주세요"
+              name="title"
+              tabIndex={0}
+            />
           ),
-          [form.title]
+          [title]
         )}
-        <Markdown source={`${form.content}`} />
-      </MarkContainer>
+        {IndependentComp.FocusBar}
+        {Hashtags}
+
+        {IndependentComp.FileUploader}
+        {React.useMemo(
+          () => (
+            <ContentEditor
+              value={content}
+              onChange={handleChangeText}
+              ref={textareaEl}
+              placeholder="내용을 입력해주세요"
+              name="content"
+              tabIndex={2}
+            />
+          ),
+          [content]
+        )}
+        <ButtonsWrapper>
+          {IndependentComp.ExitButton}
+          {React.useMemo(
+            () => (
+              <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
+            ),
+            [handleSubmit]
+          )}
+        </ButtonsWrapper>
+      </Wrapper>
+      {React.useMemo(
+        () => (
+          <MarkContainer>
+            <h1>{title}</h1>
+            <Markdown source={`${content}`} />
+          </MarkContainer>
+        ),
+        [title, content]
+      )}
     </Container>
   );
 };
@@ -208,7 +226,7 @@ const ContentEditor = styled.textarea`
 `;
 const ButtonsWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.04) 0px -4px 16px 0px;
-  margin: -30px;
+  margin: 0 -30px -30px -30px;
   padding: 10px;
   display: flex;
   align-content: center;
