@@ -6,6 +6,7 @@ interface DropdownProps {
   items: {
     name: string;
     to: string;
+    callback?: any;
   }[];
   isVisible: boolean;
 }
@@ -19,11 +20,20 @@ const Dropdown = React.forwardRef<HTMLElement, DropdownProps>(
       >
         <Content>
           <Wrapper>
-            {items.map((item, i) => (
-              <Link to={item.to} key={i}>
-                <DropdownItem>{item.name}</DropdownItem>
-              </Link>
-            ))}
+            {items.map((item, i) => {
+              if (item.callback) {
+                return (
+                  <DropdownItem onClick={item.callback}>
+                    {item.name}
+                  </DropdownItem>
+                );
+              }
+              return (
+                <Link to={item.to} key={i}>
+                  <DropdownItem>{item.name}</DropdownItem>
+                </Link>
+              );
+            })}
           </Wrapper>
         </Content>
       </Container>

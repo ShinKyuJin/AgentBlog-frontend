@@ -17,6 +17,7 @@ interface HeaderPresenterProps {
   isDropdown: boolean;
   setIsDropdown: any;
   username: string;
+  localLogOutMutation: any;
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
@@ -27,6 +28,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   isDropdown,
   setIsDropdown,
   username,
+  localLogOutMutation,
 }) => {
   useEffect(() => {
     const handleOnClick = () => setIsDropdown(false);
@@ -58,9 +60,15 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
               items={[
                 { name: `내블로그(${username})`, to: `/@${username}` },
                 { name: "설정", to: "/setting" },
-                { name: "로그아웃", to: "/logout" },
+                {
+                  name: "로그아웃",
+                  to: "",
+                  callback: localLogOutMutation,
+                },
               ]}
-              isVisible={isDropdown && username !== undefined}
+              isVisible={
+                isDropdown && username !== "" && username !== undefined
+              }
             />
           </>
         ) : (
