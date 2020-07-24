@@ -58,7 +58,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
             </DropdownController>
             <Dropdown
               items={[
-                { name: `내블로그(${username})`, to: `/@${username}` },
+                { name: `내 블로그(${username})`, to: `/@${username}` },
                 { name: "설정", to: "/setting" },
                 {
                   name: "로그아웃",
