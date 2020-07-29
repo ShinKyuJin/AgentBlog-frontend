@@ -32,6 +32,20 @@ const Setting = () => {
           )}
         </ProfileTextContainer>
       </Profile>
+      <SettingWrapper>
+        <RowContainer>
+          <SettingLabel>
+            <FatText text={"블로그 제목"} />
+          </SettingLabel>
+          <SettingText>react.log</SettingText>
+        </RowContainer>
+        <SettingDetail>
+          <DetailText
+            text={"개인 페이지의 좌측 상단에 나타나는 페이지 제목입니다."}
+          />
+        </SettingDetail>
+        <hr />
+      </SettingWrapper>
     </Container>
   );
 };
@@ -44,6 +58,11 @@ const Container = styled.div`
   margin-top: 2rem;
 `;
 const Profile = styled.div``;
+const SettingWrapper = styled.div``;
+const RowContainer = styled.div``;
+const SettingLabel = styled.div``;
+const SettingText = styled.div``;
+const SettingDetail = styled.div``;
 const ImageEditContainer = styled.div``;
 const ProfileTextContainer = styled.div``;
 const EditButton = styled.span``;
