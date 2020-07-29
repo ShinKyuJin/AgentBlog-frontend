@@ -14,6 +14,7 @@ const UserHome = lazy(() => import("../pages/UserHome"));
 const WritePost = lazy(() => import("../pages/WritePost"));
 const Setting = lazy(() => import("../pages/Setting"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+const LoginRequired = lazy(() => import("../pages/LoginRequired"));
 const Search = lazy(() => import("../pages/Search"));
 const SearchHashtag = lazy(() => import("../pages/SearchHashtag"));
 
@@ -83,6 +84,20 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
     window.scrollTo(0, 0);
   }, [location]);
 
+  const RoutesWithoutLogin = RoutesListWithoutLogin.map((route, i) => {
+    return <Route exact {...route} key={i} />;
+  });
+
+  const RoutesWithLogin = RoutesListWithLogin.map((route, i) => {
+    return (
+      <Route exact {...route} key={i} onUpdate={() => window.scrollTo(0, 0)} />
+    );
+  });
+
+  const RoutesLoginRequired = RoutesListWithLogin.map((route, i) => {
+    return <Route exact path={route.path} component={LoginRequired} key={i} />;
+  });
+
   return (
     <MyErrorBoundary>
       <Suspense
@@ -93,19 +108,8 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
         }
       >
         <Switch>
-          {RoutesListWithoutLogin.map((route, i) => {
-            return <Route exact {...route} key={i} />;
-          })}
-          {RoutesListWithLogin.map((route, i) => {
-            return (
-              <Route
-                exact
-                {...route}
-                key={i}
-                onUpdate={() => window.scrollTo(0, 0)}
-              />
-            );
-          })}
+          {RoutesWithoutLogin}
+          {isLoggedIn ? RoutesWithLogin : RoutesLoginRequired}
           <Route path="/" component={PageNotFound} />
           <Redirect from="*" to="/" />
         </Switch>
