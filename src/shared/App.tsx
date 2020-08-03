@@ -10,7 +10,7 @@ import GlobalStyles from "../styles/GlobalStyles";
 import { ME_QUERY, me_set } from "../store/modules/me";
 import { useDispatch } from "react-redux";
 import { MeProps } from "../interface/user";
-import Header from "../components/Header/HeaderContainer";
+import Header from "../components/modules/Header/HeaderContainer";
 
 const App = () => {
   const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;

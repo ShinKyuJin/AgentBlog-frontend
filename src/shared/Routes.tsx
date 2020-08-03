@@ -5,18 +5,18 @@ import { gql } from "apollo-boost";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
 import PulseLoader from "react-spinners/PulseLoader";
 import styled from "styled-components";
-import MyErrorBoundary from "../components/ErrorBoundary";
+import MyErrorBoundary from "../components/atoms/system/ErrorBoundary";
 
-const Home = lazy(() => import("../pages/Home"));
-const Auth = lazy(() => import("../pages/Auth"));
-const PostDetail = lazy(() => import("../pages/PostDetail"));
-const UserHome = lazy(() => import("../pages/UserHome"));
-const WritePost = lazy(() => import("../pages/WritePost"));
-const Setting = lazy(() => import("../pages/Setting"));
-const PageNotFound = lazy(() => import("../pages/PageNotFound"));
-const LoginRequired = lazy(() => import("../pages/LoginRequired"));
-const Search = lazy(() => import("../pages/Search"));
-const SearchHashtag = lazy(() => import("../pages/SearchHashtag"));
+const Home = lazy(() => import("../components/pages/Home"));
+const Auth = lazy(() => import("../components/pages/Auth"));
+const PostDetail = lazy(() => import("../components/pages/PostDetail"));
+const UserHome = lazy(() => import("../components/pages/UserHome"));
+const WritePost = lazy(() => import("../components/pages/WritePost"));
+const Setting = lazy(() => import("../components/pages/Setting"));
+const PageNotFound = lazy(() => import("../components/pages/PageNotFound"));
+const LoginRequired = lazy(() => import("../components/pages/LoginRequired"));
+const Search = lazy(() => import("../components/pages/Search"));
+const SearchHashtag = lazy(() => import("../components/pages/SearchHashtag"));
 
 interface RoutesProps {
   isLoggedIn: boolean;
@@ -84,20 +84,6 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  const RoutesWithoutLogin = RoutesListWithoutLogin.map((route, i) => {
-    return <Route exact {...route} key={i} />;
-  });
-
-  const RoutesWithLogin = RoutesListWithLogin.map((route, i) => {
-    return (
-      <Route exact {...route} key={i} onUpdate={() => window.scrollTo(0, 0)} />
-    );
-  });
-
-  const RoutesLoginRequired = RoutesListWithLogin.map((route, i) => {
-    return <Route exact path={route.path} component={LoginRequired} key={i} />;
-  });
-
   return (
     <MyErrorBoundary>
       <Suspense
@@ -108,8 +94,20 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
         }
       >
         <Switch>
-          {RoutesWithoutLogin}
-          {isLoggedIn ? RoutesWithLogin : RoutesLoginRequired}
+          {RoutesListWithoutLogin.map((route, i) => {
+            return <Route exact {...route} key={i} />;
+          })}
+          {RoutesListWithLogin.map((route, i) => {
+            return (
+              <Route
+                exact
+                path={route.path}
+                component={isLoggedIn ? route.component : LoginRequired}
+                key={i}
+                onUpdate={() => window.scrollTo(0, 0)}
+              />
+            );
+          })}
           <Route path="/" component={PageNotFound} />
           <Redirect from="*" to="/" />
         </Switch>
