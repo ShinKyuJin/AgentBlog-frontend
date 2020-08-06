@@ -12,7 +12,7 @@ const DetailText: React.FC<DetailTextProps> = ({ text, ...props }) => (
 
 const Text = styled.span`
   font-size: 0.875rem;
-  color: ${(props) => props.color};
+  color: rgb(134, 142, 150);
 `;
 
 export default DetailText;

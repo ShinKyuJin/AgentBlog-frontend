@@ -50,7 +50,7 @@ const getSize = (size: "sm" | "md" | "lg" | undefined) => {
   } else if (size === "md") {
     num = 48;
   } else if (size === "lg") {
-    num = 150;
+    num = 128;
   }
   return `
           width: ${num}px;
