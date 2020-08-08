@@ -9,7 +9,7 @@ import { gql } from "apollo-boost";
 import GlobalStyles from "../styles/GlobalStyles";
 import { ME_QUERY, me_set } from "../store/modules/me";
 import { useDispatch } from "react-redux";
-import { MeProps } from "../interface/user";
+import { MeProps } from "../models/user";
 import Header from "../components/modules/Header/HeaderContainer";
 
 const App = () => {

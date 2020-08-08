@@ -4,7 +4,7 @@ import Input from "../../atoms/theme/Input";
 import SearchPostCard, {
   PostLoadingSkeleton,
 } from "../../atoms/post/SearchPostCard";
-import { SearchPostProps } from "../../../interface/post";
+import { SearchPostProps } from "../../../models/post";
 import Theme from "../../../styles/theme";
 // import { VariableSizeList as WList } from "react-window";
 

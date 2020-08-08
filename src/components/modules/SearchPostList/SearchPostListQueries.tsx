@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import { SearchPostProps } from "../../../interface/post";
+import { SearchPostProps } from "../../../models/post";
 
 export interface searchPostData {
   searchPost: SearchPostProps[];

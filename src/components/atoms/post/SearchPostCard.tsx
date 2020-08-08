@@ -6,7 +6,7 @@ import FatText from "../theme/FatText";
 import Hashtag from "./Hashtag";
 import Skeleton from "react-loading-skeleton";
 import ImageLoader from "../theme/ImageLoader";
-import { SearchPostProps } from "../../../interface/post";
+import { SearchPostProps } from "../../../models/post";
 import { convertMarkdownToText } from "../../../shared/utils";
 
 const SearchPostCard: React.FC<SearchPostProps> = ({

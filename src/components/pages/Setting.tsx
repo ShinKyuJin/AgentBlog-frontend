@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../atoms/theme/Button";
 import FatText from "../atoms/theme/FatText";
@@ -7,22 +7,50 @@ import Input from "../atoms/theme/Input";
 import Avatar from "../atoms/user/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/modules";
+import { toast } from "react-toastify";
+import { useMutation } from "react-apollo-hooks";
+import { QUERY_EDIT_USER, MeProps } from "../../models/user";
+import { me_set } from "../../store/modules/me";
+import useInput from "../../hooks/useInput";
 
 const Setting = () => {
-  const [isNameBioEditing, SetIsNameBioEditing] = useState<boolean>(false);
-  const disfetch = useDispatch();
   const me = useSelector((state: RootState) => state.me);
+  const [isNameBioEditing, setIsNameBioEditing] = useState<boolean>(false);
+  const [username, setUsername] = useInput(me.username);
+  const [bio, setBio] = useInput(me.bio);
+  const [blogname, setBlogname] = useInput(me.blogname);
+  const [email, setEmail] = useInput(me.email);
 
-  const handleEditNameBio = () => SetIsNameBioEditing(true);
-  const handleSaveNameBio = () => {
-    SetIsNameBioEditing(false);
+  const disfetch = useDispatch();
+  const [editUserMutation] = useMutation(QUERY_EDIT_USER);
+
+  const handleEditNameBio = () => {
+    setIsNameBioEditing(true);
+  };
+  const handleSaveNameBio = async () => {
+    if (username.value === "") {
+      toast.error("이름을 비울 수 없습니다.");
+      return;
+    }
+    try {
+      const { data } = await editUserMutation({
+        variables: {
+          username: username.value,
+          bio: bio.value,
+        },
+      });
+      disfetch(me_set(data as MeProps));
+      setIsNameBioEditing(false);
+    } catch (err) {
+      toast.error("변경 내용 저장 중 에러가 발생했습니다." + err);
+    }
   };
 
   return (
     <Container>
       <Profile>
         <ImageEditContainer>
-          <EAvatar size={"lg"} url={""} />
+          <EAvatar size={"lg"} url={me.avatar} />
           <EButton text={"이미지 업로드"} />
           <EButton
             text={"이미지 제거"}
@@ -33,14 +61,18 @@ const Setting = () => {
         <ProfileTextContainer>
           {!isNameBioEditing ? (
             <>
-              <h1 style={{ margin: "0.5rem 0 0 0" }}>이름</h1>
-              <DetailText text={"한 줄 소개"} />
+              <h1 style={{ margin: "0.5rem 0 0 0" }}>{me.username}</h1>
+              <DetailText text={me.bio} />
               <EditButton onClick={handleEditNameBio}>수정</EditButton>
             </>
           ) : (
             <>
-              <EInput placeholder={"이름"} style={{ fontSize: "1.5rem" }} />
-              <EInput placeholder={"한 줄 소개"} />
+              <EInput
+                placeholder={"이름"}
+                style={{ fontSize: "1.5rem" }}
+                {...username}
+              />
+              <EInput placeholder={"한 줄 소개"} {...bio} />
               <EButton
                 text={"저장"}
                 onClick={handleSaveNameBio}

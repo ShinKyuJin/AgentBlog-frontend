@@ -9,7 +9,7 @@ import {
 } from "./HomePostListQueries";
 import HomePostCard from "../../atoms/post/HomePostCard";
 import { toast } from "react-toastify";
-import { HomePostProps } from "../../../interface/post";
+import { HomePostProps } from "../../../models/post";
 import { ApolloError } from "apollo-boost";
 
 interface HomePostListProps {

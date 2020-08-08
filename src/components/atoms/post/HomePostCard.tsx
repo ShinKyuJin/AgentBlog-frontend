@@ -4,7 +4,7 @@ import Avatar from "../user/Avatar";
 import { Link } from "react-router-dom";
 import ImageLoader from "../theme/ImageLoader";
 import Skeleton from "react-loading-skeleton";
-import { HomePostProps } from "../../../interface/post";
+import { HomePostProps } from "../../../models/post";
 import { convertMarkdownToText } from "../../../shared/utils";
 
 interface PostCardProps {

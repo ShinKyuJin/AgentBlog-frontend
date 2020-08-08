@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import { HomePostProps } from "../../../interface/post";
+import { HomePostProps } from "../../../models/post";
 
 export interface seeLatestPostData {
   seeLatestPost: HomePostProps[];
