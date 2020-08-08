@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import Button from "../atoms/theme/Button";
 import FatText from "../atoms/theme/FatText";
@@ -12,38 +12,97 @@ import { useMutation } from "react-apollo-hooks";
 import { QUERY_EDIT_USER, MeProps } from "../../models/user";
 import { me_set } from "../../store/modules/me";
 import useInput from "../../hooks/useInput";
+import Axios from "axios";
+import { serverUri } from "../../Apollo/Client";
 
 const Setting = () => {
   const me = useSelector((state: RootState) => state.me);
   const [isNameBioEditing, setIsNameBioEditing] = useState<boolean>(false);
+  const [isNameBioSaving, setIsNameBioSaving] = useState<boolean>(false);
+  const [isImageUploading, setIsImageUploading] = useState<boolean>(false);
+
+  const [avatar, setAvatar] = useInput(me.avatar);
   const [username, setUsername] = useInput(me.username);
   const [bio, setBio] = useInput(me.bio);
   const [blogname, setBlogname] = useInput(me.blogname);
-  const [email, setEmail] = useInput(me.email);
 
   const disfetch = useDispatch();
   const [editUserMutation] = useMutation(QUERY_EDIT_USER);
 
+  const handleUploadAvatar = useCallback(async (e: any) => {
+    const file = e.target.files[0];
+    setIsImageUploading(true);
+    const formData = new FormData();
+    formData.append("file", file, file.originalname);
+    try {
+      const { data: avatar } = await Axios.post(
+        serverUri + "/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      );
+      const { data }: any = await editUserMutation({
+        variables: { avatar: avatar.location },
+      });
+      disfetch(me_set(data.editUser as MeProps));
+    } catch (err) {
+      toast.error("파일 업로드에 실패하였습니다." + err);
+      return null;
+    }
+    setIsImageUploading(false);
+  }, []);
+
+  const handleRemoveAvatar = useCallback(async (e: any) => {
+    try {
+      // TODO: Remove Image from S3 Server
+      // const { data: avatar } = await Axios.post(
+      //   serverUri + "/api/upload",
+      //   formData,
+      //   {
+      //     headers: {
+      //       "content-type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+      const { data }: any = await editUserMutation({
+        variables: { avatar: "" },
+      });
+      disfetch(me_set(data.editUser as MeProps));
+    } catch (err) {
+      toast.error("이미지 제거에 실패했습니다." + err);
+      return null;
+    }
+  }, []);
+
   const handleEditNameBio = () => {
+    setUsername(me.username);
+    setBio(me.bio);
     setIsNameBioEditing(true);
   };
+
   const handleSaveNameBio = async () => {
     if (username.value === "") {
       toast.error("이름을 비울 수 없습니다.");
       return;
     }
     try {
-      const { data } = await editUserMutation({
+      setIsNameBioSaving(true);
+      const { data }: any = await editUserMutation({
         variables: {
           username: username.value,
           bio: bio.value,
         },
       });
-      disfetch(me_set(data as MeProps));
+      disfetch(me_set(data.editUser as MeProps));
       setIsNameBioEditing(false);
     } catch (err) {
-      toast.error("변경 내용 저장 중 에러가 발생했습니다." + err);
+      toast.error("변경 내용 저장 중 에러가 발생했습니다.");
+      console.log(err);
     }
+    setIsNameBioSaving(false);
   };
 
   return (
@@ -51,9 +110,21 @@ const Setting = () => {
       <Profile>
         <ImageEditContainer>
           <EAvatar size={"lg"} url={me.avatar} />
-          <EButton text={"이미지 업로드"} />
+          <EButton
+            text={"이미지 업로드"}
+            disabled={isImageUploading}
+            onClick={() => document.getElementById("fileid")?.click()}
+          />
+          <input
+            id={"fileid"}
+            type={"file"}
+            accept={"image/*"}
+            onChange={handleUploadAvatar}
+            hidden
+          />
           <EButton
             text={"이미지 제거"}
+            onClick={handleRemoveAvatar}
             style={{ color: "rgb(18, 184, 134)", background: "none" }}
           />
         </ImageEditContainer>
@@ -76,6 +147,7 @@ const Setting = () => {
               <EButton
                 text={"저장"}
                 onClick={handleSaveNameBio}
+                disabled={isNameBioSaving}
                 style={{ alignSelf: "flex-end" }}
               />
             </>

@@ -6,15 +6,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/modules";
 import { LOG_OUT } from "../../../modal/Auth/AuthQueries";
 import { useMutation } from "react-apollo-hooks";
+import { MeProps } from "../../../models/user";
 
 interface HeaderContainerProps {
   isLoggedIn: boolean;
 }
 
 const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
-  const username = useSelector(
-    (state: RootState) => state.me.username
-  ) as string;
+  const me = useSelector((state: RootState) => state.me) as MeProps;
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [path, setPath] = useState(window.location.pathname);
@@ -46,7 +45,7 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
           isLoggedIn={isLoggedIn}
           isDropdown={isDropdown}
           setIsDropdown={setIsDropdown}
-          username={username}
+          me={me}
           localLogOutMutation={localLogOutMutation}
         />
       )}

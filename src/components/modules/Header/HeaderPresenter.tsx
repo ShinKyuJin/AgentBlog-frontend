@@ -8,6 +8,7 @@ import Button from "../../atoms/theme/Button";
 import { Icon } from "../../atoms/theme/Icon";
 import Avatar from "../../atoms/user/Avatar";
 import Dropdown from "./Dropdown";
+import { MeProps } from "../../../models/user";
 
 interface HeaderPresenterProps {
   modalVisible: boolean;
@@ -16,7 +17,7 @@ interface HeaderPresenterProps {
   isLoggedIn: boolean;
   isDropdown: boolean;
   setIsDropdown: any;
-  username: string;
+  me: MeProps;
   localLogOutMutation: any;
 }
 
@@ -27,7 +28,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   isLoggedIn,
   isDropdown,
   setIsDropdown,
-  username,
+  me,
   localLogOutMutation,
 }) => {
   useEffect(() => {
@@ -51,14 +52,14 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
           <>
             <EWriteLink to="/write">새 글 작성</EWriteLink>
             <DropdownController onClick={() => setIsDropdown(true)}>
-              <EAvatar size={"md"} url={""} />
+              <EAvatar size={"md"} url={me.avatar} />
               <DropdownIconContainer>
                 <Icon type={"down"} size={9} />
               </DropdownIconContainer>
             </DropdownController>
             <Dropdown
               items={[
-                { name: `내 블로그(${username})`, to: `/@${username}` },
+                { name: `내 블로그`, to: `/@${me.username}` },
                 { name: "설정", to: "/setting" },
                 {
                   name: "로그아웃",
@@ -67,7 +68,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
                 },
               ]}
               isVisible={
-                isDropdown && username !== "" && username !== undefined
+                isDropdown && me.username !== "" && me.username !== undefined
               }
             />
           </>
