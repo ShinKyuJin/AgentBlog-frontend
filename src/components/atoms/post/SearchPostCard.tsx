@@ -32,16 +32,19 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
-      <Header>
-        <Link to={`/@${username}`}>
-          <Avatar size="md" url={avatar} />
-        </Link>
-        <UserColumn>
+      {username !== "" && (
+        <Header>
           <Link to={`/@${username}`}>
-            <FatText text={username} />
+            <Avatar size="md" url={avatar} />
           </Link>
-        </UserColumn>
-      </Header>
+          <UserColumn>
+            <Link to={`/@${username}`}>
+              <FatText text={username} />
+            </Link>
+          </UserColumn>
+        </Header>
+      )}
+
       {thumbnail_url && !errorThumbnailLoading && (
         <ImageWrapper>
           <Link to={`/@${username}/${url}`}>

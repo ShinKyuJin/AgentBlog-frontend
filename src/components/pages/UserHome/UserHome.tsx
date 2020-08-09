@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { useParams, useLocation } from "react-router-dom";
-import { seeUser, QUERY_USER_HOME } from "./UserHomeQueries";
 import { useQuery } from "react-apollo-hooks";
 import Avatar from "../../atoms/user/Avatar";
+import SearchPostCard from "../../atoms/post/SearchPostCard";
+import { QUERY_USER_HOME, seeUser } from "../../../models/user";
 
 interface UserHomeParams {
   username: string;
@@ -93,6 +94,17 @@ const UserHome = () => {
           <FocusBar tabNum={tabNum} />
         </TabContainer>
       </CarouselContainer>
+      <PostsContainer>
+        {data &&
+          data.seeUser &&
+          data.seeUser.posts.map(({ user, ...post }) => (
+            <SearchPostCard
+              key={post.id}
+              user={{ ...user, username: "" }}
+              {...post}
+            />
+          ))}
+      </PostsContainer>
     </Container>
   );
 };
@@ -111,6 +123,9 @@ const Container = styled.main`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+`;
+const PostsContainer = styled.main`
+  margin-top: 4rem;
 `;
 
 const UserContainer = styled.div`

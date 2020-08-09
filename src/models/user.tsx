@@ -11,17 +11,25 @@ export interface userInterface {
   posts: Pick<
     postInterface,
     | "id"
+    | "user"
+    | "files"
     | "url"
     | "title"
     | "description"
+    | "content"
     | "thumbnail"
-    | "likeCount"
+    | "hashtags"
     | "createdAt"
     | "commentCount"
   >[];
 }
 
 export type MeProps = Pick<
+  userInterface,
+  "id" | "avatar" | "username" | "blogname" | "email" | "bio" | "posts"
+>;
+
+export type seeUser = Pick<
   userInterface,
   "id" | "avatar" | "username" | "blogname" | "email" | "bio" | "posts"
 >;
@@ -44,6 +52,38 @@ export const QUERY_EDIT_USER = gql`
       email
       bio
       avatar
+    }
+  }
+`;
+
+export const QUERY_USER_HOME = gql`
+  query seeUser($username: String!) {
+    seeUser(username: $username) {
+      avatar
+      bio
+      posts {
+        id
+        user {
+          id
+          username
+          avatar
+        }
+        thumbnail
+        description
+        files {
+          id
+          url
+        }
+        url
+        title
+        content
+        hashtags {
+          id
+          name
+        }
+        createdAt
+        commentCount
+      }
     }
   }
 `;
