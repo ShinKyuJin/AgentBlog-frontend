@@ -158,7 +158,18 @@ const Setting = () => {
         <SettingRow>
           <RowResponsiveContainer>
             <SettingLabel>
-              <FatText text={"블로그 제목"} />
+              <EH3>블로그 제목</EH3>
+            </SettingLabel>
+            <SettingText>{me.blogname}</SettingText>
+          </RowResponsiveContainer>
+          <DetailText
+            text={"개인 페이지의 좌측 상단에 나타나는 페이지 제목입니다."}
+          />
+        </SettingRow>
+        <SettingRow>
+          <RowResponsiveContainer>
+            <SettingLabel>
+              <EH3>이메일 주소</EH3>
             </SettingLabel>
             <SettingText>react.log</SettingText>
           </RowResponsiveContainer>
@@ -169,8 +180,9 @@ const Setting = () => {
         <SettingRow>
           <RowResponsiveContainer>
             <SettingLabel>
-              <FatText text={"이메일 주소"} />
+              <EH3>회원 탈퇴</EH3>
             </SettingLabel>
+            <EButton text={"회원 탈퇴"} />
             <SettingText>react.log</SettingText>
           </RowResponsiveContainer>
           <DetailText
@@ -200,14 +212,16 @@ const Container = styled.main`
   display: flex;
   flex-direction: column;
 `;
-const Profile = styled.div`
+const Profile = styled.section`
   @media (max-width: 768px) {
     flex-direction: column;
   }
   flex-direction: row;
   display: flex;
 `;
-const SettingWrapper = styled.div``;
+const SettingWrapper = styled.section`
+  margin-top: 4rem;
+`;
 const RowResponsiveContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
@@ -216,11 +230,16 @@ const RowResponsiveContainer = styled.div`
   display: flex;
 `;
 const SettingLabel = styled.div``;
+const EH3 = styled.h3`
+  margin: 0px;
+  line-height: 1.5;
+`;
 const SettingText = styled.div``;
 const SettingRow = styled.div`
   & + & {
     border-top: 1px solid rgb(233, 236, 239);
   }
+  padding: 1rem 0px;
 `;
 const ImageEditContainer = styled.div`
   @media (max-width: 768px) {
