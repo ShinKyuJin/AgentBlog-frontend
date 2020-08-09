@@ -16,14 +16,15 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   const me = useSelector((state: RootState) => state.me) as MeProps;
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = useState(window.location.pathname.split("/")[1]);
   const [isDropdown, setIsDropdown] = useState(false);
   const [localLogOutMutation] = useMutation(LOG_OUT);
+  const blogname = path.charAt(0) === "@" ? path.slice(1) : undefined;
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
       //console.log(location.pathname);
-      setPath(location.pathname);
+      setPath(location.pathname.split("/")[1]);
     });
     return () => unlisten();
   });
@@ -37,8 +38,9 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
 
   return (
     <>
-      {path !== "/write" && (
+      {path !== "write" && (
         <HeaderPresenter
+          blogname={blogname}
           modalVisible={modalVisible}
           openModal={openModal}
           closeModal={closeModal}

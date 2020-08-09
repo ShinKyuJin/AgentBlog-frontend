@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import Button from "../atoms/theme/Button";
-import FatText from "../atoms/theme/FatText";
 import DetailText from "../atoms/theme/DetailText";
 import Input from "../atoms/theme/Input";
 import Avatar from "../atoms/user/Avatar";

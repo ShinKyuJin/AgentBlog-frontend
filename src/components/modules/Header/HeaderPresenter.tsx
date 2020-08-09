@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoImg from "../../../assets/logo.png";
+import IconLogoImg from "../../../assets/small_logo.png";
 import Modal from "../../../modal/Modal";
 import AuthContainer from "../../../modal/Auth";
 import Button from "../../atoms/theme/Button";
@@ -11,6 +12,7 @@ import Dropdown from "./Dropdown";
 import { MeProps } from "../../../models/user";
 
 interface HeaderPresenterProps {
+  blogname: string | undefined;
   modalVisible: boolean;
   openModal: () => void;
   closeModal: () => void;
@@ -22,6 +24,7 @@ interface HeaderPresenterProps {
 }
 
 const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
+  blogname,
   modalVisible,
   openModal,
   closeModal,
@@ -41,9 +44,19 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
 
   return (
     <Container>
-      <LogoContainer to="/">
-        <Logo src={LogoImg} alt="logo" />
-      </LogoContainer>
+      {!blogname ? (
+        <LogoContainer to="/">
+          <Logo src={LogoImg} alt="logo" />
+        </LogoContainer>
+      ) : (
+        <IconContainer>
+          <LogoContainer to="/">
+            <IconLogo src={IconLogoImg} alt="logo" />
+          </LogoContainer>
+          <BlogLink to={`/@${blogname}`}>{blogname}</BlogLink>
+        </IconContainer>
+      )}
+
       <SemiContainer>
         <SearchContainer to="/search">
           <Icon type={"search"} size={20} />
@@ -107,6 +120,28 @@ const SemiContainer = styled.nav`
 const LogoContainer = styled(Link)``;
 
 const Logo = styled.img``;
+
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const IconLogo = styled.img`
+  width: 28px;
+  height: 28px;
+`;
+
+const BlogLink = styled(Link)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-size: 1.3125rem;
+  font-weight: bold;
+  color: rgb(52, 58, 64);
+  font-family: "Fira Mono", monospace;
+  margin-left: 0.5rem;
+`;
 
 const SearchContainer = styled(Link)`
   align-self: center;
