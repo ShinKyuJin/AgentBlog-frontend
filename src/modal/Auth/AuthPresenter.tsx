@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import { useStateProps } from "../../interface/interfaces";
-import FatText from "../../components/FatText";
+import Input from "../../components/atoms/theme/Input";
+import Button from "../../components/atoms/theme/Button";
+import { useStateProps } from "../../models/interfaces";
+import FatText from "../../components/atoms/theme/FatText";
 
 interface AuthPresenterProps {
   action: string;

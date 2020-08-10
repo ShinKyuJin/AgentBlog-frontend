@@ -17,9 +17,9 @@ interface AuthContainerProps {
 const AuthContainer = ({ closeModal }: AuthContainerProps) => {
   const [action, setAction] = useState<string>("logIn");
   const [btnDisable, setBtnDisable] = useState<boolean>(false);
-  const username = useInput("");
-  const secret = useInput("");
-  const email = useInput("");
+  const [username] = useInput("");
+  const [secret] = useInput("");
+  const [email] = useInput("");
 
   const [requestSecretMutation] = useMutation(REQUEST_SECRET, {
     variables: { email: email.value },

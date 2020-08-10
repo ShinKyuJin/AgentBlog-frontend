@@ -1,5 +1,6 @@
 const BORDER_RADIUS = "4px";
 const BOX_BORDER = "1px solid #e6e6e6";
+
 const Theme = {
   bgColor: "rgba(33, 37, 41, 0.008)",
   homeBgColor: "rgba(33, 37, 41, 0.028)",
@@ -11,7 +12,7 @@ const Theme = {
   lightGreyColor: "#c7c7c7",
   blueColor: "#3897f0",
   greenColor: "rgb(32, 201, 151)",
-  redColor: "#ED4956",
+  redColor: "rgb(255, 107, 107)",
   darkBlueColor: "#003569",
   boxBorder: BOX_BORDER,
   borderRadius: BORDER_RADIUS,

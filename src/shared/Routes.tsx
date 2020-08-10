@@ -5,17 +5,18 @@ import { gql } from "apollo-boost";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
 import PulseLoader from "react-spinners/PulseLoader";
 import styled from "styled-components";
-import MyErrorBoundary from "../components/ErrorBoundary";
+import MyErrorBoundary from "../components/atoms/system/ErrorBoundary";
 
-const Home = lazy(() => import("../pages/Home"));
-const Auth = lazy(() => import("../pages/Auth"));
-const PostDetail = lazy(() => import("../pages/PostDetail"));
-const UserHome = lazy(() => import("../pages/UserHome"));
-const WritePost = lazy(() => import("../pages/WritePost"));
-const Setting = lazy(() => import("../pages/Setting"));
-const PageNotFound = lazy(() => import("../pages/PageNotFound"));
-const Search = lazy(() => import("../pages/Search"));
-const SearchHashtag = lazy(() => import("../pages/SearchHashtag"));
+const Home = lazy(() => import("../components/pages/Home"));
+const Auth = lazy(() => import("../components/pages/Auth"));
+const PostDetail = lazy(() => import("../components/pages/PostDetail"));
+const UserHome = lazy(() => import("../components/pages/UserHome"));
+const WritePost = lazy(() => import("../components/pages/WritePost"));
+const Setting = lazy(() => import("../components/pages/Setting"));
+const PageNotFound = lazy(() => import("../components/pages/PageNotFound"));
+const LoginRequired = lazy(() => import("../components/pages/LoginRequired"));
+const Search = lazy(() => import("../components/pages/Search"));
+const SearchHashtag = lazy(() => import("../components/pages/SearchHashtag"));
 
 interface RoutesProps {
   isLoggedIn: boolean;
@@ -100,7 +101,8 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
             return (
               <Route
                 exact
-                {...route}
+                path={route.path}
+                component={isLoggedIn ? route.component : LoginRequired}
                 key={i}
                 onUpdate={() => window.scrollTo(0, 0)}
               />
