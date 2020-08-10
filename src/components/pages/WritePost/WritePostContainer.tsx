@@ -1,10 +1,10 @@
 import React, { useState, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
-import { QUERY_WRITE_POST } from "./WritePostQueries";
 import { useMutation } from "react-apollo-hooks";
 import { serverUri } from "../../../Apollo/Client";
 import axios from "axios";
 import WritePostPresenter from "./WritePostPresenter";
+import { QUERY_WRITE_POST } from "../../../models/post";
 
 export interface formProps {
   series_id: string;
@@ -60,7 +60,6 @@ const WritePostContainer = () => {
       series_id: form.series_id,
       thumbnail: form.thumbnail,
       url: title,
-      files: form.files,
     },
   });
 

@@ -2,14 +2,14 @@ import React, { useState, useCallback } from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import {
   getPostDetailVars,
-  QUERY_POST_DETAIL,
   getPostDetailData,
   MUTATION_LIKE_POST,
 } from "./PostDetailQueries";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { ADD_COMMENT } from "./Comment/addCommentQueries";
 import PostDetailPresenter from "./PostDetailPresenter";
+import { QUERY_EDIT_POST, QUERY_POST_DETAIL } from "../../../models/post";
 
 interface PostDetailParams {
   username: string;
@@ -17,6 +17,7 @@ interface PostDetailParams {
 }
 
 const PostDetailContainer = () => {
+  const history = useHistory();
   const { username, posturl } = useParams() as PostDetailParams;
   const { data: postData, loading, refetch } = useQuery<
     getPostDetailData,
@@ -30,8 +31,23 @@ const PostDetailContainer = () => {
   const [makeCommentDisable, setMakeCommentDisable] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
 
+  const [deletePostMutation] = useMutation(QUERY_EDIT_POST);
   const [commentMutation] = useMutation(ADD_COMMENT);
   const [likeMutation] = useMutation(MUTATION_LIKE_POST);
+
+  const handleEditPost = useCallback(() => {}, []);
+  const handleDeletePost = useCallback(async () => {
+    console.log(postData?.getPostDetail);
+    const data = postData?.getPostDetail;
+    await deletePostMutation({
+      variables: {
+        ...data,
+        hashtags: data?.hashtags.map((item) => item.name),
+        action: "DELETE",
+      },
+    });
+    window.location.href = "/";
+  }, [postData]);
 
   const handleChangeComment = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +117,7 @@ const PostDetailContainer = () => {
       handleChangeComment={handleChangeComment}
       handleMakeComment={handleMakeComment}
       handleClickLike={handleClickLike}
+      handleDeletePost={handleDeletePost}
     />
   );
 };

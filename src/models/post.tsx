@@ -1,4 +1,5 @@
 import { userInterface } from "./user";
+import { gql } from "apollo-boost";
 
 export interface postInterface {
   id: string;
@@ -89,3 +90,93 @@ export type getPostDetail = Pick<
   | "isLiked"
   | "likeCount"
 >;
+
+export const QUERY_WRITE_POST = gql`
+  mutation posting(
+    $title: String!
+    $hashtags: [String!]
+    $content: String!
+    $series_id: String
+    $thumbnail: String
+    $url: String!
+  ) {
+    posting(
+      title: $title
+      hashtags: $hashtags
+      content: $content
+      series_id: $series_id
+      thumbnail: $thumbnail
+      url: $url
+    ) {
+      url
+      user {
+        username
+      }
+    }
+  }
+`;
+
+export const QUERY_POST_DETAIL = gql`
+  query getPostDetail($username: String!, $url: String!) {
+    getPostDetail(username: $username, url: $url) {
+      id
+      title
+      url
+      user {
+        id
+        avatar
+        bio
+      }
+      files {
+        id
+        url
+      }
+      hashtags {
+        id
+        name
+      }
+      createdAt
+      commentCount
+      content
+      comments {
+        id
+        text
+        user {
+          username
+          avatar
+        }
+        createdAt
+      }
+      isLiked
+      likeCount
+    }
+  }
+`;
+
+export const QUERY_EDIT_POST = gql`
+  mutation editPost(
+    $id: String!
+    $title: String!
+    $url: String!
+    $hashtags: [String!]!
+    $thumbnail: String
+    $content: String!
+    $description: String
+    $series_id: String
+    $action: ACTIONS!
+  ) {
+    editPost(
+      id: $id
+      title: $title
+      url: $url
+      hashtags: $hashtags
+      thumbnail: $thumbnail
+      content: $content
+      description: $description
+      series_id: $series_id
+      action: $action
+    ) {
+      id
+    }
+  }
+`;

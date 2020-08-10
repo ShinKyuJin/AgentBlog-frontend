@@ -10,7 +10,7 @@ import { SearchPostProps } from "../../../models/post";
 import { convertMarkdownToText } from "../../../shared/utils";
 
 const SearchPostCard: React.FC<SearchPostProps> = ({
-  user: { username, avatar },
+  user: { username, avatar, id },
   url,
   thumbnail,
   files,
@@ -32,7 +32,7 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   const [errorThumbnailLoading, setErrorThumbnailLoading] = useState(false);
   return (
     <Wrapper>
-      {username !== "" && (
+      {id !== "" && (
         <Header>
           <Link to={`/@${username}`}>
             <Avatar size="md" url={avatar} />
@@ -76,15 +76,19 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   );
 };
 
-export const PostLoadingSkeleton = () => (
+export const PostLoadingSkeleton: React.FC<{ header?: boolean }> = ({
+  header = true,
+}) => (
   <Wrapper>
     <div style={{ fontSize: 20, lineHeight: 2 }}>
-      <Header>
-        <Skeleton circle={true} height={50} width={50} />
-        <UserColumn>
-          <Skeleton width={300} height={40} />
-        </UserColumn>
-      </Header>
+      {header && (
+        <Header>
+          <Skeleton circle={true} height={50} width={50} />
+          <UserColumn>
+            <Skeleton width={300} height={40} />
+          </UserColumn>
+        </Header>
+      )}
       <Skeleton height={370} />
       <Skeleton height={50} />
     </div>

@@ -8,6 +8,8 @@ import Button from "../../atoms/theme/Button";
 import { getPostDetailData } from "./PostDetailQueries";
 import { Icon } from "../../atoms/theme/Icon";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/modules";
 
 interface PostDetailPresenterProps {
   username: string;
@@ -18,6 +20,7 @@ interface PostDetailPresenterProps {
   handleChangeComment: any;
   handleMakeComment: any;
   handleClickLike: any;
+  handleDeletePost: any;
 }
 
 const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
@@ -29,7 +32,10 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   handleChangeComment,
   handleMakeComment,
   handleClickLike,
+  handleDeletePost,
 }) => {
+  const myId = useSelector((state: RootState) => state.me.id);
+
   const PostDetail = React.useMemo(
     () => ({
       content: (
@@ -40,8 +46,15 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
           <HeaderContainer>
             <TitleContainer>{data?.getPostDetail.title}</TitleContainer>
             <InfoContainer>
-              <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo> ·{" "}
-              {data?.getPostDetail.createdAt.slice(0, 10)}
+              <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo>
+              <InfoSeparator>{"·"}</InfoSeparator>
+              <DateInfo>{data?.getPostDetail.createdAt.slice(0, 10)}</DateInfo>
+              {data?.getPostDetail.user.id === myId && (
+                <>
+                  <EditButton>수정</EditButton>
+                  <EditButton onClick={handleDeletePost}>삭제</EditButton>
+                </>
+              )}
             </InfoContainer>
             <HashtagContainer>
               {data?.getPostDetail.hashtags.map(({ name }, key) => (
@@ -158,7 +171,28 @@ const TitleContainer = styled.div`
 `;
 const InfoContainer = styled.div`
   font-size: 18px;
+  display: flex;
 `; // username, createdAt
+
+const InfoSeparator = styled.span`
+  margin: 0px 0.5rem;
+`;
+
+const DateInfo = styled.span`
+  flex: 1 1 0%;
+`;
+
+const EditButton = styled.span`
+  cursor: pointer;
+  color: ${(props) => props.theme.greyColor};
+  &:hover {
+    color: ${(props) => props.theme.deepDarkGreyColor};
+  }
+  & + & {
+    margin-left: 0.5rem;
+  }
+`;
+
 const ToUserInfo = styled(Link)`
   text-decoration: none;
   font-weight: bold;

@@ -4,7 +4,9 @@ import { Helmet } from "react-helmet";
 import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
 import Avatar from "../../atoms/user/Avatar";
-import SearchPostCard from "../../atoms/post/SearchPostCard";
+import SearchPostCard, {
+  PostLoadingSkeleton,
+} from "../../atoms/post/SearchPostCard";
 import { QUERY_USER_HOME, seeUser } from "../../../models/user";
 
 interface UserHomeParams {
@@ -100,10 +102,16 @@ const UserHome = () => {
           data.seeUser.posts.map(({ user, ...post }) => (
             <SearchPostCard
               key={post.id}
-              user={{ ...user, username: "" }}
+              user={{ ...user, id: "" }}
               {...post}
             />
           ))}
+        {!data && (
+          <>
+            <PostLoadingSkeleton header={false} />
+            <PostLoadingSkeleton header={false} />
+          </>
+        )}
       </PostsContainer>
     </Container>
   );

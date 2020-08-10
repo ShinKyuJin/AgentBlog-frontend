@@ -15,39 +15,3 @@ export const MUTATION_LIKE_POST = gql`
     toggleLike(postId: $postId)
   }
 `;
-
-export const QUERY_POST_DETAIL = gql`
-  query getPostDetail($username: String!, $url: String!) {
-    getPostDetail(username: $username, url: $url) {
-      id
-      title
-      user {
-        id
-        avatar
-        bio
-      }
-      files {
-        id
-        url
-      }
-      hashtags {
-        id
-        name
-      }
-      createdAt
-      commentCount
-      content
-      comments {
-        id
-        text
-        user {
-          username
-          avatar
-        }
-        createdAt
-      }
-      isLiked
-      likeCount
-    }
-  }
-`;
