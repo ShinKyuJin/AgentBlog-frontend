@@ -12,7 +12,6 @@ export interface userInterface {
     postInterface,
     | "id"
     | "user"
-    | "files"
     | "url"
     | "title"
     | "description"

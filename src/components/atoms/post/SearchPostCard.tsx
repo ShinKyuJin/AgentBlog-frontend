@@ -13,7 +13,6 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   user: { username, avatar, id },
   url,
   thumbnail,
-  files,
   title,
   content,
   description,
@@ -21,11 +20,7 @@ const SearchPostCard: React.FC<SearchPostProps> = ({
   createdAt,
   commentCount,
 }) => {
-  const thumbnail_url = thumbnail
-    ? thumbnail
-    : files.length > 0
-    ? files[0].url
-    : null;
+  const thumbnail_url = thumbnail;
   const descriptionText = description
     ? description
     : convertMarkdownToText(content);

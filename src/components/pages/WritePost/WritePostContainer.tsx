@@ -4,36 +4,46 @@ import { useMutation } from "react-apollo-hooks";
 import { serverUri } from "../../../Apollo/Client";
 import axios from "axios";
 import WritePostPresenter from "./WritePostPresenter";
-import { QUERY_WRITE_POST } from "../../../models/post";
+import {
+  QUERY_WRITE_POST,
+  getPostDetail,
+  QUERY_EDIT_POST,
+} from "../../../models/post";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store/modules";
+import {
+  posting_set,
+  posting_addContent,
+  posting_clear,
+} from "../../../store/modules/posting";
+import { useHistory } from "react-router-dom";
 
-export interface formProps {
-  series_id: string;
-  thumbnail: string;
-  url: string;
-  files: Array<string>;
-}
-
-const WritePostContainer = () => {
-  const [form, setForm] = useState<formProps>({
-    series_id: "",
-    thumbnail: "",
-    url: "",
-    files: [],
-  });
-  const [title, setTitle] = useState<string>("");
+const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
+  editData,
+}) => {
   const [hashtag, setHashtag] = useState<string>("");
-  const [hashtags, setHashtags] = useState<Array<string>>([]);
-  const [content, setContent] = useState<string>("");
+  const id = useSelector((state: RootState) => state.posting.id);
+  const isEditing = useSelector((state: RootState) => state.posting.isEditing);
+  const title = useSelector((state: RootState) => state.posting.title);
+  const hashtags = useSelector((state: RootState) => state.posting.hashtags);
+  const content = useSelector((state: RootState) => state.posting.content);
+  const series_id = useSelector((state: RootState) => state.posting.series_id);
+  const thumbnail = useSelector((state: RootState) => state.posting.thumbnail);
+  const url = useSelector((state: RootState) => state.posting.url);
+  const myname = useSelector((state: RootState) => state.me.username);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const textareaEl = useRef(null);
 
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.name === "title") setTitle(e.target.value);
-      if (e.target.name === "hashtag") setHashtag(e.target.value);
-      if (e.target.name === "content") setContent(e.target.value);
+      const { name, value } = e.target;
+      if (name === "hashtag") setHashtag(value);
+      if (name === "title" || name === "content")
+        dispatch(posting_set({ key: name, value }));
     },
-    []
+    [dispatch]
   );
   const handleChangeHashtags = useCallback(
     (e: React.KeyboardEvent) => {
@@ -43,23 +53,38 @@ const WritePostContainer = () => {
         }
         if (hashtag.trim() !== "") {
           setHashtag("");
-          setHashtags([...hashtags, hashtag]);
+          dispatch(
+            posting_set({ key: "hashtags", value: [...hashtags, hashtag] })
+          );
         } else {
           toast.error("해시태그를 입력해주세요!");
         }
       }
     },
-    [hashtag, hashtags]
+    [hashtag, hashtags, dispatch]
   );
 
   const [postingMutation] = useMutation(QUERY_WRITE_POST, {
     variables: {
-      title: title,
-      hashtags: hashtags,
-      content: content,
-      series_id: form.series_id,
-      thumbnail: form.thumbnail,
+      title,
+      hashtags,
+      content,
+      series_id,
+      thumbnail,
       url: title,
+    },
+  });
+
+  const [editMutation] = useMutation(QUERY_EDIT_POST, {
+    variables: {
+      id,
+      title,
+      hashtags,
+      content,
+      series_id,
+      thumbnail,
+      url,
+      action: "EDIT",
     },
   });
 
@@ -70,29 +95,45 @@ const WritePostContainer = () => {
         toast.error("제목과 내용을 비우지 말아주세요!");
       } else {
         try {
-          const {
-            data: { posting },
-          }: any = await postingMutation();
+          let newUrl: string;
 
-          if (!posting) {
-            toast.error("글 작성에 실패했습니다.");
+          if (!isEditing) {
+            const { data }: any = await postingMutation();
+            newUrl = data.posting.url;
+            if (!data.posting) {
+              toast.error("글 작성에 실패했습니다.");
+            } else {
+              toast.success("글 작성에 성공했습니다.");
+            }
           } else {
-            toast.success("글 작성에 성공했습니다.");
-            window.location.href = `/@${posting.user.username}/${posting.url}`;
+            const { data }: any = await editMutation();
+            newUrl = data.editPost.url;
+            if (!data.editPost) {
+              toast.error("게시글 수정에 실패했습니다.");
+            } else {
+              toast.success("게시글 수정에 성공했습니다.");
+              dispatch(posting_clear());
+            }
           }
+          history.push(`/@${myname}/${newUrl}`);
         } catch (e) {
           console.log(e);
           toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
         }
       }
     },
-    [title, content, postingMutation]
+    [isEditing, title, content, myname, postingMutation, editMutation]
   );
 
   const handleClickHashtag = useCallback(
     (e: any) =>
-      setHashtags(hashtags.filter((text) => text !== e.target.textContent)),
-    [hashtags]
+      dispatch(
+        posting_set({
+          key: "hashtags",
+          value: hashtags.filter((text) => text !== e.target.textContent),
+        })
+      ),
+    [hashtags, dispatch]
   );
 
   const onUpload = useCallback(
@@ -106,18 +147,24 @@ const WritePostContainer = () => {
             "content-type": "multipart/form-data",
           },
         });
-        setContent(content.concat(`\n![](${data.location})`));
+        dispatch(posting_addContent(`\n![](${data.location})`));
       } catch (err) {
         toast.error("파일 업로드에 실패하였습니다." + err);
         return null;
       }
     },
-    [content]
+    [dispatch]
   );
+
+  const hanldExit = () => {
+    // if (isEditing) {
+    //   dispatch(posting_clear());
+    // }
+    history.goBack();
+  };
 
   return (
     <WritePostPresenter
-      form={form}
       title={title}
       hashtag={hashtag}
       hashtags={hashtags}
@@ -126,8 +173,10 @@ const WritePostContainer = () => {
       handleChangeHashtags={handleChangeHashtags}
       handleSubmit={handleSubmit}
       handleClickHashtag={handleClickHashtag}
+      hanldExit={hanldExit}
       onUpload={onUpload}
       textareaEl={textareaEl}
+      isEditing={isEditing}
     />
   );
 };

@@ -21,6 +21,7 @@ interface PostDetailPresenterProps {
   handleMakeComment: any;
   handleClickLike: any;
   handleDeletePost: any;
+  handleEditPost: any;
 }
 
 const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
@@ -33,6 +34,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   handleMakeComment,
   handleClickLike,
   handleDeletePost,
+  handleEditPost,
 }) => {
   const myId = useSelector((state: RootState) => state.me.id);
 
@@ -51,7 +53,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
               <DateInfo>{data?.getPostDetail.createdAt.slice(0, 10)}</DateInfo>
               {data?.getPostDetail.user.id === myId && (
                 <>
-                  <EditButton>수정</EditButton>
+                  <EditButton onClick={handleEditPost}>수정</EditButton>
                   <EditButton onClick={handleDeletePost}>삭제</EditButton>
                 </>
               )}

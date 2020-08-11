@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import { formProps } from "./WritePostContainer";
 import Hashtag from "../../atoms/post/Hashtag";
 import Button from "../../atoms/theme/Button";
 import { Link } from "react-router-dom";
@@ -11,7 +10,6 @@ import Uploader from "../../atoms/system/Uploader";
 import { toast } from "react-toastify";
 
 interface WritePostPresenterProps {
-  form: formProps;
   title: string;
   hashtag: string;
   hashtags: Array<string>;
@@ -22,12 +20,13 @@ interface WritePostPresenterProps {
   ) => string | number | undefined;
   handleSubmit: (e: React.FormEvent<Element>) => Promise<void>;
   handleClickHashtag: (e: any) => void;
+  hanldExit: any;
   onUpload: any;
   textareaEl: React.MutableRefObject<null>;
+  isEditing: boolean;
 }
 
 const WritePostPresenter: FC<WritePostPresenterProps> = ({
-  form,
   title,
   hashtag,
   hashtags,
@@ -36,8 +35,10 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
   handleChangeHashtags,
   handleSubmit,
   handleClickHashtag,
+  hanldExit,
   onUpload,
   textareaEl,
+  isEditing,
 }) => {
   const showTagInfo = React.useCallback(
     () =>
@@ -77,25 +78,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
         />
       </HashtagBox>
     ),
-    [hashtags, hashtag, handleClickHashtag]
-  );
-
-  const IndependentComp = React.useMemo(
-    () => ({
-      FocusBar: <FocusBar />,
-      ExitButton: (
-        <ExitBtnContainer to={"/"}>
-          <Icon type={"back"} size={16} />
-          <ExitBtnText>나가기 </ExitBtnText>
-        </ExitBtnContainer>
-      ),
-      FileUploader: (
-        <FileContainer>
-          <Uploader onUpload={onUpload} />
-        </FileContainer>
-      ),
-    }),
-    []
+    [hashtags, hashtag, handleClickHashtag, dismissInfo, showTagInfo]
   );
 
   return (
@@ -120,10 +103,12 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
           ),
           [title]
         )}
-        {IndependentComp.FocusBar}
+        <FocusBar />
         {Hashtags}
 
-        {IndependentComp.FileUploader}
+        <FileContainer>
+          <Uploader onUpload={onUpload} />
+        </FileContainer>
         {React.useMemo(
           () => (
             <ContentEditor
@@ -138,12 +123,18 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
           [content]
         )}
         <ButtonsWrapper>
-          {IndependentComp.ExitButton}
+          <ExitBtnContainer onClick={hanldExit}>
+            <Icon type={"back"} size={16} />
+            <ExitBtnText>나가기 </ExitBtnText>
+          </ExitBtnContainer>
           {React.useMemo(
             () => (
-              <ConfirmBtn text={"출간하기"} onClick={handleSubmit} />
+              <ConfirmBtn
+                text={isEditing ? "수정하기" : "출간하기"}
+                onClick={handleSubmit}
+              />
             ),
-            [handleSubmit]
+            [handleSubmit, isEditing]
           )}
         </ButtonsWrapper>
       </Wrapper>
@@ -240,7 +231,7 @@ const ConfirmBtn = styled(Button)`
   font-weight: bold;
 `;
 
-const ExitBtnContainer = styled(Link)`
+const ExitBtnContainer = styled.div`
   width: 7rem;
   height: 2.5rem;
   display: flex;

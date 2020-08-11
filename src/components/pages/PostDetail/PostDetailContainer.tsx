@@ -10,6 +10,8 @@ import { useParams, useHistory } from "react-router-dom";
 import { ADD_COMMENT } from "./Comment/addCommentQueries";
 import PostDetailPresenter from "./PostDetailPresenter";
 import { QUERY_EDIT_POST, QUERY_POST_DETAIL } from "../../../models/post";
+import { useDispatch } from "react-redux";
+import { posting_put } from "../../../store/modules/posting";
 
 interface PostDetailParams {
   username: string;
@@ -17,6 +19,7 @@ interface PostDetailParams {
 }
 
 const PostDetailContainer = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { username, posturl } = useParams() as PostDetailParams;
   const { data: postData, loading, refetch } = useQuery<
@@ -35,7 +38,24 @@ const PostDetailContainer = () => {
   const [commentMutation] = useMutation(ADD_COMMENT);
   const [likeMutation] = useMutation(MUTATION_LIKE_POST);
 
-  const handleEditPost = useCallback(() => {}, []);
+  const handleEditPost = useCallback(() => {
+    const data = postData?.getPostDetail;
+    if (data) {
+      dispatch(
+        posting_put({
+          isEditing: true,
+          id: data.id,
+          content: data.content,
+          hashtags: data.hashtags.map((t) => t.name),
+          series_id: data.series?.id || "",
+          thumbnail: data.thumbnail,
+          title: data.title,
+          url: data.url,
+        })
+      );
+    }
+    history.push("/write");
+  }, [dispatch, history, postData]);
   const handleDeletePost = useCallback(async () => {
     console.log(postData?.getPostDetail);
     const data = postData?.getPostDetail;
@@ -47,7 +67,7 @@ const PostDetailContainer = () => {
       },
     });
     window.location.href = "/";
-  }, [postData]);
+  }, [postData, deletePostMutation]);
 
   const handleChangeComment = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +138,7 @@ const PostDetailContainer = () => {
       handleMakeComment={handleMakeComment}
       handleClickLike={handleClickLike}
       handleDeletePost={handleDeletePost}
+      handleEditPost={handleEditPost}
     />
   );
 };
