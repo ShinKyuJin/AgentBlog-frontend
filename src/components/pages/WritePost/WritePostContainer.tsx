@@ -157,9 +157,9 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
   );
 
   const hanldExit = () => {
-    // if (isEditing) {
-    //   dispatch(posting_clear());
-    // }
+    if (isEditing) {
+      dispatch(posting_clear());
+    }
     history.goBack();
   };
 
