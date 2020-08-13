@@ -15,6 +15,7 @@ const Markdown: React.FC<MarkdownProps> = ({ source }) => {
           code: CodeBlock,
           InlineCodeBlock: InlineCodeBlock,
           blockquote: BlockQuoteBlock,
+          image: Image,
         }}
         skipHtml={false}
         escapeHtml={false}
@@ -23,13 +24,17 @@ const Markdown: React.FC<MarkdownProps> = ({ source }) => {
   );
 };
 
+function Image(props: any) {
+  return <img {...props} style={{ maxWidth: "100%" }} />;
+}
+
 const InlineCodeBlock = (props: any) => {
-  return <span style={{ background: "#ff0" }}>{props.value}</span>;
+  return <code style={{ background: "#ff0" }}>{props.value}</code>;
 };
 
 const BlockQuoteBlock = (props: any) => {
   return (
-    <div
+    <blockquote
       style={{
         backgroundColor: "rgb(248,249,250)",
         padding: "1rem 1rem 1rem 2rem",
@@ -38,7 +43,7 @@ const BlockQuoteBlock = (props: any) => {
       }}
     >
       {props.children}
-    </div>
+    </blockquote>
   );
 };
 

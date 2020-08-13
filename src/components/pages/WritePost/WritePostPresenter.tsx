@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import Hashtag from "../../atoms/post/Hashtag";
 import Button from "../../atoms/theme/Button";
-import { Link } from "react-router-dom";
 import Markdown from "../../atoms/post/Markdown";
 import { Icon } from "../../atoms/theme/Icon";
 import Uploader from "../../atoms/system/Uploader";
@@ -101,7 +100,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
               tabIndex={0}
             />
           ),
-          [title]
+          [title, handleChangeText]
         )}
         <FocusBar />
         {Hashtags}
@@ -120,7 +119,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
               tabIndex={2}
             />
           ),
-          [content]
+          [content, handleChangeText, textareaEl]
         )}
         <ButtonsWrapper>
           <ExitBtnContainer onClick={hanldExit}>
@@ -141,7 +140,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
       {React.useMemo(
         () => (
           <MarkContainer>
-            <h1>{title}</h1>
+            <TitleContainer>{title}</TitleContainer>
             <Markdown source={`${content}`} />
           </MarkContainer>
         ),
@@ -255,9 +254,17 @@ const FileContainer = styled.div`
   height: 30px;
 `;
 
+const TitleContainer = styled.h1`
+  font-size: 2.5em;
+  margin-bottom: 5rem;
+`;
+
 const MarkContainer = styled.div`
   height: 100%;
   width: 50%;
+  padding: 4rem;
+  overflow: scroll;
+  background-color: rgb(251, 253, 252);
   @media (max-width: 1024px) {
     display: none;
   }
