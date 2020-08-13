@@ -17,6 +17,7 @@ import {
   posting_clear,
 } from "../../../store/modules/posting";
 import { useHistory } from "react-router-dom";
+import { setContext } from "redux-saga/effects";
 
 const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
   editData,
@@ -34,7 +35,7 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const textareaEl = useRef(null);
+  const textareaEl = useRef<HTMLTextAreaElement>(null);
 
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,7 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
     },
     [dispatch]
   );
+
   const handleChangeHashtags = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter") {
@@ -122,7 +124,16 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
         }
       }
     },
-    [isEditing, title, content, myname, postingMutation, editMutation]
+    [
+      isEditing,
+      title,
+      content,
+      myname,
+      postingMutation,
+      editMutation,
+      dispatch,
+      history,
+    ]
   );
 
   const handleClickHashtag = useCallback(
@@ -136,11 +147,11 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
     [hashtags, dispatch]
   );
 
-  const onUpload = useCallback(
-    async (file: any) => {
+  const handleUploadImage = useCallback(
+    async (e: any) => {
+      const file = e.target.files[0];
       const formData = new FormData();
       formData.append("file", file, file.originalname);
-
       try {
         const { data } = await axios.post(serverUri + "/api/upload", formData, {
           headers: {
@@ -154,6 +165,55 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
       }
     },
     [dispatch]
+  );
+
+  const hanldToolbarButton = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const fixes: any = {
+        h1: ["# ", ""],
+        h2: ["## ", ""],
+        h3: ["### ", ""],
+        h4: ["#### ", ""],
+        quote: ["> ", ""],
+        codeBlock: ["```\n", "\n```\n"],
+        bold: ["**", "**"],
+        italic: ["_", "_"],
+        del: ["~~", "~~"],
+        link: ["[", "](link here)"],
+      };
+      const name = e.currentTarget.name;
+      let start = textareaEl.current?.selectionStart || 0;
+      if (["h1", "h2", "h3", "h4", "quote", "codeBlock"].includes(name)) {
+        const front =
+          textareaEl.current?.value.lastIndexOf("\n", start - 1) || 0;
+        start = front + 1;
+      }
+      const end = textareaEl.current?.selectionEnd || 0;
+      const content = textareaEl.current?.value.slice(start, end) || "텍스트";
+
+      let afterContet = "";
+      if (
+        content.startsWith(fixes[name][0]) &&
+        content.endsWith(fixes[name][1])
+      ) {
+        if (fixes[name][1] === "") {
+          afterContet += content.slice(fixes[name][0].length);
+        } else {
+          afterContet += content.slice(
+            fixes[name][0].length,
+            -fixes[name][1].length
+          );
+        }
+      } else {
+        afterContet += fixes[name][0] + content + fixes[name][1];
+      }
+      textareaEl.current?.focus();
+      textareaEl.current?.setRangeText(afterContet, start, end, "select");
+      dispatch(
+        posting_set({ key: "content", value: textareaEl.current?.value })
+      );
+    },
+    []
   );
 
   const hanldExit = () => {
@@ -174,152 +234,12 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
       handleSubmit={handleSubmit}
       handleClickHashtag={handleClickHashtag}
       hanldExit={hanldExit}
-      onUpload={onUpload}
+      onUpload={handleUploadImage}
       textareaEl={textareaEl}
+      hanldToolbarButton={hanldToolbarButton}
       isEditing={isEditing}
     />
   );
 };
 
 export default WritePostContainer;
-
-// # state를 객체로 묶어서 저장했을 때의 문제점
-// 1. 의존성 주입을 할 때 가장 큰 객체를 넘겨줘야하기 때문에 memorization 성능이 급격히 떨어진다. (내용 100개의 항목 중 한개의 항목만 바뀌어도 전체 state를 갱신해줘야하기 때문에)
-/*
-export interface formProps {
-  title: string;
-  hashtag: string;
-  hashtags: Array<string>;
-  content: string;
-  series_id: string;
-  thumbnail: string;
-  url: string;
-  files: Array<string>;
-}
-
-const WritePostContainer = () => {
-  const [form, setForm] = useState<formProps>({
-    title: "",
-    hashtag: "",
-    hashtags: [],
-    content: "",
-    series_id: "",
-    thumbnail: "",
-    url: "",
-    files: [],
-  });
-
-  const textareaEl = useRef(null);
-
-  const handleChangeText = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    },
-    [form]
-  );
-  const handleChangeHashtags = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter") {
-        if (form.hashtags.find((text) => text === form.hashtag)) {
-          return toast.warning("이미 있는 해시태그입니다.");
-        }
-        if (form.hashtag.trim() !== "") {
-          setForm({
-            ...form,
-            hashtags: [...form.hashtags.concat(form.hashtag)],
-            hashtag: "",
-          });
-        } else {
-          toast.error("해시태그를 입력해주세요!");
-        }
-      }
-    },
-    [form]
-  );
-
-  const [postingMutation] = useMutation(QUERY_WRITE_POST, {
-    variables: {
-      title: form.title,
-      hashtags: form.hashtags,
-      content: form.content,
-      series_id: form.series_id,
-      thumbnail: form.thumbnail,
-      url: form.title,
-      files: form.files,
-    },
-  });
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-
-      if (form.title === "" || form.content === "") {
-        toast.error("제목과 내용을 비우지 말아주세요!");
-      } else {
-        try {
-          const {
-            data: { posting },
-          }: any = await postingMutation();
-
-          if (!posting) {
-            toast.error("글 작성에 실패했습니다.");
-          } else {
-            toast.success("글 작성에 성공했습니다.");
-            window.location.href = `/@${posting.user.username}/${posting.url}`;
-          }
-        } catch (e) {
-          console.log(e);
-          toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
-        }
-      }
-    },
-    [form, postingMutation]
-  );
-
-  const handleClickHashtag = useCallback(
-    (e: any) => {
-      setForm({
-        ...form,
-        hashtags: form.hashtags.filter((text) => text !== e.target.textContent),
-      });
-    },
-    [form]
-  );
-
-  const onUpload = useCallback(
-    async (file: any) => {
-      const formData = new FormData();
-      formData.append("file", file, file.originalname);
-
-      try {
-        const { data } = await axios.post(serverUri + "/api/upload", formData, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        });
-
-        setForm({
-          ...form,
-          content: form.content.concat(`\n![](${data.location})`),
-        });
-      } catch (err) {
-        toast.error("파일 업로드에 실패하였습니다." + err);
-        return null;
-      }
-    },
-    [form]
-  );
-
-  return (
-    <WritePostPresenter
-      form={form}
-      handleChangeText={handleChangeText}
-      handleChangeHashtags={handleChangeHashtags}
-      handleSubmit={handleSubmit}
-      handleClickHashtag={handleClickHashtag}
-      onUpload={onUpload}
-      textareaEl={textareaEl}
-    />
-  );
-};
-*/
