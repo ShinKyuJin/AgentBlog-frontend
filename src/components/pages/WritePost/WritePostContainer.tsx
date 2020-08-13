@@ -17,7 +17,6 @@ import {
   posting_clear,
 } from "../../../store/modules/posting";
 import { useHistory } from "react-router-dom";
-import { setContext } from "redux-saga/effects";
 
 const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
   editData,
@@ -177,7 +176,7 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
         quote: ["> ", ""],
         codeBlock: ["```\n", "\n```\n"],
         bold: ["**", "**"],
-        italic: ["_", "_"],
+        italic: ["_", "_ "],
         del: ["~~", "~~"],
         link: ["[", "](link here)"],
       };
@@ -213,7 +212,7 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
         posting_set({ key: "content", value: textareaEl.current?.value })
       );
     },
-    []
+    [dispatch]
   );
 
   const hanldExit = () => {

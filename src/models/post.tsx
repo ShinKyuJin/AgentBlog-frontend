@@ -120,8 +120,8 @@ export const QUERY_POST_DETAIL = gql`
       url
       user {
         id
-        avatar
         bio
+        avatar
       }
       files {
         id
