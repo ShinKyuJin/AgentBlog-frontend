@@ -19,10 +19,6 @@ export interface postInterface {
     createdAt: string;
     updatedAt: string;
   };
-  files: {
-    id: string;
-    url: string;
-  }[];
   thumbnail: string;
   likes: {
     id: string;
@@ -50,7 +46,6 @@ export type HomePostProps = Pick<
   postInterface,
   | "id"
   | "user"
-  | "files"
   | "url"
   | "title"
   | "description"
@@ -65,7 +60,6 @@ export type SearchPostProps = Pick<
   postInterface,
   | "id"
   | "user"
-  | "files"
   | "url"
   | "title"
   | "description"
@@ -81,10 +75,12 @@ export type getPostDetail = Pick<
   | "id"
   | "title"
   | "user"
-  | "files"
+  | "url"
   | "content"
   | "hashtags"
+  | "thumbnail"
   | "createdAt"
+  | "series"
   | "comments"
   | "commentCount"
   | "isLiked"
@@ -124,8 +120,8 @@ export const QUERY_POST_DETAIL = gql`
       url
       user {
         id
-        avatar
         bio
+        avatar
       }
       files {
         id
@@ -135,6 +131,11 @@ export const QUERY_POST_DETAIL = gql`
         id
         name
       }
+      series {
+        id
+        title
+      }
+      thumbnail
       createdAt
       commentCount
       content
@@ -176,7 +177,7 @@ export const QUERY_EDIT_POST = gql`
       series_id: $series_id
       action: $action
     ) {
-      id
+      url
     }
   }
 `;

@@ -29,31 +29,34 @@ const Setting = () => {
   const disfetch = useDispatch();
   const [editUserMutation] = useMutation(QUERY_EDIT_USER);
 
-  const handleUploadAvatar = useCallback(async (e: any) => {
-    const file = e.target.files[0];
-    setIsImageUploading(true);
-    const formData = new FormData();
-    formData.append("file", file, file.originalname);
-    try {
-      const { data: avatar } = await Axios.post(
-        serverUri + "/api/upload",
-        formData,
-        {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        }
-      );
-      const { data }: any = await editUserMutation({
-        variables: { avatar: avatar.location },
-      });
-      disfetch(me_set(data.editUser as MeProps));
-    } catch (err) {
-      toast.error("파일 업로드에 실패하였습니다." + err);
-      return null;
-    }
-    setIsImageUploading(false);
-  }, []);
+  const handleUploadAvatar = useCallback(
+    async (e: any) => {
+      const file = e.target.files[0];
+      setIsImageUploading(true);
+      const formData = new FormData();
+      formData.append("file", file, file.originalname);
+      try {
+        const { data: avatar } = await Axios.post(
+          serverUri + "/api/upload",
+          formData,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }
+        );
+        const { data }: any = await editUserMutation({
+          variables: { avatar: avatar.location },
+        });
+        disfetch(me_set(data.editUser as MeProps));
+      } catch (err) {
+        toast.error("파일 업로드에 실패하였습니다." + err);
+        return null;
+      }
+      setIsImageUploading(false);
+    },
+    [disfetch, editUserMutation]
+  );
 
   const handleRemoveAvatar = useCallback(async (e: any) => {
     try {

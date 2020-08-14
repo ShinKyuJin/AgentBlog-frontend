@@ -10,6 +10,7 @@ import { Icon } from "../../atoms/theme/Icon";
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/modules";
+import DetailText from "../../atoms/theme/DetailText";
 
 interface PostDetailPresenterProps {
   username: string;
@@ -21,6 +22,7 @@ interface PostDetailPresenterProps {
   handleMakeComment: any;
   handleClickLike: any;
   handleDeletePost: any;
+  handleEditPost: any;
 }
 
 const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
@@ -33,6 +35,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
   handleMakeComment,
   handleClickLike,
   handleDeletePost,
+  handleEditPost,
 }) => {
   const myId = useSelector((state: RootState) => state.me.id);
 
@@ -51,7 +54,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
               <DateInfo>{data?.getPostDetail.createdAt.slice(0, 10)}</DateInfo>
               {data?.getPostDetail.user.id === myId && (
                 <>
-                  <EditButton>수정</EditButton>
+                  <EditButton onClick={handleEditPost}>수정</EditButton>
                   <EditButton onClick={handleDeletePost}>삭제</EditButton>
                 </>
               )}
@@ -90,7 +93,8 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
             </Link>
             <TailUserInfo>
               <TailLink to={`/@${username}`}>{username}</TailLink>
-              {data?.getPostDetail.user.bio}
+              <DetailText text={data?.getPostDetail.user.bio || "fd"} />
+              {console.log(data?.getPostDetail.user)}
             </TailUserInfo>
           </TailContainer>
           <Contour />
@@ -208,6 +212,7 @@ const HashtagContainer = styled.div`
 
 const BodyContainer = styled.article``;
 const TailContainer = styled.div`
+  margin-top: 10rem;
   display: flex;
   align-items: center;
 `;
@@ -234,12 +239,14 @@ const Contour = styled.hr`
 `;
 
 const CommentMakeContainer = styled.div`
-  margin: 30px 0;
+  margin: 5rem 0 2rem 0;
   display: flex;
   flex-direction: column;
 `;
 
 const CommentCount = styled.div`
+  font-weight: 500;
+  font-size: 1.125rem;
   margin-bottom: 15px;
 `;
 
@@ -260,6 +267,7 @@ const CommentSubmit = styled(Button)`
   width: 100px;
   border: none;
   margin-top: 10px;
+  align-self: flex-end;
 `;
 
 const LikeSidebarContainer = styled.div`

@@ -21,11 +21,7 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
       </Container>
     );
   } else {
-    const thumbnail = postInfo.thumbnail
-      ? postInfo.thumbnail
-      : postInfo.files.length > 0
-      ? postInfo.files[0].url
-      : null;
+    const thumbnail = postInfo.thumbnail;
     const description = postInfo.description
       ? postInfo.description
       : convertMarkdownToText(postInfo.content);
