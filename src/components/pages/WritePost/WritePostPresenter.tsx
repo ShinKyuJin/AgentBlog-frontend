@@ -5,7 +5,6 @@ import Hashtag from "../../atoms/post/Hashtag";
 import Button from "../../atoms/theme/Button";
 import Markdown from "../../atoms/post/Markdown";
 import { Icon } from "../../atoms/theme/Icon";
-import Uploader from "../../atoms/system/Uploader";
 import { toast } from "react-toastify";
 
 interface WritePostPresenterProps {
@@ -44,7 +43,7 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
   const showTagInfo = React.useCallback(
     () =>
       toast.dark(
-        "태그를 입력한 뒤 엔터를 누르시면 등록할 수 있습니다.\n등록된 태그는 클릭하면 삭제됩니다.",
+        "쉼표 혹은 엔터를 눌러 해시태그 등록할 수 있습니다.\n등록된 태그는 클릭하면 삭제됩니다.",
         {
           position: "top-center",
           hideProgressBar: true,

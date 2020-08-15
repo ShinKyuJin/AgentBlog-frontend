@@ -48,7 +48,8 @@ const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
 
   const handleChangeHashtags = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
         if (hashtags.find((text) => text === hashtag)) {
           return toast.warning("이미 있는 해시태그입니다.");
         }
