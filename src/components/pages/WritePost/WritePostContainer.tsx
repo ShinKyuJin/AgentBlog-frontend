@@ -18,9 +18,7 @@ import {
 } from "../../../store/modules/posting";
 import { useHistory } from "react-router-dom";
 
-const WritePostContainer: React.FC<{ editData?: getPostDetail }> = ({
-  editData,
-}) => {
+const WritePostContainer = () => {
   const [hashtag, setHashtag] = useState<string>("");
   const id = useSelector((state: RootState) => state.posting.id);
   const isEditing = useSelector((state: RootState) => state.posting.isEditing);
