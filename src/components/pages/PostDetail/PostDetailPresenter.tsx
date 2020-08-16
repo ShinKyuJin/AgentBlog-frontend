@@ -94,7 +94,6 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
             <TailUserInfo>
               <TailLink to={`/@${username}`}>{username}</TailLink>
               <DetailText text={data?.getPostDetail.user.bio || "fd"} />
-              {console.log(data?.getPostDetail.user)}
             </TailUserInfo>
           </TailContainer>
           <Contour />
@@ -121,7 +120,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
         </CommentsContaniner>
       ),
     }),
-    [data]
+    [data, handleClickLike, handleEditPost, handleDeletePost, myId, username]
   );
 
   if (loading || (data && Object.keys(data).length === 0)) {

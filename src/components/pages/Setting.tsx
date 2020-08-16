@@ -58,18 +58,21 @@ const Setting = () => {
     [disfetch, editUserMutation]
   );
 
-  const handleRemoveAvatar = useCallback(async (e: any) => {
-    try {
-      // TODO - Remove Image from S3 Server
-      const { data }: any = await editUserMutation({
-        variables: { avatar: "" },
-      });
-      disfetch(me_set(data.editUser as MeProps));
-    } catch (err) {
-      toast.error("이미지 제거에 실패했습니다." + err);
-      return null;
-    }
-  }, []);
+  const handleRemoveAvatar = useCallback(
+    async (e: any) => {
+      try {
+        // TODO - Remove Image from S3 Server
+        const { data }: any = await editUserMutation({
+          variables: { avatar: "" },
+        });
+        disfetch(me_set(data.editUser as MeProps));
+      } catch (err) {
+        toast.error("이미지 제거에 실패했습니다." + err);
+        return null;
+      }
+    },
+    [disfetch, editUserMutation]
+  );
 
   const handleEditNameBio = () => {
     setUsername(me.username);

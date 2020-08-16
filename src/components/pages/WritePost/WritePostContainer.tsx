@@ -4,11 +4,7 @@ import { useMutation } from "react-apollo-hooks";
 import { serverUri } from "../../../Apollo/Client";
 import axios from "axios";
 import WritePostPresenter from "./WritePostPresenter";
-import {
-  QUERY_WRITE_POST,
-  getPostDetail,
-  QUERY_EDIT_POST,
-} from "../../../models/post";
+import { QUERY_WRITE_POST, QUERY_EDIT_POST } from "../../../models/post";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store/modules";
 import {

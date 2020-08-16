@@ -140,7 +140,7 @@ const BlogLink = styled(Link)`
   font-weight: bold;
   color: rgb(52, 58, 64);
   font-family: "Fira Mono", monospace;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 `;
 
 const SearchContainer = styled(Link)`

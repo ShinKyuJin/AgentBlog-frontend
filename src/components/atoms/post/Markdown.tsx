@@ -16,6 +16,7 @@ const Markdown: React.FC<MarkdownProps> = ({ source }) => {
           inlineCode: InlineCodeBlock,
           blockquote: BlockQuoteBlock,
           image: Image,
+          link: Link,
         }}
         skipHtml={false}
         escapeHtml={false}
@@ -73,8 +74,28 @@ const CodeBlock = (props: any) => {
   );
 };
 
+const Link = (props: any) => {
+  const { value, children, href, ..._props } = props;
+  return (
+    <>
+      <LinkContainer href={href} {..._props}>
+        {children}
+      </LinkContainer>
+    </>
+  );
+};
+
+const LinkContainer = styled.a`
+  color: #0ca678;
+  &:hover {
+    color: #12b886;
+    text-decoration: underline;
+  }
+`;
+
 const Conatiner = styled.div`
   line-height: 1.7;
+  color: rgb(34, 36, 38);
 `;
 
 export default React.memo(Markdown);

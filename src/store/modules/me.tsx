@@ -1,6 +1,5 @@
 import { MeProps } from "../../models/user";
 import { gql } from "apollo-boost";
-import { put, takeLatest } from "redux-saga/effects";
 
 const SET = "me/SET" as const;
 const PUT_ASYNC = "me/PUT_ASYNC" as const;
@@ -18,9 +17,9 @@ export const me_putAsync = (data: MeProps) => ({
 export const me_clear = () => ({ type: CLEAR });
 //export const clear = createAction(CLEAR);
 
-function* me_putSaga(action: ReturnType<typeof me_putAsync>) {
-  yield put(me_set(action.payload));
-}
+// function* me_putSaga(action: ReturnType<typeof me_putAsync>) {
+//   yield put(me_set(action.payload));
+// }
 
 export function* meSaga() {
   //yield takeLatest(PUT_ASYNC, me_putAsync);
