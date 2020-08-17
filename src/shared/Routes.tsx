@@ -2,7 +2,7 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { gql } from "apollo-boost";
-import { LOG_OUT } from "../modal/Auth/AuthQueries";
+import { LOG_OUT } from "../components/modules/modal/Auth/AuthQueries";
 import PulseLoader from "react-spinners/PulseLoader";
 import styled from "styled-components";
 import MyErrorBoundary from "../components/atoms/system/ErrorBoundary";

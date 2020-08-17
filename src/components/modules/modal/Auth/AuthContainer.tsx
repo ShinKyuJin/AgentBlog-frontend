@@ -8,7 +8,7 @@ import {
   LOG_IN,
 } from "./AuthQueries";
 import { toast } from "react-toastify";
-import useInput from "../../hooks/useInput";
+import useInput from "../../../../hooks/useInput";
 
 interface AuthContainerProps {
   closeModal: () => void;

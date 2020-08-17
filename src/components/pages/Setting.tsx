@@ -11,8 +11,7 @@ import { useMutation } from "react-apollo-hooks";
 import { QUERY_EDIT_USER, MeProps } from "../../models/user";
 import { me_set } from "../../store/modules/me";
 import useInput from "../../hooks/useInput";
-import Axios from "axios";
-import { serverUri } from "../../Apollo/Client";
+import { uploadImage } from "../../shared/utils";
 
 const Setting = () => {
   const me = useSelector((state: RootState) => state.me);
@@ -30,21 +29,12 @@ const Setting = () => {
   const [editUserMutation] = useMutation(QUERY_EDIT_USER);
 
   const handleUploadAvatar = useCallback(
-    async (e: any) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files || e.target.files.length === 0) return;
       const file = e.target.files[0];
       setIsImageUploading(true);
-      const formData = new FormData();
-      formData.append("file", file, file.originalname);
       try {
-        const { data: avatar } = await Axios.post(
-          serverUri + "/api/upload",
-          formData,
-          {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          }
-        );
+        const { data: avatar } = await uploadImage(file);
         const { data }: any = await editUserMutation({
           variables: { avatar: avatar.location },
         });

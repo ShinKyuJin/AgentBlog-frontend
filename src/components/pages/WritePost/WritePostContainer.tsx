@@ -1,8 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "react-apollo-hooks";
-import { serverUri } from "../../../Apollo/Client";
-import axios from "axios";
 import WritePostPresenter from "./WritePostPresenter";
 import { QUERY_WRITE_POST, QUERY_EDIT_POST } from "../../../models/post";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +11,7 @@ import {
   posting_clear,
 } from "../../../store/modules/posting";
 import { useHistory } from "react-router-dom";
+import { uploadImage } from "../../../shared/utils";
 
 const WritePostContainer = () => {
   const [hashtag, setHashtag] = useState<string>("");
@@ -142,16 +141,11 @@ const WritePostContainer = () => {
   );
 
   const handleUploadImage = useCallback(
-    async (e: any) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files || e.target.files.length === 0) return;
       const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append("file", file, file.originalname);
       try {
-        const { data } = await axios.post(serverUri + "/api/upload", formData, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        });
+        const { data } = await uploadImage(file);
         dispatch(posting_addContent(`\n![](${data.location})`));
       } catch (err) {
         toast.error("파일 업로드에 실패하였습니다." + err);
