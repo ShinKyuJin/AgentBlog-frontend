@@ -202,6 +202,10 @@ const HashtagEditor = styled.input`
   padding: 0;
   border: none;
 
+  &:first-child {
+    margin-left: 0rem;
+  }
+
   &:focus {
     outline: none;
   }
@@ -253,6 +257,7 @@ const ExitBtnContainer = styled.div`
   font-size: 1.125rem;
   border-radius: 4px;
   background-color: inherit;
+  cursor: pointer;
 
   transition: background-color 0.05s;
   &:hover {

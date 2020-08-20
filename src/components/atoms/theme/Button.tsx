@@ -54,6 +54,12 @@ const SuccessContainer = styled.button`
   justify-content: center;
   height: 40px;
   cursor: pointer;
+  &:hover {
+    background-color: ${(props) =>
+      props.disabled
+        ? props.theme.darkGreyColor
+        : props.theme.focusedGreenColor};
+  }
 `;
 const WarningContainer = styled.button`
   display: inline-flex;
