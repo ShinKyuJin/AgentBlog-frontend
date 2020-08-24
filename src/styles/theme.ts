@@ -14,6 +14,7 @@ const Theme = {
   greenColor: "rgb(18, 184, 134)",
   focusedGreenColor: "rgb(32, 201, 151)",
   redColor: "rgb(255, 107, 107)",
+  focusedRedColor: "rgb(255, 135, 135)",
   darkBlueColor: "#003569",
   boxBorder: BOX_BORDER,
   borderRadius: BORDER_RADIUS,

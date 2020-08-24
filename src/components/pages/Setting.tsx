@@ -122,11 +122,6 @@ const Setting = () => {
       <Profile>
         <ImageEditContainer>
           <EAvatar size={"lg"} url={me.avatar} />
-          <EButton
-            text={"이미지 업로드"}
-            disabled={isImageUploading}
-            onClick={() => document.getElementById("fileid")?.click()}
-          />
           <input
             id={"fileid"}
             type={"file"}
@@ -135,9 +130,14 @@ const Setting = () => {
             hidden
           />
           <EButton
+            text={"이미지 업로드"}
+            disabled={isImageUploading}
+            onClick={() => document.getElementById("fileid")?.click()}
+          />
+          <EButton
             text={"이미지 제거"}
+            buttonType={"text"}
             onClick={handleRemoveAvatar}
-            style={{ color: "rgb(18, 184, 134)", background: "none" }}
           />
         </ImageEditContainer>
 
@@ -216,7 +216,7 @@ const Setting = () => {
             <SettingLabel>
               <EH3>회원 탈퇴</EH3>
             </SettingLabel>
-            <EButton text={"회원 탈퇴"} buttonStyle={"warning"} />
+            <EButton text={"회원 탈퇴"} colorStyle={"warning"} />
           </RowResponsiveContainer>
           <DetailTextContainer>
             <DetailText

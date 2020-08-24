@@ -132,10 +132,13 @@ const WritePostPresenter: FC<WritePostPresenterProps> = ({
           [content, handleChangeText, textareaEl]
         )}
         <ButtonsWrapper>
-          <ExitBtnContainer onClick={hanldExit}>
-            <Icon type={"back"} size={16} />
-            <ExitBtnText>나가기 </ExitBtnText>
-          </ExitBtnContainer>
+          <ExitBtn
+            text={"나가기"}
+            icon={{ type: "back", size: 16 }}
+            buttonType={"text"}
+            colorStyle={"lightGrey"}
+            onClick={hanldExit}
+          />
           {React.useMemo(
             () => (
               <ConfirmBtn
@@ -239,6 +242,13 @@ const ButtonsWrapper = styled.div`
   display: flex;
   align-content: center;
   justify-content: space-between;
+`;
+
+const ExitBtn = styled(Button)`
+  font-size: 1.125rem;
+  height: 2.5rem;
+  width: 7rem;
+  font-weight: 100;
 `;
 
 const ConfirmBtn = styled(Button)`
