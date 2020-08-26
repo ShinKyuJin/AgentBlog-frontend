@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 import Hashtag from "../../atoms/post/Hashtag";
 import Button from "../../atoms/theme/Button";
 import Markdown from "../../atoms/post/Markdown";
-import { Icon } from "../../atoms/theme/Icon";
 import { toast } from "react-toastify";
 import PostingToolbars from "../../modules/PostingToolbars";
 
@@ -256,27 +255,6 @@ const ConfirmBtn = styled(Button)`
   height: 2.5rem;
   width: 10rem;
   font-weight: bold;
-`;
-
-const ExitBtnContainer = styled.div`
-  width: 7rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.125rem;
-  border-radius: 4px;
-  background-color: inherit;
-  cursor: pointer;
-
-  transition: background-color 0.05s;
-  &:hover {
-    background-color: rgb(240, 240, 240);
-  }
-`;
-
-const ExitBtnText = styled.div`
-  margin-left: 0.8rem;
 `;
 
 const TitleContainer = styled.h1`
