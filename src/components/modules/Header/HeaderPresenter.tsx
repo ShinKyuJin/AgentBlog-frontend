@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LogoImg from "../../../assets/logo.png";
 import IconLogoImg from "../../../assets/small_logo.png";
-import Modal from "../../../modal/Modal";
-import AuthContainer from "../../../modal/Auth";
+import Modal from "../modal/Modal";
+import AuthContainer from "../modal/Auth";
 import Button from "../../atoms/theme/Button";
 import { Icon } from "../../atoms/theme/Icon";
 import Avatar from "../../atoms/user/Avatar";
@@ -34,14 +34,6 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({
   me,
   localLogOutMutation,
 }) => {
-  useEffect(() => {
-    const handleOnClick = () => setIsDropdown(false);
-    document.addEventListener("click", handleOnClick, true);
-    return () => {
-      document.removeEventListener("click", handleOnClick, true);
-    };
-  }, []);
-
   return (
     <Container>
       {!blogname ? (
@@ -140,7 +132,7 @@ const BlogLink = styled(Link)`
   font-weight: bold;
   color: rgb(52, 58, 64);
   font-family: "Fira Mono", monospace;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 `;
 
 const SearchContainer = styled(Link)`

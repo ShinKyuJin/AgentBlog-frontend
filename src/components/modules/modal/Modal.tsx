@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
 import CloseButton from "./CloseButton";
-import ModalPortal from "../client/ModalPortal";
+import ModalPortal from "../../../client/ModalPortal";
 
 interface ModalProps extends HTMLAttributes<HTMLElement> {
   visible: boolean;

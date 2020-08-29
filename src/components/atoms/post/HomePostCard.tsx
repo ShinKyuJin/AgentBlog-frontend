@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ImageLoader from "../theme/ImageLoader";
 import Skeleton from "react-loading-skeleton";
 import { HomePostProps } from "../../../models/post";
-import { convertMarkdownToText } from "../../../shared/utils";
+import { convertMarkdownToText, DateToYYYYMMDD } from "../../../shared/utils";
 
 interface PostCardProps {
   postInfo?: HomePostProps;
@@ -43,7 +43,8 @@ const HomePostCard: React.FC<PostCardProps> = ({ postInfo }) => {
             <ContentCon>{description}</ContentCon>
           </ContentContainer>
           <RestInfoContainer>
-            {postInfo.createdAt.slice(0, 10)} · {postInfo.commentCount}개의 댓글
+            {DateToYYYYMMDD(postInfo.createdAt)} · {postInfo.commentCount}개의
+            댓글
           </RestInfoContainer>
         </PostInfoContainer>
         <UserInfoContainer to={`/@${postInfo.user.username}`}>
@@ -63,7 +64,7 @@ const Container = styled.article`
     width: calc(50% - 2rem);
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     width: 100%;
     margin: 0px 0px 1rem 0px;
   }

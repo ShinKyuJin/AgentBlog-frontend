@@ -4,7 +4,7 @@ import HeaderPresenter from "./HeaderPresenter";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/modules";
-import { LOG_OUT } from "../../../modal/Auth/AuthQueries";
+import { LOG_OUT } from "../modal/Auth/AuthQueries";
 import { useMutation } from "react-apollo-hooks";
 import { MeProps } from "../../../models/user";
 
@@ -16,18 +16,28 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
   const me = useSelector((state: RootState) => state.me) as MeProps;
   const history = useHistory();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [path, setPath] = useState(window.location.pathname.split("/")[1]);
+  const [path, setPath] = useState(window.location.pathname);
   const [isDropdown, setIsDropdown] = useState(false);
   const [localLogOutMutation] = useMutation(LOG_OUT);
-  const blogname = path.charAt(0) === "@" ? path.slice(1) : undefined;
+  const path_ = path.split("/")[1];
+  let blogname = path_.charAt(0) === "@" ? path_.slice(1) : undefined;
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
-      //console.log(location.pathname);
-      setPath(location.pathname.split("/")[1]);
+      // TODO blogname
+      //const path = location.pathname.split("/")[1];
+      setPath(location.pathname);
     });
     return () => unlisten();
   });
+
+  useEffect(() => {
+    const handleOnClick = () => setIsDropdown(false);
+    document.addEventListener("click", handleOnClick, true);
+    return () => {
+      document.removeEventListener("click", handleOnClick, true);
+    };
+  }, [setIsDropdown]);
 
   const openModal = () => {
     setModalVisible(true);
@@ -38,7 +48,7 @@ const HeaderContainer = ({ isLoggedIn }: HeaderContainerProps) => {
 
   return (
     <>
-      {path !== "write" && (
+      {path !== "/write" && (
         <HeaderPresenter
           blogname={blogname}
           modalVisible={modalVisible}

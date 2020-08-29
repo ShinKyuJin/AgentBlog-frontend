@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo-hooks";
-import { QUERY_POP_TAGS } from "./SidebarQueries";
 import Footer from "../Footer";
+import { QUERY_POP_TAGS } from "../../../models/hashtag";
 
 interface getPopularHashtag {
   name: string;

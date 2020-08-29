@@ -16,6 +16,7 @@ const Markdown: React.FC<MarkdownProps> = ({ source }) => {
           inlineCode: InlineCodeBlock,
           blockquote: BlockQuoteBlock,
           image: Image,
+          link: Link,
         }}
         skipHtml={false}
         escapeHtml={false}
@@ -26,7 +27,18 @@ const Markdown: React.FC<MarkdownProps> = ({ source }) => {
 
 function Image(props: any) {
   const { alt, ...others } = props;
-  return <img alt={props.alt} {...others} style={{ maxWidth: "100%" }} />;
+  return (
+    <img
+      alt={props.alt}
+      {...others}
+      style={{
+        display: "flex",
+        maxWidth: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    />
+  );
 }
 
 const InlineCodeBlock = (props: any) => {
@@ -50,6 +62,8 @@ const BlockQuoteBlock = (props: any) => {
         backgroundColor: "rgb(248,249,250)",
         padding: "1rem 1rem 1rem 2rem",
         margin: 5,
+        display: "flex",
+        flexWrap: "wrap",
         borderLeft: "4px solid rgb(32, 201, 151)",
       }}
     >
@@ -73,8 +87,32 @@ const CodeBlock = (props: any) => {
   );
 };
 
+const Link = (props: any) => {
+  const { value, children, href, ..._props } = props;
+  return (
+    <>
+      <LinkContainer href={href} {..._props}>
+        {children}
+      </LinkContainer>
+    </>
+  );
+};
+
+const LinkContainer = styled.a`
+  color: #0ca678;
+  &:hover {
+    color: #12b886;
+    text-decoration: underline;
+  }
+`;
+
 const Conatiner = styled.div`
   line-height: 1.7;
+  color: rgb(34, 36, 38);
+  & pre > code {
+    display: block;
+    overflow: scroll;
+  }
 `;
 
 export default React.memo(Markdown);

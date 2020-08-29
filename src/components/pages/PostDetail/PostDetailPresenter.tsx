@@ -11,6 +11,7 @@ import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/modules";
 import DetailText from "../../atoms/theme/DetailText";
+import { DateToYYYYMMDD } from "../../../shared/utils";
 
 interface PostDetailPresenterProps {
   username: string;
@@ -51,7 +52,9 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
             <InfoContainer>
               <ToUserInfo to={`/@${username}`}>{username}</ToUserInfo>
               <InfoSeparator>{"·"}</InfoSeparator>
-              <DateInfo>{data?.getPostDetail.createdAt.slice(0, 10)}</DateInfo>
+              <DateInfo>
+                {DateToYYYYMMDD(data?.getPostDetail.createdAt || "")}
+              </DateInfo>
               {data?.getPostDetail.user.id === myId && (
                 <>
                   <EditButton onClick={handleEditPost}>수정</EditButton>
@@ -94,7 +97,6 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
             <TailUserInfo>
               <TailLink to={`/@${username}`}>{username}</TailLink>
               <DetailText text={data?.getPostDetail.user.bio || "fd"} />
-              {console.log(data?.getPostDetail.user)}
             </TailUserInfo>
           </TailContainer>
           <Contour />
@@ -121,7 +123,7 @@ const PostDetailPresenter: FC<PostDetailPresenterProps> = ({
         </CommentsContaniner>
       ),
     }),
-    [data]
+    [data, handleClickLike, handleEditPost, handleDeletePost, myId, username]
   );
 
   if (loading || (data && Object.keys(data).length === 0)) {
@@ -149,6 +151,9 @@ const Container = styled.main`
   @media (max-width: 1024px) {
     padding-left: 1rem;
     padding-right: 1rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 768px) {
     width: 100%;
   }
   display: flex;
@@ -168,8 +173,8 @@ const TitleContainer = styled.div`
     font-size: 2.25rem;
   }
   font-weight: 700;
-  font-size: 1.5rem;
-  font-size: 60px;
+  font-size: 3rem;
+  color: rgb(52, 58, 64);
   line-height: 1.5;
   margin-bottom: 2rem;
 `;
@@ -184,6 +189,8 @@ const InfoSeparator = styled.span`
 
 const DateInfo = styled.span`
   flex: 1 1 0%;
+  font-size: 1rem;
+  color: rgb(73, 80, 87);
 `;
 
 const EditButton = styled.span`
