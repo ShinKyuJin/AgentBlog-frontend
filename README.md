@@ -104,8 +104,6 @@
 - **[Intersection Observer]()**: 기존 Scroll Event로 Infinite Scroll을 구현하면 엘리먼트의 offset을 구하기 위해 불필요한 함수 호출과 매번 layout을 새로 그려 성능의 문제가 발생하게 되는 데, Intersection Observer는 타겟 엘리먼트와, 타겟 엘리먼트의 부모나 뷰포트가 교차하는 부분의 변화를 비동기적으로 관찰하여 이러한 문제점을 해결해준다.
 - **[Toastify]()**: Notification, Alert를 쉽고 예쁘게 처리하도록 도와준다.
 
-
-
 ## Todo
 - [ ] 게시글 삭제 시 modal로 확인창 표시
 - [ ] 좋아요 누르면 즉각 반응 처리
