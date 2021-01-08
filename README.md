@@ -19,20 +19,11 @@
 - 개발자들을 위한 블로그 서비스인 velog를 프론트엔드, 벡엔드 모두 클론코딩하여 Markdown 기반 게시물 작성, 해시태그 설정, 게시물 검색, 해시태그 검색, 반응형디자인 등 대부분의 기능을 구현하였습니다.
 
 ## File Setting
----
+```
 📦src
  ┣ 📂Apollo
  ┃ ┣ 📜Client.tsx
  ┃ ┗ 📜LocalState.tsx
- ┣ 📂assets
- ┃ ┣ 📜dummy.png
- ┃ ┣ 📜logo.png
- ┃ ┣ 📜logo2.png
- ┃ ┣ 📜search_icon.png
- ┃ ┗ 📜small_logo.png
- ┣ 📂client
- ┃ ┣ 📜ModalPortal.tsx
- ┃ ┗ 📜Root.tsx
  ┣ 📂components
  ┃ ┣ 📂atoms
  ┃ ┃ ┣ 📂post
@@ -130,11 +121,9 @@
  ┃ ┣ 📜GlobalStyles.ts
  ┃ ┣ 📜devices.ts
  ┃ ┗ 📜theme.ts
- ┣ 📜index.css
  ┣ 📜index.tsx
- ┣ 📜react-app-env.d.ts
- ┣ 📜serviceWorker.ts
- ┗ 📜setupTests.ts
+```
+
 
 ## UI
 
