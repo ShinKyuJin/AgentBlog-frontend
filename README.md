@@ -18,6 +18,123 @@
 - 메인 페이지에서 개발 트렌드 및 인기 태그 제공을 통해 융용한 정보를 쉽고 빠르게 찾을 수 있습니다.
 - 개발자들을 위한 블로그 서비스인 velog를 프론트엔드, 벡엔드 모두 클론코딩하여 Markdown 기반 게시물 작성, 해시태그 설정, 게시물 검색, 해시태그 검색, 반응형디자인 등 대부분의 기능을 구현하였습니다.
 
+## File Setting
+---
+📦src
+ ┣ 📂Apollo
+ ┃ ┣ 📜Client.tsx
+ ┃ ┗ 📜LocalState.tsx
+ ┣ 📂assets
+ ┃ ┣ 📜dummy.png
+ ┃ ┣ 📜logo.png
+ ┃ ┣ 📜logo2.png
+ ┃ ┣ 📜search_icon.png
+ ┃ ┗ 📜small_logo.png
+ ┣ 📂client
+ ┃ ┣ 📜ModalPortal.tsx
+ ┃ ┗ 📜Root.tsx
+ ┣ 📂components
+ ┃ ┣ 📂atoms
+ ┃ ┃ ┣ 📂post
+ ┃ ┃ ┃ ┣ 📜Hashtag.tsx
+ ┃ ┃ ┃ ┣ 📜HomePostCard.tsx
+ ┃ ┃ ┃ ┣ 📜Markdown.tsx
+ ┃ ┃ ┃ ┗ 📜SearchPostCard.tsx
+ ┃ ┃ ┣ 📂system
+ ┃ ┃ ┃ ┣ 📜ErrorBoundary.tsx
+ ┃ ┃ ┃ ┣ 📜SkeletonSuspense.tsx
+ ┃ ┃ ┃ ┗ 📜Uploader.tsx
+ ┃ ┃ ┣ 📂theme
+ ┃ ┃ ┃ ┣ 📜Button.tsx
+ ┃ ┃ ┃ ┣ 📜DetailText.tsx
+ ┃ ┃ ┃ ┣ 📜FatText.tsx
+ ┃ ┃ ┃ ┣ 📜Icon.tsx
+ ┃ ┃ ┃ ┣ 📜ImageLoader.tsx
+ ┃ ┃ ┃ ┣ 📜Input.tsx
+ ┃ ┃ ┃ ┗ 📜UnderlineButton.tsx
+ ┃ ┃ ┗ 📂user
+ ┃ ┃ ┃ ┗ 📜Avatar.tsx
+ ┃ ┣ 📂modules
+ ┃ ┃ ┣ 📂Header
+ ┃ ┃ ┃ ┣ 📜Dropdown.tsx
+ ┃ ┃ ┃ ┣ 📜HeaderContainer.tsx
+ ┃ ┃ ┃ ┣ 📜HeaderPresenter.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂HomePostList
+ ┃ ┃ ┃ ┣ 📜HomePostList.tsx
+ ┃ ┃ ┃ ┣ 📜HomePostListQueries.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂SearchPostList
+ ┃ ┃ ┃ ┣ 📜SearchPostList.tsx
+ ┃ ┃ ┃ ┣ 📜SearchPostListQueries.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂Sidebar
+ ┃ ┃ ┃ ┣ 📜Sidebar.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂modal
+ ┃ ┃ ┃ ┣ 📂Auth
+ ┃ ┃ ┃ ┃ ┣ 📜AuthContainer.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜AuthPresenter.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜AuthQueries.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📜CloseButton.tsx
+ ┃ ┃ ┃ ┗ 📜Modal.tsx
+ ┃ ┃ ┣ 📜Footer.tsx
+ ┃ ┃ ┣ 📜PageTab.tsx
+ ┃ ┃ ┗ 📜PostingToolbars.tsx
+ ┃ ┗ 📂pages
+ ┃ ┃ ┣ 📂PostDetail
+ ┃ ┃ ┃ ┣ 📂Comment
+ ┃ ┃ ┃ ┃ ┣ 📜Comment.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜addCommentQueries.tsx
+ ┃ ┃ ┃ ┣ 📜PostDetailContainer.tsx
+ ┃ ┃ ┃ ┣ 📜PostDetailPresenter.tsx
+ ┃ ┃ ┃ ┣ 📜PostDetailQueries.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂UserHome
+ ┃ ┃ ┃ ┣ 📜UserHome.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂WritePost
+ ┃ ┃ ┃ ┣ 📜WritePostContainer.tsx
+ ┃ ┃ ┃ ┣ 📜WritePostPresenter.tsx
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📜Auth.tsx
+ ┃ ┃ ┣ 📜Home.tsx
+ ┃ ┃ ┣ 📜LoginRequired.tsx
+ ┃ ┃ ┣ 📜PageNotFound.tsx
+ ┃ ┃ ┣ 📜Search.tsx
+ ┃ ┃ ┣ 📜SearchHashtag.tsx
+ ┃ ┃ ┗ 📜Setting.tsx
+ ┣ 📂hooks
+ ┃ ┣ 📜useInput.tsx
+ ┃ ┗ 📜useOnOutsideClick.tsx
+ ┣ 📂models
+ ┃ ┣ 📜hashtag.tsx
+ ┃ ┣ 📜interfaces.ts
+ ┃ ┣ 📜post.tsx
+ ┃ ┗ 📜user.tsx
+ ┣ 📂shared
+ ┃ ┣ 📜App.tsx
+ ┃ ┣ 📜Routes.tsx
+ ┃ ┗ 📜utils.tsx
+ ┣ 📂store
+ ┃ ┣ 📂modules
+ ┃ ┃ ┣ 📜counter.tsx
+ ┃ ┃ ┣ 📜index.tsx
+ ┃ ┃ ┣ 📜me.tsx
+ ┃ ┃ ┣ 📜posting.tsx
+ ┃ ┃ ┗ 📜todos.tsx
+ ┃ ┣ 📜configure.tsx
+ ┃ ┗ 📜index.tsx
+ ┣ 📂styles
+ ┃ ┣ 📜GlobalStyles.ts
+ ┃ ┣ 📜devices.ts
+ ┃ ┗ 📜theme.ts
+ ┣ 📜index.css
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜serviceWorker.ts
+ ┗ 📜setupTests.ts
 
 ## UI
 
