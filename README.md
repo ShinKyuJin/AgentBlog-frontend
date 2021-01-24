@@ -104,6 +104,7 @@
 
 
 ## File Setting
+> Atomic Design Pattern 을 따르기 위해 컴포넌트를 atoms, modules, pages로 나누어 개발하였습니다.
 ```
 📦src
  ┣ 📂Apollo
