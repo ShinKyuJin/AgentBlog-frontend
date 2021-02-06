@@ -12,6 +12,7 @@ import PostDetailPresenter from "./PostDetailPresenter";
 import { QUERY_EDIT_POST, QUERY_POST_DETAIL } from "../../../models/post";
 import { useDispatch } from "react-redux";
 import { posting_put } from "../../../store/modules/posting";
+import { LOGIN_QUERY } from "../../../shared/App";
 
 interface PostDetailParams {
   username: string;
@@ -21,6 +22,7 @@ interface PostDetailParams {
 const PostDetailContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;
   const { username, posturl } = useParams() as PostDetailParams;
   const { data: postData, loading, refetch } = useQuery<
     getPostDetailData,
@@ -79,6 +81,10 @@ const PostDetailContainer = () => {
   const handleMakeComment = useCallback(
     async (e: any) => {
       e.preventDefault();
+      if (!isLoggedIn) {
+        toast.error("로그인을 먼저 해주세요.");
+        return;
+      }
       setMakeCommentDisable(true);
       if (comment !== "") {
         try {
@@ -102,12 +108,16 @@ const PostDetailContainer = () => {
       }
       setMakeCommentDisable(false);
     },
-    [postData, comment, commentMutation, refetch]
+    [postData, comment, commentMutation, refetch, isLoggedIn]
   );
 
   const handleClickLike = useCallback(
     async (e: any) => {
       e.preventDefault();
+      if (!isLoggedIn) {
+        toast.error("로그인을 먼저 해주세요.");
+        return;
+      }
       try {
         const {
           data: { toggleLike },
@@ -125,7 +135,7 @@ const PostDetailContainer = () => {
         toast.error("요청을 완료할 수 없습니다. 다시 시도해주세요.");
       }
     },
-    [postData, likeMutation, refetch]
+    [postData, likeMutation, refetch, isLoggedIn]
   );
   return (
     <PostDetailPresenter

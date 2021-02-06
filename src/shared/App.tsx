@@ -31,7 +31,7 @@ const App = () => {
   );
 };
 
-const LOGIN_QUERY = gql`
+export const LOGIN_QUERY = gql`
   {
     isLoggedIn @client
   }

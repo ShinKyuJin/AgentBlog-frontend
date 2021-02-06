@@ -46,6 +46,13 @@ const AuthPresenter: React.FC<AuthPresenterProps> = ({
       )}
       {action === "confirm" && (
         <form>
+          {email.value.split("@")[1] === "gmail.com" && (
+            <MailLinkContainer>
+              <MailLink href="https://mail.google.com/" target="_blank">
+                Gmail로 이동 →
+              </MailLink>
+            </MailLinkContainer>
+          )}
           <Input placeholder={"인증코드를 입력하세요."} required {...secret} />
           <Button text={"확인"} onClick={onSummit} disabled={btnDisable} />
         </form>
@@ -131,5 +138,17 @@ const Form = styled(Box)`
       margin-top: 10px;
     }
   }
+`;
+
+const MailLinkContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+`;
+
+const MailLink = styled.a`
+  text-decoration: underline;
+  color: rgb(12, 166, 120);
 `;
 export default AuthPresenter;
