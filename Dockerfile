@@ -1,13 +1,15 @@
-FROM ubuntu:14.04
+FROM nginx
 
-RUN apt-get update
-RUN apt-get install -y nodejs yarn
+WORKDIR /var/www/
 
-ADD . /var/www/
+RUN mkdir /agentblog
 
-WORKDIR /var/www
-RUN yarn install
+ADD ./build /var/www/agentblog/build
 
-EXPOSE 3000
+RUN rm /etc/nginx/conf.d/default.conf
 
-CMD yarn start
+COPY ./nginx.conf /etc/nginx/conf.d
+
+EXPOSE 80
+
+#CMD ["nginx", "-g", "daemon off;"]
