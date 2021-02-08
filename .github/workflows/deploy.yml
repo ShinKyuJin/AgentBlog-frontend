@@ -21,12 +21,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
-      - name: Run a one-line script
-        run: echo ${{ secrets.SSH_HOST }}  ${{ secrets.SSH_USERNAME }} ${{ secrets.SSH_PATH }}
-      
+
       # Runs a single command using the runners shell
-      - name: excuting remote ssh commands using password
+      - name: excuting remote ssh commands using private key
         if: github.event_name == 'pull_request'
         uses: appleboy/ssh-action@master
         with:
