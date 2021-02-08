@@ -59,7 +59,7 @@ const PostDetailContainer = () => {
     history.push("/write");
   }, [dispatch, history, postData]);
   const handleDeletePost = useCallback(async () => {
-    const isConfirmed = confirm("정말로 게시물을 삭제하시겠습니까?");
+    const isConfirmed = window.confirm("정말로 게시물을 삭제하시겠습니까?");
     if (!isConfirmed) return;
 
     const data = postData?.getPostDetail;
