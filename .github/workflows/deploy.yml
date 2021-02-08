@@ -2,12 +2,12 @@
 
 name: CI/CD
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
-    types: [ closed ] # When PR closed
-    branches: [ master ]
+    types: [closed] # When PR closed
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,5 +34,5 @@ jobs:
           script: |
             cd ${{ secrets.SSH_PATH }} && git pull
             docker build -t hyeonss/agentblog:latest .
-            docker rm -f $(docker ps -a -q)
+            docker rm -f app
             docker run -d --name app -p 80:80 hyeonss/agentblog:latest
