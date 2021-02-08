@@ -31,6 +31,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           # port: ${{ secrets.PORT }} # default : 22
           script: |
-            cd ${{ secrets.OBOON_WEB_PATH }} && git pull
-            npm install
-            npm run build
+            cd ${{ secrets.SSH_PATH }} && git pull
+            docker build -t hyeonss/agentblog:latest .
+            docker rm -f $(docker ps -a -q)
+            docker run -d --name app -p 80:80 hyeonss/agentblog:latest
