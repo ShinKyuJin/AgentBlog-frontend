@@ -2,12 +2,14 @@
 
 name: CI/CD
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [master]
   pull_request:
-    types: [ closed ] # When PR closed
-    branches: [ master ]
+    types: [closed] # When PR closed
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -15,7 +17,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    #if: github.event.pull_request.merged
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -24,7 +26,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: excuting remote ssh commands using private key
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -34,5 +36,5 @@ jobs:
           script: |
             cd ${{ secrets.SSH_PATH }} && git pull
             docker build -t hyeonss/agentblog:latest .
-            docker rm -f $(docker ps -a -q)
+            docker rm -f app
             docker run -d --name app -p 80:80 hyeonss/agentblog:latest
