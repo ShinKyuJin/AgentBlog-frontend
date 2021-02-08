@@ -21,13 +21,20 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      
+      - name: Run a one-line script
+        run: echo ${{ secrets.SSH_HOST }}
+      
+      - name: Run a one-line script2
+        run: echo ${{ secrets.USERNAME }}
+      
       # Runs a single command using the runners shell
       - name: excuting remote ssh commands using password
         if: github.event_name == 'pull_request'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           # port: ${{ secrets.PORT }} # default : 22
           script: |
