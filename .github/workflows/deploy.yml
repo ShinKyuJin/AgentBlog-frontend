@@ -23,10 +23,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Run a one-line script
-        run: echo ${{ secrets.SSH_HOST }}
-      
-      - name: Run a one-line script2
-        run: echo ${{ secrets.USERNAME }}
+        run: echo ${{ secrets.SSH_HOST }}  ${{ secrets.SSH_USERNAME }} ${{ secrets.SSH_PATH }}
       
       # Runs a single command using the runners shell
       - name: excuting remote ssh commands using password
