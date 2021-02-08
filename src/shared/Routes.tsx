@@ -25,8 +25,11 @@ interface RoutesProps {
 const QUERY_CHECK_TOKEN = gql`
   {
     checkToken
+    refreshToken
   }
 `;
+
+const JWT_EXPIRY_TIME = 15 * 60 * 1000; // 15 minuts
 
 const RoutesListWithoutLogin = [
   {
@@ -72,11 +75,18 @@ const RoutesListWithLogin = [
 ];
 
 const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
-  const { data } = useQuery(QUERY_CHECK_TOKEN);
+  const { data, refetch } = useQuery(QUERY_CHECK_TOKEN);
   const [logOutMutation] = useMutation(LOG_OUT);
 
-  if (isLoggedIn && data && data.checkToken === false) {
+  if (isLoggedIn && data && data.checkToken === "") {
     logOutMutation();
+  }
+
+  if (data && data.refreshToken !== "") {
+    localStorage.setItem("token", data.refreshToken);
+
+    // Access Token 만료 1분전 로그인 연장
+    setTimeout(() => refetch(), JWT_EXPIRY_TIME - 60000);
   }
 
   const location = useLocation();
