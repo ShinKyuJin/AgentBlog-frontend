@@ -78,15 +78,14 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
   const { data, refetch } = useQuery(QUERY_CHECK_TOKEN);
   const [logOutMutation] = useMutation(LOG_OUT);
 
-  if (isLoggedIn && data && data.checkToken === "") {
-    logOutMutation();
-  }
-
-  if (data && data.refreshToken !== "") {
-    localStorage.setItem("token", data.refreshToken);
-
-    // Access Token 만료 1분전 로그인 연장
-    setTimeout(() => refetch(), JWT_EXPIRY_TIME - 60000);
+  if (data) {
+    const { refreshToken, checkToken } = data;
+    if (refreshToken !== "") {
+      localStorage.setItem("token", refreshToken);
+      setTimeout(() => refetch(), JWT_EXPIRY_TIME - 60000); // Access Token 만료 1분전 로그인 연장
+    } else if (isLoggedIn && checkToken === false) {
+      logOutMutation();
+    }
   }
 
   const location = useLocation();
