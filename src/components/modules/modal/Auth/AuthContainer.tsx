@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AuthPresenter from "./AuthPresenter";
-import { useMutation } from "react-apollo-hooks";
 import {
   REQUEST_SECRET,
   CREATE_ACCOUNT,
@@ -9,6 +8,7 @@ import {
 } from "./AuthQueries";
 import { toast } from "react-toastify";
 import useInput from "../../../../hooks/useInput";
+import { useMutation } from "@apollo/client";
 
 interface AuthContainerProps {
   closeModal: () => void;

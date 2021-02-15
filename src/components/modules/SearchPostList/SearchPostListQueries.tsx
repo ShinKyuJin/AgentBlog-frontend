@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { SearchPostProps } from "../../../models/post";
 
 export interface searchPostData {

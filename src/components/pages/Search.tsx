@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchPostList from "../modules/SearchPostList/SearchPostList";
 import { useHistory, useLocation } from "react-router-dom";
-import { useQuery } from "react-apollo-hooks";
 import {
   searchPostData,
   searchPostVars,
@@ -10,6 +9,7 @@ import {
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useQuery } from "@apollo/client";
 
 const Search = () => {
   const history = useHistory();

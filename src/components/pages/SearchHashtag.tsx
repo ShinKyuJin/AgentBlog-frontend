@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-apollo-hooks";
 
 import SearchPostList from "../modules/SearchPostList/SearchPostList";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../modules/SearchPostList/SearchPostListQueries";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useQuery } from "@apollo/client";
 
 interface TagsParams {
   tagname: string;

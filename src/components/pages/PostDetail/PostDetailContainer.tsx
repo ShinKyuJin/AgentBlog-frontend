@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import { useQuery, useMutation } from "react-apollo-hooks";
 import {
   getPostDetailVars,
   getPostDetailData,
@@ -13,6 +12,7 @@ import { QUERY_EDIT_POST, QUERY_POST_DETAIL } from "../../../models/post";
 import { useDispatch } from "react-redux";
 import { posting_put } from "../../../store/modules/posting";
 import { LOGIN_QUERY } from "../../../shared/App";
+import { useMutation, useQuery } from "@apollo/client";
 
 interface PostDetailParams {
   username: string;

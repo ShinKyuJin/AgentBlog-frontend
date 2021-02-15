@@ -7,11 +7,11 @@ import Avatar from "../atoms/user/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/modules";
 import { toast } from "react-toastify";
-import { useMutation } from "react-apollo-hooks";
 import { QUERY_EDIT_USER, MeProps } from "../../models/user";
 import { me_set } from "../../store/modules/me";
 import useInput from "../../hooks/useInput";
 import { uploadImage } from "../../shared/utils";
+import { useMutation } from "@apollo/client";
 
 const Setting = () => {
   const me = useSelector((state: RootState) => state.me);
