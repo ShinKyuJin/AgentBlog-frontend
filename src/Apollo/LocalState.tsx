@@ -2,7 +2,7 @@ import { gql, InMemoryCache } from "@apollo/client";
 
 export const defaults = {
   query: gql`
-    query logUserIn {
+    {
       isLoggedIn
     }
   `,
