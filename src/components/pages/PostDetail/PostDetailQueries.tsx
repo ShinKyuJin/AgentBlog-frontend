@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { getPostDetail } from "../../../models/post";
 
 export interface getPostDetailData {

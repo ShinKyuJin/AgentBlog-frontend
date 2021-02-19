@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from "react";
 import styled from "styled-components";
-import { useQuery } from "react-apollo-hooks";
 import {
   seeLatestPostData,
   seeTrendyPostData,
@@ -10,7 +9,7 @@ import {
 import HomePostCard from "../../atoms/post/HomePostCard";
 import { toast } from "react-toastify";
 import { HomePostProps } from "../../../models/post";
-import { ApolloError } from "apollo-boost";
+import { ApolloError, useQuery } from "@apollo/client";
 
 interface HomePostListProps {
   postType: "trend" | "recent";
@@ -50,7 +49,8 @@ const HomePostList: FC<HomePostListProps> = ({ postType }) => {
   }
   useEffect(() => {
     if (error) {
-      window.location.reload();
+      //window.location.reload();
+      setTimeout(() => window.location.reload(), 2000);
       toast.error("포스트를 가져오던 중 문제가 발생했습니다.");
     }
   }, [error]);

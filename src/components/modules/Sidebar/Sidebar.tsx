@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/client";
 import Footer from "../Footer";
 import { QUERY_POP_TAGS } from "../../../models/hashtag";
 

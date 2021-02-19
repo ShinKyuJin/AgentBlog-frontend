@@ -4,13 +4,12 @@ import Theme from "../styles/theme";
 import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useQuery } from "react-apollo-hooks";
-import { gql } from "apollo-boost";
 import GlobalStyles from "../styles/GlobalStyles";
 import { ME_QUERY, me_set } from "../store/modules/me";
 import { useDispatch } from "react-redux";
 import { MeProps } from "../models/user";
 import Header from "../components/modules/Header/HeaderContainer";
+import { gql, useQuery } from "@apollo/client";
 
 const App = () => {
   const isLoggedIn: boolean = useQuery(LOGIN_QUERY).data.isLoggedIn;

@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/modules";
 import { LOG_OUT } from "../modal/Auth/AuthQueries";
-import { useMutation } from "react-apollo-hooks";
 import { MeProps } from "../../../models/user";
+import { useMutation } from "@apollo/client";
 
 interface HeaderContainerProps {
   isLoggedIn: boolean;

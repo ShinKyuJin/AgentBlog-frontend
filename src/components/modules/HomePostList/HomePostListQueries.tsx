@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { HomePostProps } from "../../../models/post";
 
 export interface seeLatestPostData {

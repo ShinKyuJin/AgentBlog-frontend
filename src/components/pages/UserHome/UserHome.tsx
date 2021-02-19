@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { useParams, useLocation } from "react-router-dom";
-import { useQuery } from "react-apollo-hooks";
 import Avatar from "../../atoms/user/Avatar";
 import SearchPostCard, {
   PostLoadingSkeleton,
 } from "../../atoms/post/SearchPostCard";
 import { QUERY_USER_HOME, seeUser } from "../../../models/user";
+import { useQuery } from "@apollo/client";
 
 interface UserHomeParams {
   username: string;

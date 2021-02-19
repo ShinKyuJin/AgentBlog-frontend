@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from "@apollo/client";
 
 export interface addComment {
   text: string;
@@ -13,21 +13,18 @@ export interface addCommentData {
   user: {
     avatar: string;
     username: string;
-  }
+  };
   text: string;
 }
 
 export const ADD_COMMENT = gql`
-mutation addComment(
-  $text: String!,
-  $postId: String!
-) {
-  addComment(text: $text, postId: $postId) {
-    user {
-      avatar
-      username
+  mutation addComment($text: String!, $postId: String!) {
+    addComment(text: $text, postId: $postId) {
+      user {
+        avatar
+        username
+      }
+      text
     }
-    text
   }
-}
-`
+`;

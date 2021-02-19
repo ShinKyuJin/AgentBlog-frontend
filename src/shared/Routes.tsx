@@ -1,11 +1,10 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
-import { useQuery, useMutation } from "react-apollo-hooks";
-import { gql } from "apollo-boost";
 import { LOG_OUT } from "../components/modules/modal/Auth/AuthQueries";
 import PulseLoader from "react-spinners/PulseLoader";
 import styled from "styled-components";
 import MyErrorBoundary from "../components/atoms/system/ErrorBoundary";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const Home = lazy(() => import("../components/pages/Home"));
 const Auth = lazy(() => import("../components/pages/Auth"));
@@ -78,15 +77,14 @@ const Routes: React.FunctionComponent<RoutesProps> = ({ isLoggedIn }) => {
   const { data, refetch } = useQuery(QUERY_CHECK_TOKEN);
   const [logOutMutation] = useMutation(LOG_OUT);
 
-  if (isLoggedIn && data && data.checkToken === "") {
-    logOutMutation();
-  }
-
-  if (data && data.refreshToken !== "") {
-    localStorage.setItem("token", data.refreshToken);
-
-    // Access Token 만료 1분전 로그인 연장
-    setTimeout(() => refetch(), JWT_EXPIRY_TIME - 60000);
+  if (data) {
+    const { refreshToken, checkToken } = data;
+    if (refreshToken !== "") {
+      localStorage.setItem("token", refreshToken);
+      setTimeout(() => refetch(), JWT_EXPIRY_TIME - 60000); // Access Token 만료 1분전 로그인 연장
+    } else if (isLoggedIn && checkToken === false) {
+      logOutMutation();
+    }
   }
 
   const location = useLocation();

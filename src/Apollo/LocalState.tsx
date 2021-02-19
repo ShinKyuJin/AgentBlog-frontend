@@ -1,7 +1,12 @@
-import { InMemoryCache } from "apollo-boost";
+import { gql, InMemoryCache } from "@apollo/client";
 
 export const defaults = {
-  isLoggedIn: Boolean(localStorage.getItem("token")) || false,
+  query: gql`
+    {
+      isLoggedIn
+    }
+  `,
+  data: { isLoggedIn: Boolean(localStorage.getItem("token")) || false },
 };
 
 export const resolvers = {

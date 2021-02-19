@@ -1,5 +1,5 @@
 import { userInterface } from "./user";
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export interface postInterface {
   id: string;

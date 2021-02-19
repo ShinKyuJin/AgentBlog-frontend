@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
-import { useMutation } from "react-apollo-hooks";
 import WritePostPresenter from "./WritePostPresenter";
 import { QUERY_WRITE_POST, QUERY_EDIT_POST } from "../../../models/post";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +11,7 @@ import {
 } from "../../../store/modules/posting";
 import { useHistory } from "react-router-dom";
 import { uploadImage } from "../../../shared/utils";
+import { useMutation } from "@apollo/client";
 
 const WritePostContainer = () => {
   const [hashtag, setHashtag] = useState<string>("");

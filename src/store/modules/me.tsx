@@ -1,5 +1,5 @@
 import { MeProps } from "../../models/user";
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 const SET = "me/SET" as const;
 const PUT_ASYNC = "me/PUT_ASYNC" as const;
