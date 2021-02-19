@@ -8,11 +8,11 @@ import { createPersistedQueryLink } from "@apollo/client/link/persisted-queries"
 import { sha256 } from "crypto-hash";
 import { defaults, resolvers } from "./LocalState";
 
-export const serverUri =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:4000"
-    : "https://agent-blog.herokuapp.com";
-//export const serverUri = "https://agent-blog.herokuapp.com";
+// export const serverUri =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:4000"
+//     : "https://agent-blog.herokuapp.com";
+export const serverUri = "https://agent-blog.herokuapp.com";
 //export const serverUri = "http://localhost:4000";
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
